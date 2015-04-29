@@ -1,0 +1,80 @@
+﻿@model GestionPhotoImmobilier.Models.Seance
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Seance</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateSeance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateSeance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Agent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Agent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Photographe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Photographe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Client)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Forfait)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Forfait)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Commentaire)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Commentaire)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Statut)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

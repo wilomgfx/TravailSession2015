@@ -120,6 +120,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RdvsController.cs" />
+    <Compile Include="Controllers\SeancesController.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="DAL\IGenericRepository.cs" />
     <Compile Include="DAL\IUnitOfWork.cs" />
@@ -212,6 +214,16 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Seances\Create.cshtml" />
+    <Content Include="Views\Seances\Delete.cshtml" />
+    <Content Include="Views\Seances\Details.cshtml" />
+    <Content Include="Views\Seances\Edit.cshtml" />
+    <Content Include="Views\Seances\Index.cshtml" />
+    <Content Include="Views\Rdvs\Create.cshtml" />
+    <Content Include="Views\Rdvs\Delete.cshtml" />
+    <Content Include="Views\Rdvs\Details.cshtml" />
+    <Content Include="Views\Rdvs\Edit.cshtml" />
+    <Content Include="Views\Rdvs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

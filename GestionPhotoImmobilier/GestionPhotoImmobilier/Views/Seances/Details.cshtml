@@ -1,0 +1,74 @@
+﻿@model GestionPhotoImmobilier.Models.Seance
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Seance</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateSeance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateSeance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Agent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Agent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Photographe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Photographe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Client)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Forfait)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Forfait)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Commentaire)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Commentaire)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Statut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Statut)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SeanceId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
