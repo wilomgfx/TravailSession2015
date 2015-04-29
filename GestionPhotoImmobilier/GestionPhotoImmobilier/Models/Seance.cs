@@ -14,7 +14,7 @@ namespace GestionPhotoImmobilier.Models
 using System.ComponentModel.DataAnnotations;
     
 
-    [MetadataType(typeof(SeanceMetaData)]
+    [MetadataType(typeof(SeanceMetaData))]
     public partial class Seance
     {
         public int SeanceId { get; set; }
