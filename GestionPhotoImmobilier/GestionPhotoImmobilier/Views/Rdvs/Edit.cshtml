@@ -1,10 +1,10 @@
 ﻿@model GestionPhotoImmobilier.Models.Rdv
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Modifier un rendez-vous";
 }
 
-<h2>Edit</h2>
+<h2>Modifier un rendez-vous</h2>
 
 
 @using (Html.BeginForm())
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Rdv</h4>
+        <h4>Rendez-vous</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.RdvId)
@@ -52,7 +52,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Retour à l'index", "Index")
 </div>
 
 @section Scripts {

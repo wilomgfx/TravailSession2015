@@ -7,7 +7,8 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+
+    @Html.ActionLink("Créer un nouveau rendez-vous", "Create")
 </p>
 <table class="table">
     <tr>
@@ -24,9 +25,21 @@
     </tr>
 
 @foreach (var item in Model) {
+    bool bonBool = (bool)item.Confirmer;
+    string boolFrancais = "";
+    if (bonBool == true)
+    {
+        boolFrancais = "Oui";
+    }
+    else
+    {
+        boolFrancais = "Non";
+    }
+    
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Confirmer)
+            @*Meh... un peu batard*@
+           @boolFrancais
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Client)
@@ -35,9 +48,9 @@
             @Html.DisplayFor(modelItem => item.Photographe)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RdvId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RdvId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RdvId })
+            @Html.ActionLink("Modifier", "Edit", new { id=item.RdvId }) |
+            @Html.ActionLink("Détails", "Details", new { id=item.RdvId }) |
+            @Html.ActionLink("Supprimer", "Delete", new { id=item.RdvId })
         </td>
     </tr>
 }
