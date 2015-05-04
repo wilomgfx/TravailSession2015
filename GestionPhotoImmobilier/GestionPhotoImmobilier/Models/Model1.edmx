@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GestionPhotoImmobilierModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GestionPhotoImmobilierModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Rdv">
           <Key>
             <PropertyRef Name="RdvId" />
@@ -13,6 +13,7 @@
           <Property Name="Confirmer" Type="bit" />
           <Property Name="Client" Type="nvarchar" MaxLength="50" />
           <Property Name="Photographe" Type="nvarchar" MaxLength="50" />
+          <Property Name="SeanceId" Type="int" />
         </EntityType>
         <EntityType Name="Seance">
           <Key>
@@ -27,12 +28,27 @@
           <Property Name="Commentaire" Type="nvarchar" MaxLength="375" />
           <Property Name="Statut" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_RDV_SeanceID">
+          <End Role="Seance" Type="Self.Seance" Multiplicity="1" />
+          <End Role="Rdv" Type="Self.Rdv" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Seance">
+              <PropertyRef Name="SeanceId" />
+            </Principal>
+            <Dependent Role="Rdv">
+              <PropertyRef Name="RdvId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="GestionPhotoImmobilierModelStoreContainer">
           <EntitySet Name="Rdv" EntityType="Self.Rdv" Schema="Rdv" store:Type="Tables" />
           <EntitySet Name="Seance" EntityType="Self.Seance" Schema="Seance" store:Type="Tables" />
+          <AssociationSet Name="FK_RDV_SeanceID" Association="Self.FK_RDV_SeanceID">
+            <End Role="Seance" EntitySet="Seance" />
+            <End Role="Rdv" EntitySet="Rdv" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GestionPhotoImmobilierModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -44,6 +60,7 @@
           <Property Name="Confirmer" Type="Boolean" />
           <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Photographe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Seance" Relationship="GestionPhotoImmobilierModel.FK_RDV_SeanceID" FromRole="Rdv" ToRole="Seance" />
         </EntityType>
         <EntityType Name="Seance">
           <Key>
@@ -57,11 +74,28 @@
           <Property Name="Forfait" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Commentaire" Type="String" MaxLength="375" FixedLength="false" Unicode="true" />
           <Property Name="Statut" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Rdv" Relationship="GestionPhotoImmobilierModel.FK_RDV_SeanceID" FromRole="Seance" ToRole="Rdv" />
         </EntityType>
         <EntityContainer Name="GestionPhotoImmobilierEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Rdvs" EntityType="Self.Rdv" />
           <EntitySet Name="Seances" EntityType="Self.Seance" />
+          <AssociationSet Name="FK_RDV_SeanceID" Association="GestionPhotoImmobilierModel.FK_RDV_SeanceID">
+            <End Role="Seance" EntitySet="Seances" />
+            <End Role="Rdv" EntitySet="Rdvs" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_RDV_SeanceID">
+          <End Type="GestionPhotoImmobilierModel.Seance" Role="Seance" Multiplicity="1" />
+          <End Type="GestionPhotoImmobilierModel.Rdv" Role="Rdv" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Seance">
+              <PropertyRef Name="SeanceId" />
+            </Principal>
+            <Dependent Role="Rdv">
+              <PropertyRef Name="RdvId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

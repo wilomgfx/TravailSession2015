@@ -11,10 +11,7 @@ namespace GestionPhotoImmobilier.Models
 {
     using System;
     using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
     
-
-    [MetadataType(typeof(SeanceMetaData))]
     public partial class Seance
     {
         public int SeanceId { get; set; }
@@ -25,5 +22,7 @@ using System.ComponentModel.DataAnnotations;
         public string Forfait { get; set; }
         public string Commentaire { get; set; }
         public string Statut { get; set; }
+    
+        public virtual Rdv Rdv { get; set; }
     }
 }

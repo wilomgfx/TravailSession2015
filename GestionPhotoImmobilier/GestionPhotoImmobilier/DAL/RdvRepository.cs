@@ -19,6 +19,11 @@ namespace GestionPhotoImmobilier.DAL
             return GetByID(id);
         }
 
+        public IEnumerable<Rdv> ObtenirRdvsComplets()
+        {
+            return Get(includeProperties: "Seance");
+        }
+
         public void InsertRdv(Rdv Rdv) { Insert(Rdv); }
         public void DeleteRdv(Rdv Rdv) { Delete(Rdv); }
         public void UpdateRdv(Rdv Rdv) { Update(Rdv); }

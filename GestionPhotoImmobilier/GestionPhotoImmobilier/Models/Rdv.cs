@@ -18,5 +18,7 @@ namespace GestionPhotoImmobilier.Models
         public Nullable<bool> Confirmer { get; set; }
         public string Client { get; set; }
         public string Photographe { get; set; }
+    
+        public virtual Seance Seance { get; set; }
     }
 }
