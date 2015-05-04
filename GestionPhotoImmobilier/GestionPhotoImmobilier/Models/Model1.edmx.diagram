@@ -7,7 +7,7 @@
       <Diagram DiagramId="30e71af04fbd432780cb4995f182ddf2" Name="Diagram1">
         <EntityTypeShape EntityType="GestionPhotoImmobilierModel.Rdv" Width="1.5" PointX="2.375" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="GestionPhotoImmobilierModel.Seance" Width="1.5" PointX="5.5" PointY="0.625" IsExpanded="true" />
-        <AssociationConnector Association="GestionPhotoImmobilierModel.FK_RDV_SeanceID" />
+        <AssociationConnector Association="GestionPhotoImmobilierModel.FK_RDV_SeanceID1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

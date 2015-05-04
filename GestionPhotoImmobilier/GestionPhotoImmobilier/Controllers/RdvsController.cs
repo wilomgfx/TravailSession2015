@@ -48,7 +48,7 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "RdvId,Confirmer,Client,Photographe")] Rdv rdv)
+        public ActionResult Create([Bind(Include = "RdvId,Confirmer,Client,Photographe,SeanceId")] Rdv rdv)
         {
             if (ModelState.IsValid)
             {

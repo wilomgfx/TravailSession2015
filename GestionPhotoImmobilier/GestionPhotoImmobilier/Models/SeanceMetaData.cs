@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace GestionPhotoImmobilier.Models
 {
+    [MetadataType(typeof(SeanceMetaData))]
+    public partial class Seance { }
+
     public partial class SeanceMetaData
     {
         public int SeanceId { get; set; }
         [DisplayName("Date de la séance")]
+        [DataType(DataType.Date)]
         public Nullable<System.DateTime> DateSeance { get; set; }
         public string Agent { get; set; }
         public string Photographe { get; set; }

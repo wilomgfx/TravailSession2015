@@ -14,6 +14,11 @@ namespace GestionPhotoImmobilier.Models
     
     public partial class Seance
     {
+        public Seance()
+        {
+            this.Rdvs = new HashSet<Rdv>();
+        }
+    
         public int SeanceId { get; set; }
         public Nullable<System.DateTime> DateSeance { get; set; }
         public string Agent { get; set; }
@@ -23,6 +28,6 @@ namespace GestionPhotoImmobilier.Models
         public string Commentaire { get; set; }
         public string Statut { get; set; }
     
-        public virtual Rdv Rdv { get; set; }
+        public virtual ICollection<Rdv> Rdvs { get; set; }
     }
 }
