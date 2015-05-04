@@ -1,13 +1,13 @@
 ﻿@model GestionPhotoImmobilier.Models.Rdv
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detail d'un rendez-vous";
 }
 
-<h2>Details</h2>
+<h2>Detail d'un rendez-vous</h2>
 
 <div>
-    <h4>Rdv</h4>
+    <h4>Rendez-vous</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -37,6 +37,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.RdvId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Modifier", "Edit", new { id = Model.RdvId }) |
+    @Html.ActionLink("Retour à l'index", "Index")
 </p>

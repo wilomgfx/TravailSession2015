@@ -11,7 +11,9 @@ namespace GestionPhotoImmobilier.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
+    [MetadataType(typeof(RdvMetaData))]
     public partial class Rdv
     {
         public int RdvId { get; set; }
