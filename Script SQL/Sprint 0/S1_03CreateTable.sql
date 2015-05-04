@@ -18,7 +18,7 @@ Create table Seance.Seance
 Create table Rdv.Rdv
 (
 	RdvId int identity,
-	Confirmer bit,
+	Confirmer bit not null,
 	Client nvarchar(50),
 	Photographe nvarchar(50)
 )

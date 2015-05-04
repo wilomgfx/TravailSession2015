@@ -10,7 +10,7 @@
             <PropertyRef Name="RdvId" />
           </Key>
           <Property Name="RdvId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Confirmer" Type="bit" />
+          <Property Name="Confirmer" Type="bit" Nullable="false" />
           <Property Name="Client" Type="nvarchar" MaxLength="50" />
           <Property Name="Photographe" Type="nvarchar" MaxLength="50" />
           <Property Name="SeanceId" Type="int" />
@@ -57,7 +57,7 @@
             <PropertyRef Name="RdvId" />
           </Key>
           <Property Name="RdvId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Confirmer" Type="Boolean" />
+          <Property Name="Confirmer" Type="Boolean" Nullable="false" />
           <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Photographe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Seance" Relationship="GestionPhotoImmobilierModel.FK_RDV_SeanceID" FromRole="Rdv" ToRole="Seance" />

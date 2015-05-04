@@ -11,13 +11,11 @@ namespace GestionPhotoImmobilier.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    [MetadataType(typeof(RdvMetaData))]
+    
     public partial class Rdv
     {
         public int RdvId { get; set; }
-        public Nullable<bool> Confirmer { get; set; }
+        public bool Confirmer { get; set; }
         public string Client { get; set; }
         public string Photographe { get; set; }
     
