@@ -14,6 +14,21 @@ namespace GestionPhotoImmobilier.DAL
         {
             return Get();
         }
+
+        public Seance ObtenirSeanceComplete(int? id)
+        {
+            int idVrai = 0;
+            if (id == null)
+                return null;
+            else
+            {
+                string parsed = id.ToString();
+                idVrai = int.Parse(parsed);
+            }
+
+            return Get(filter: s => s.SeanceId == idVrai, includeProperties: "Rdvs").First();
+        }
+
         public Seance ObtenirSeanceParID(int? id)
         {
             return GetByID(id);
