@@ -15,6 +15,8 @@ namespace GestionPhotoImmobilier.Models
         {
             yield return DateEntreUnEt15JoursPlusTard.Validate(this);
             yield return RDVUnique.Validate(this);
+
+            yield return Validation4hEntreRendezVous.Validate(this);
         }
     }
 }
