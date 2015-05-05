@@ -29,7 +29,8 @@
             @Html.LabelFor(model => model.Confirmer, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.Confirmer)
+                    @Html.Label("Cocher pour confirmer le rendez-vous, décocher pour déconfirmer le rendez-vous")
+                    @Html.CheckBoxFor(model => model.Confirmer)
                     @Html.ValidationMessageFor(model => model.Confirmer, "", new { @class = "text-danger" })
                 </div>
             </div>

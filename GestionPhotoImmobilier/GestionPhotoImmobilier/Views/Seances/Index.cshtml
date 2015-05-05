@@ -43,6 +43,16 @@
     </tr>
 
 @foreach (var item in Model) {
+    bool bonBool = (bool)item.Confirmer;
+    string boolFrancais = "";
+    if (bonBool == true)
+    {
+        boolFrancais = "Oui";
+    }
+    else
+    {
+        boolFrancais = "Non";
+    }
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.DateSeance)
@@ -66,7 +76,7 @@
             @Html.DisplayFor(modelItem => item.Statut)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Confirmer)
+            @boolFrancais
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PhotographeRDV)

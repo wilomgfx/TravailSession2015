@@ -15,10 +15,10 @@ namespace GestionPhotoImmobilier.Models
     public partial class Rdv
     {
         public int RdvId { get; set; }
-        public Nullable<bool> Confirmer { get; set; }
+        public bool Confirmer { get; set; }
         public string Client { get; set; }
         public string Photographe { get; set; }
-        public Nullable<int> SeanceId { get; set; }
+        public int SeanceId { get; set; }
     
         public virtual Seance Seance { get; set; }
     }
