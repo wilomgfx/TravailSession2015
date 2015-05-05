@@ -191,5 +191,3 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
-GestionPhotoImmobilier/GestionPhotoImmobilier/App_Data/GestionPhotoImmobilier.mdf
-GestionPhotoImmobilier/GestionPhotoImmobilier/App_Data/GestionPhotoImmobilier_log.ldf
