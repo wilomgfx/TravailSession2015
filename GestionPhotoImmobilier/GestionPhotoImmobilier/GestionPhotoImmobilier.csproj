@@ -156,6 +156,7 @@
     <Compile Include="Models\SeanceMetaData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegleDaffaire\DateEntreUnEt15JoursPlusTard.cs" />
+    <Compile Include="RegleDaffaire\SeanceValidation.cs" />
     <Compile Include="ViewModels\SeanceRdv.cs" />
   </ItemGroup>
   <ItemGroup>
