@@ -10,7 +10,7 @@
             <PropertyRef Name="RdvId" />
           </Key>
           <Property Name="RdvId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Confirmer" Type="bit" Nullable="false" />
+          <Property Name="Confirmer" Type="bit" />
           <Property Name="Client" Type="nvarchar" MaxLength="50" />
           <Property Name="Photographe" Type="nvarchar" MaxLength="50" />
           <Property Name="SeanceId" Type="int" />
@@ -57,11 +57,11 @@
             <PropertyRef Name="RdvId" />
           </Key>
           <Property Name="RdvId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Confirmer" Type="Boolean" Nullable="false" />
+          <Property Name="Confirmer" Type="Boolean" />
           <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Photographe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SeanceId" Type="Int32" />
-          <NavigationProperty Name="Seance" Relationship="GestionPhotoImmobilierModel.FK_RDV_SeanceID1" FromRole="Rdv" ToRole="Seance" />
+          <NavigationProperty Name="Seance" Relationship="GestionPhotoImmobilierModel.FK_RDV_SeanceID" FromRole="Rdv" ToRole="Seance" />
         </EntityType>
         <EntityType Name="Seance">
           <Key>
@@ -75,17 +75,17 @@
           <Property Name="Forfait" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Commentaire" Type="String" MaxLength="375" FixedLength="false" Unicode="true" />
           <Property Name="Statut" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Rdvs" Relationship="GestionPhotoImmobilierModel.FK_RDV_SeanceID1" FromRole="Seance" ToRole="Rdv" />
+          <NavigationProperty Name="Rdvs" Relationship="GestionPhotoImmobilierModel.FK_RDV_SeanceID" FromRole="Seance" ToRole="Rdv" />
         </EntityType>
         <EntityContainer Name="GestionPhotoImmobilierEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Rdvs" EntityType="Self.Rdv" />
           <EntitySet Name="Seances" EntityType="Self.Seance" />
-          <AssociationSet Name="FK_RDV_SeanceID1" Association="GestionPhotoImmobilierModel.FK_RDV_SeanceID1">
+          <AssociationSet Name="FK_RDV_SeanceID" Association="GestionPhotoImmobilierModel.FK_RDV_SeanceID">
             <End Role="Seance" EntitySet="Seances" />
             <End Role="Rdv" EntitySet="Rdvs" />
           </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_RDV_SeanceID1">
+        <Association Name="FK_RDV_SeanceID">
           <End Type="GestionPhotoImmobilierModel.Seance" Role="Seance" Multiplicity="0..1" />
           <End Type="GestionPhotoImmobilierModel.Rdv" Role="Rdv" Multiplicity="*" />
           <ReferentialConstraint>
