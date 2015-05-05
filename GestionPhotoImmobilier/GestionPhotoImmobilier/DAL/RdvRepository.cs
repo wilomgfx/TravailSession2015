@@ -24,6 +24,11 @@ namespace GestionPhotoImmobilier.DAL
             return Get(includeProperties: "Seance");
         }
 
+        public IEnumerable<Rdv> ObtenirRdvDeLaSeance(int? id)
+        {
+            return Get(filter: r => r.SeanceId == id);
+        }
+
         public void InsertRdv(Rdv Rdv) { Insert(Rdv); }
         public void DeleteRdv(Rdv Rdv) { Delete(Rdv); }
         public void UpdateRdv(Rdv Rdv) { Update(Rdv); }

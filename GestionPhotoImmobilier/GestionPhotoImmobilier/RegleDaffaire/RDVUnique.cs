@@ -14,15 +14,20 @@ namespace GestionPhotoImmobilier.RegleDaffaire
         {
             UnitOfWork uow = new UnitOfWork();
 
-            if(seance.Rdvs == null || seance.Rdvs.Count == 0)
+            IEnumerable<Rdv> rdvsSeance = uow.RdvRepository.ObtenirRdvDeLaSeance(seance.SeanceId);
+
+            if (rdvsSeance == null || rdvsSeance.Count() == 0)
                 return ValidationResult.Success;
 
-            Rdv rendezVousSeance = seance.Rdvs.OrderByDescending(s => s.RdvId).First();
+            Rdv rendezVousSeance = rdvsSeance.OrderByDescending(s => s.RdvId).First();
 
             IEnumerable<Seance> lstSeances = uow.SeanceRepository.ObtenirSeance();
 
             foreach (var item in lstSeances)
             {
+                if (item.SeanceId == seance.SeanceId)
+                    continue;
+
                 Seance sea = uow.SeanceRepository.ObtenirSeanceComplete(item.SeanceId);
                 Rdv rendezvous = sea.Rdvs.OrderByDescending(s => s.RdvId).First();
 

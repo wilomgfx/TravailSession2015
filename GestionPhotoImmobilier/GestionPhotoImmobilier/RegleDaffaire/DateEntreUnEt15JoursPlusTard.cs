@@ -17,11 +17,24 @@ namespace GestionPhotoImmobilier.RegleDaffaire
            if(seance.DateSeance != null)
            {
                DateTime? date = seance.DateSeance;
-               if(date < DateTime.Now.AddDays(1))
+               DateTime dateMaintenant = DateTime.Now;
+               dateMaintenant = dateMaintenant.AddHours(-(dateMaintenant.Hour));
+               dateMaintenant = dateMaintenant.AddMinutes(-(dateMaintenant.Minute));
+               dateMaintenant = dateMaintenant.AddSeconds(-(dateMaintenant.Second));
+               dateMaintenant = dateMaintenant.AddMilliseconds(-(dateMaintenant.Millisecond));
+
+               DateTime dateMaintenantPlusUnJour = dateMaintenant.AddDays(1);
+               DateTime dateMaintenantPlus15Jours = dateMaintenant.AddDays(15);
+
+               if (date.Value.Day == dateMaintenantPlusUnJour.Day && date.Value.Month == dateMaintenantPlusUnJour.Month && date.Value.Year == dateMaintenantPlusUnJour.Year)
+               {
+                   return ValidationResult.Success;
+               }
+               if(date < dateMaintenantPlusUnJour)
                {
                    return new ValidationResult("La date doit être supérieur à une journée suivant la date du jour");
                }
-               if (date > DateTime.Now.AddDays(15))
+               if (date >= dateMaintenantPlus15Jours)
                {
                    return new ValidationResult("La date doit être inférieure ou égale à 15 journée suivant la date du jour");
                }

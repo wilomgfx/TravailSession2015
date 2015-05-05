@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
 using GestionPhotoImmobilier.DAL;
+using System.Data.Entity.Validation;
 
 namespace GestionPhotoImmobilier.Controllers
 {
@@ -52,7 +53,35 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.RdvRepository.InsertRdv(rdv);
+                //IEnumerable<Rdv> rdvsSeanceReliee = null;
+
+                //try
+                //{
+                //    rdvsSeanceReliee = unitOfWork.SeanceRepository.ObtenirSeanceParID(rdv.SeanceId).Rdvs;
+                //}
+                //catch
+                //{
+                //    ModelState.AddModelError("", "La Seance n'existe pas.");
+                //    return View(rdv);
+                //}
+
+                //List<Rdv> lstRdvsNouveaux = new List<Rdv>();
+
+                //foreach (var item in rdvsSeanceReliee)
+                //{
+                //    Rdv unRdv = item;
+                //    lstRdvsNouveaux.Add(unRdv);
+                //}
+
+                //lstRdvsNouveaux.Add(rdv);
+
+                //Seance seanceOrig = unitOfWork.SeanceRepository.ObtenirSeanceParID(rdv.SeanceId);
+
+                //seanceOrig.Rdvs = lstRdvsNouveaux;
+
+                //unitOfWork.RdvRepository.InsertRdv(rdv);
+                //unitOfWork.SeanceRepository.UpdateSeance(seanceOrig);
+                unitOfWork.RdvRepository.Insert(rdv);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
