@@ -157,6 +157,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegleDaffaire\DateEntreUnEt15JoursPlusTard.cs" />
     <Compile Include="RegleDaffaire\RDVUnique.cs" />
+    <Compile Include="RegleDaffaire\Validation4hEntreRendezVous.cs" />
     <Compile Include="RegleDaffaire\SeanceValidation.cs" />
     <Compile Include="ViewModels\SeanceRdv.cs" />
   </ItemGroup>
