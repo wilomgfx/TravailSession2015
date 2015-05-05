@@ -14,7 +14,7 @@ namespace GestionPhotoImmobilier.RegleDaffaire
         {
             UnitOfWork uow = new UnitOfWork();
 
-            if(seance.Rdvs == null)
+            if(seance.Rdvs == null || seance.Rdvs.Count == 0)
                 return ValidationResult.Success;
 
             Rdv rendezVousSeance = seance.Rdvs.OrderByDescending(s => s.RdvId).First();
