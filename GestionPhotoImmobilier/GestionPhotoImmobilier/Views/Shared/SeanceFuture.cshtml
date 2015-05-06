@@ -8,7 +8,7 @@
 <h2>SeanceFuture</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Retour à la liste", "Index")
 </p>
 <table class="table">
     <tr>
@@ -60,9 +60,9 @@
             @Html.DisplayFor(modelItem => item.Statut)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SeanceId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SeanceId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SeanceId })
+            @Html.ActionLink("Modifier", "Edit", new { id=item.SeanceId }) |
+            @Html.ActionLink("Détails", "Details", new { id=item.SeanceId }) |
+            @Html.ActionLink("Supprimer", "Delete", new { id=item.SeanceId })
         </td>
     </tr>
 }
