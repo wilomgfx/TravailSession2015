@@ -86,7 +86,7 @@ Go
 
 ALTER TABLE Proprietes.Photo
 ADD CONSTRAINT DF_Photo_PhotoPrise
-photoPrise  DEFAULT 'false'
+DEFAULT 'false' FOR photoPrise
 
 GO
 
