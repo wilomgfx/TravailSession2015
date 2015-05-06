@@ -13,6 +13,7 @@ namespace GestionPhotoImmobilier.DAL
 
         private SeanceRepository seancerepository;
         private RdvRepository rdvrepository;
+        private AgentRepository agentRepository;
 
         public SeanceRepository SeanceRepository
         {
@@ -35,6 +36,18 @@ namespace GestionPhotoImmobilier.DAL
                     this.rdvrepository = new RdvRepository(context);
                 }
                 return rdvrepository;
+            }
+        }
+
+        public AgentRepository AgentRepository
+        {
+            get
+            {
+                if (this.agentRepository == null)
+                {
+                    this.agentRepository = new AgentRepository(context);
+                }
+                return agentRepository;
             }
         }
 
