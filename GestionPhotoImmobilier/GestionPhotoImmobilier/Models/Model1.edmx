@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="H15_PROJET_E03Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="H15_PROJET_E03Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Agent">
           <Key>
             <PropertyRef Name="AgentId" />
@@ -21,12 +21,13 @@
           <Property Name="TypeFichier" Type="nvarchar" MaxLength="4" />
           <Property Name="Chemin" Type="nvarchar" MaxLength="255" />
           <Property Name="ProprieteId" Type="int" Nullable="false" />
+          <Property Name="photoPrise" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Propriete">
           <Key>
             <PropertyRef Name="ProprieteId" />
           </Key>
-          <Property Name="ProprieteId" Type="int" Nullable="false" />
+          <Property Name="ProprieteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Client" Type="nvarchar" MaxLength="50" />
           <Property Name="Adresse" Type="nvarchar" MaxLength="235" />
           <Property Name="Ville" Type="nvarchar" MaxLength="50" />
@@ -126,8 +127,7 @@
             <End Role="Seance" EntitySet="Seance" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="H15_PROJET_E03Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -149,6 +149,7 @@
           <Property Name="Chemin" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ProprieteId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Propriete" Relationship="Self.FK_Propriete_ProprieteId" FromRole="Photo" ToRole="Propriete" />
+          <Property Name="photoPrise" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Propriete">
           <Key>
@@ -277,6 +278,7 @@
           <EntitySetMapping Name="Photos">
             <EntityTypeMapping TypeName="H15_PROJET_E03Model.Photo">
               <MappingFragment StoreEntitySet="Photo">
+                <ScalarProperty Name="photoPrise" ColumnName="photoPrise" />
                 <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
                 <ScalarProperty Name="TypeFichier" ColumnName="TypeFichier" />
                 <ScalarProperty Name="Chemin" ColumnName="Chemin" />

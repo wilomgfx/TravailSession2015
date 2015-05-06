@@ -12,9 +12,11 @@ Create table Proprietes.Photo
 	ProprieteId int NOT NULL
 )
 GO
+
+
 Create table Proprietes.Propriete
 (
-	ProprieteId int NOT NULL,
+	ProprieteId int NOT NULL IDENTITY,
 	Client nvarchar(50),
 	Adresse nvarchar(235),
 	Ville nvarchar(50)
@@ -76,7 +78,17 @@ REFERENCES Proprietes.Propriete(ProprieteId)
 GO
 
 
-	
+--PHOTOS
+GO
+ALTER TABLE Proprietes.Photo
+ADD photoPrise bit NOT NULL
+Go	
+
+ALTER TABLE Proprietes.Photo
+ADD CONSTRAINT DF_Photo_PhotoPrise
+photoPrise  DEFAULT 'false'
+
+GO
 
 
 
