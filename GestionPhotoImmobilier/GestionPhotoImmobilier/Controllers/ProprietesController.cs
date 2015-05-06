@@ -7,17 +7,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
+using GestionPhotoImmobilier.DAL;
+using System.Data.Entity.Validation;
 
 namespace GestionPhotoImmobilier.Controllers
 {
     public class ProprietesController : Controller
     {
-        private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
-
+       // private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
+        private UnitOfWork unitOfWork = new UnitOfWork();
         // GET: Proprietes
         public ActionResult Index()
         {
-            return View(db.Proprietes.ToList());
+            return View(unitOfWork.ProprieteRepository.ObtenirPropriete().ToList());
         }
 
         // GET: Proprietes/Details/5
@@ -27,7 +29,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Propriete propriete = db.Proprietes.Find(id);
+            Propriete propriete = unitOfWork.ProprieteRepository.ObtenirProprieteParID(id);
             if (propriete == null)
             {
                 return HttpNotFound();
@@ -50,8 +52,8 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Proprietes.Add(propriete);
-                db.SaveChanges();
+                unitOfWork.ProprieteRepository.InsertPropriete(propriete);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +67,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Propriete propriete = db.Proprietes.Find(id);
+            Propriete propriete = unitOfWork.ProprieteRepository.ObtenirProprieteParID(id);
             if (propriete == null)
             {
                 return HttpNotFound();
@@ -83,7 +85,9 @@ namespace GestionPhotoImmobilier.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(propriete).State = EntityState.Modified;
-                db.SaveChanges();
+                unitOfWork.ProprieteRepository.UpdatePropriete(propriete);
+
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
             return View(propriete);
@@ -96,7 +100,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Propriete propriete = db.Proprietes.Find(id);
+            Propriete propriete = unitOfWork.ProprieteRepository.ObtenirProprieteParID(id);
             if (propriete == null)
             {
                 return HttpNotFound();
@@ -109,9 +113,10 @@ namespace GestionPhotoImmobilier.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Propriete propriete = db.Proprietes.Find(id);
-            db.Proprietes.Remove(propriete);
-            db.SaveChanges();
+            Propriete propriete = unitOfWork.ProprieteRepository.ObtenirProprieteParID(id);
+            unitOfWork.ProprieteRepository.DeletePropriete(propriete);
+            unitOfWork.Save();
+
             return RedirectToAction("Index");
         }
 
@@ -119,7 +124,7 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                unitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }
