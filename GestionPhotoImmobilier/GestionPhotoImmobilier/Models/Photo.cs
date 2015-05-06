@@ -12,25 +12,13 @@ namespace GestionPhotoImmobilier.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Seance
+    public partial class Photo
     {
-        public Seance()
-        {
-            this.Rdvs = new HashSet<Rdv>();
-        }
+        public int PhotoId { get; set; }
+        public string TypeFichier { get; set; }
+        public string Chemin { get; set; }
+        public int ProprieteId { get; set; }
     
-        public int SeanceId { get; set; }
-        public Nullable<System.DateTime> DateSeance { get; set; }
-        public string Photographe { get; set; }
-        public string Client { get; set; }
-        public string Forfait { get; set; }
-        public string Commentaire { get; set; }
-        public string Statut { get; set; }
-        public Nullable<int> AgentId { get; set; }
-        public Nullable<int> ProprieteId { get; set; }
-    
-        public virtual Agent Agent { get; set; }
         public virtual Propriete Propriete { get; set; }
-        public virtual ICollection<Rdv> Rdvs { get; set; }
     }
 }

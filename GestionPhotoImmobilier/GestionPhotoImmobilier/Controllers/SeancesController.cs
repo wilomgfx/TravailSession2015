@@ -30,7 +30,7 @@ namespace GestionPhotoImmobilier.Controllers
                 bool aUnRDV = false;
 
                 sRdv.SeanceId = sea.SeanceId;
-                sRdv.Agent = sea.Agent;
+                sRdv.Agent = sea.Agent.Nom;
                 sRdv.Client = sea.Client;
                 sRdv.Commentaire = sea.Commentaire;
                 sRdv.DateSeance = sea.DateSeance;
@@ -78,7 +78,7 @@ namespace GestionPhotoImmobilier.Controllers
                     bool aUnRDV = false;
 
                     sRdv.SeanceId = sea.SeanceId;
-                    sRdv.Agent = sea.Agent;
+                    sRdv.Agent = sea.Agent.Nom;
                     sRdv.Client = sea.Client;
                     sRdv.Commentaire = sea.Commentaire;
                     sRdv.DateSeance = sea.DateSeance;

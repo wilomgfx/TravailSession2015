@@ -9,7 +9,7 @@ namespace GestionPhotoImmobilier.DAL
     public class UnitOfWork : IUnitOfWork
     {
 
-        private GestionPhotoImmobilierEntities context = new GestionPhotoImmobilierEntities();
+        private H15_PROJET_E03Entities context = new H15_PROJET_E03Entities();
 
         private SeanceRepository seancerepository;
         private RdvRepository rdvrepository;

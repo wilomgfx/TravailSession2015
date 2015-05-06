@@ -1,0 +1,45 @@
+﻿@model IEnumerable<GestionPhotoImmobilier.Models.Propriete>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Client)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Adresse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ville)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Client)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Adresse)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ville)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ProprieteId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ProprieteId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ProprieteId })
+        </td>
+    </tr>
+}
+
+</table>
