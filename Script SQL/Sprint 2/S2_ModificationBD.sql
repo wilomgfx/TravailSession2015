@@ -1,4 +1,4 @@
-USE GestionPhotoImmobilier;
+USE H15_PROJET_E03;
 GO
 
 CREATE SCHEMA Proprietes;
@@ -6,15 +6,15 @@ GO
 
 Create table Proprietes.Photo
 (
-	PhotoId int,
+	PhotoId int NOT NULL,
 	TypeFichier nvarchar(4),
 	Chemin nvarchar(255),
-	ProprieteId int
+	ProprieteId int NOT NULL
 )
 GO
 Create table Proprietes.Propriete
 (
-	ProprieteId int,
+	ProprieteId int NOT NULL,
 	Client nvarchar(50),
 	Adresse nvarchar(235),
 	Ville nvarchar(50)
@@ -39,10 +39,15 @@ Go
 
 Create Table Agences.Agent
 (
-	AgentId int identity,
+	AgentId int NOT NULL identity,
 	Nom nvarchar(50)
 )
+GO
 
+ALTER TABLE Agences.Agent
+ADD CONSTRAINT PK_Agences_Agent_AgentId
+PRIMARY KEY (AgentId)
+GO
 
 ALTER table Seance.Seance
 DROP COLUMN Agent
@@ -50,7 +55,7 @@ DROP COLUMN Agent
 GO
 
 ALTER table Seance.Seance
-ADD Agent int
+ADD AgentId int
 GO
 
 Alter table Seance.Seance

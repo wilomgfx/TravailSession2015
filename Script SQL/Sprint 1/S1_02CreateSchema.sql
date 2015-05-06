@@ -1,4 +1,4 @@
-USE GestionPhotoImmobilier;
+USE H15_PROJET_E03;
 GO
 -- Utilisez ExempleX
 -- Créez le schema RessourcesHumaines
