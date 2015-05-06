@@ -10,16 +10,14 @@ namespace GestionPhotoImmobilier.DAL
     {
 
         public AgentRepository(H15_PROJET_E03Entities context) : base(context) { }
-
-        public IEnumerable<Agent> ObtenirRdv()
-        {
-            return Get();
-        }
         public Agent ObtenirAgentParID(int? id)
         {
             return GetByID(id);
         }
-
+        public IEnumerable<Agent> ObtenirAgent()
+        {
+            return Get();
+        }
         //public IEnumerable<Agent> ObtenirRdvsComplets()
         //{
         //    return Get(includeProperties: "Seance");

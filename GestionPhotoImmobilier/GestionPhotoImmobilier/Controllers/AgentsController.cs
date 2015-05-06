@@ -7,17 +7,19 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
+using GestionPhotoImmobilier.DAL;
+using System.Data.Entity.Validation;
 
 namespace GestionPhotoImmobilier.Controllers
 {
     public class AgentsController : Controller
     {
-        private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
-
+       // private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
+        private UnitOfWork unitOfWork = new UnitOfWork();
         // GET: Agents
         public ActionResult Index()
         {
-            return View(db.Agents.ToList());
+            return View(unitOfWork.AgentRepository.ObtenirAgent().ToList());
         }
 
         // GET: Agents/Details/5
@@ -27,7 +29,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agent agent = db.Agents.Find(id);
+            Agent agent = unitOfWork.AgentRepository.ObtenirAgentParID(id);
             if (agent == null)
             {
                 return HttpNotFound();
@@ -50,8 +52,8 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Agents.Add(agent);
-                db.SaveChanges();
+                unitOfWork.AgentRepository.InsertAgent(agent);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +67,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agent agent = db.Agents.Find(id);
+            Agent agent = unitOfWork.AgentRepository.ObtenirAgentParID(id);
             if (agent == null)
             {
                 return HttpNotFound();
@@ -82,8 +84,8 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(agent).State = EntityState.Modified;
-                db.SaveChanges();
+                unitOfWork.AgentRepository.UpdateAgent(agent);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
             return View(agent);
@@ -96,7 +98,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agent agent = db.Agents.Find(id);
+            Agent agent = unitOfWork.AgentRepository.ObtenirAgentParID(id);
             if (agent == null)
             {
                 return HttpNotFound();
@@ -109,9 +111,9 @@ namespace GestionPhotoImmobilier.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Agent agent = db.Agents.Find(id);
-            db.Agents.Remove(agent);
-            db.SaveChanges();
+            Agent agent = unitOfWork.AgentRepository.ObtenirAgentParID(id);
+            unitOfWork.AgentRepository.DeleteAgent(agent);
+            unitOfWork.Save();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +121,7 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                unitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }
