@@ -8,8 +8,8 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-    @Html.ActionLink("Seance future", "SeanceFuture")
+    @Html.ActionLink("Créer une nouvelle séance", "Create")
+    @Html.ActionLink("Séance future", "SeanceFuture")
 </p>
 <table class="table">
     <tr>
@@ -91,9 +91,9 @@
             @Html.DisplayFor(modelItem => item.PhotographeRDV)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SeanceId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SeanceId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SeanceId })
+            @Html.ActionLink("Modifier", "Edit", new { id=item.SeanceId }) |
+            @Html.ActionLink("Détails", "Details", new { id=item.SeanceId }) |
+            @Html.ActionLink("Supprimer", "Delete", new { id=item.SeanceId })
         </td>
     </tr>
 }

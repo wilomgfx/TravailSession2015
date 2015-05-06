@@ -13,10 +13,10 @@ namespace GestionPhotoImmobilier.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class GestionPhotoImmobilierEntities : DbContext
+    public partial class H15_PROJET_E03Entities : DbContext
     {
-        public GestionPhotoImmobilierEntities()
-            : base("name=GestionPhotoImmobilierEntities")
+        public H15_PROJET_E03Entities()
+            : base("name=H15_PROJET_E03Entities")
         {
         }
     
@@ -25,6 +25,9 @@ namespace GestionPhotoImmobilier.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Agent> Agents { get; set; }
+        public virtual DbSet<Photo> Photos { get; set; }
+        public virtual DbSet<Propriete> Proprietes { get; set; }
         public virtual DbSet<Rdv> Rdvs { get; set; }
         public virtual DbSet<Seance> Seances { get; set; }
     }

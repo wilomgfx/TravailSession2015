@@ -8,7 +8,7 @@ namespace GestionPhotoImmobilier.DAL
 {
     public class SeanceRepository : GenericRepository<Seance>
     {
-        public SeanceRepository(GestionPhotoImmobilierEntities context) : base(context) { }
+        public SeanceRepository(H15_PROJET_E03Entities context) : base(context) { }
 
         public IEnumerable<Seance> ObtenirSeance()
         {
