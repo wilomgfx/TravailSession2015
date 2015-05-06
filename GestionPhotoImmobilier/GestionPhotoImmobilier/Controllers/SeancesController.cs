@@ -130,6 +130,8 @@ namespace GestionPhotoImmobilier.Controllers
         // GET: Seances/Create
         public ActionResult Create()
         {
+            SelectList Agent = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
+            ViewBag.Agent = Agent;
             return View();
         }
 
