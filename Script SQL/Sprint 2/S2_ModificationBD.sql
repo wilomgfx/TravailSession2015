@@ -11,7 +11,7 @@ Create table Proprietes.Photo
 	Chemin nvarchar(255),
 	ProprieteId int
 )
-
+GO
 Create table Proprietes.Propriete
 (
 	ProprieteId int,
@@ -19,7 +19,7 @@ Create table Proprietes.Propriete
 	Adresse nvarchar(235),
 	Ville nvarchar(50)
 )
-
+Go
 
 ALTER TABLE Proprietes.Propriete
 	ADD CONSTRAINT PK_Propriete_ProprieteId
@@ -34,6 +34,41 @@ ALTER TABLE Proprietes.Photo
 	REFERENCES Proprietes.Propriete(ProprieteId)
 GO	
 
+Create schema Agences;
+Go
+
+Create Table Agences.Agent
+(
+	AgentId int identity,
+	Nom nvarchar(50)
+)
+
+
+ALTER table Seance.Seance
+DROP COLUMN Agent
+
+GO
+
+ALTER table Seance.Seance
+ADD Agent int
+GO
+
+Alter table Seance.Seance
+Add constraint FK_Seance_AgentId
+Foreign Key (AgentId)
+REFERENCES Agences.Agent(AgentId)
+
+
+ALTER table Seance.Seance
+ADD ProprieteId int
+GO
+
+Alter table Seance.Seance
+Add constraint FK_Seance_ProprieteId
+Foreign Key (ProprieteId)
+REFERENCES Proprietes.Propriete(ProprieteId)
+
+GO
 
 
 	
