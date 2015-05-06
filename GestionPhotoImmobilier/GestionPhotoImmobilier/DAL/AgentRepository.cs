@@ -30,9 +30,9 @@ namespace GestionPhotoImmobilier.DAL
             return Get(filter: r => r.AgentId == id);
         }
 
-        public void InsertRdv(Agent Agent) { Insert(Agent); }
-        public void DeleteRdv(Agent Agent) { Delete(Agent); }
-        public void UpdateRdv(Agent Agent) { Update(Agent); }
+        public void InsertAgent(Agent Agent) { Insert(Agent); }
+        public void DeleteAgent(Agent Agent) { Delete(Agent); }
+        public void UpdateAgent(Agent Agent) { Update(Agent); }
     }
 
 }
