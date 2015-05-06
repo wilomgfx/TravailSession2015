@@ -14,7 +14,10 @@ namespace GestionPhotoImmobilier.DAL
         {
             return GetByID(id);
         }
-
+        public IEnumerable<Agent> ObtenirAgent()
+        {
+            return Get();
+        }
         //public IEnumerable<Agent> ObtenirRdvsComplets()
         //{
         //    return Get(includeProperties: "Seance");
