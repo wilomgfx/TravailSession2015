@@ -7,12 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
+using GestionPhotoImmobilier.DAL;
 
 namespace GestionPhotoImmobilier.Controllers
 {
     public class PhotosController : Controller
     {
         private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
+        //private UnitOfWork unitofwork = new UnitOfWork();
 
         // GET: Photos
         public ActionResult Index()
@@ -28,7 +30,8 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Photo photo = db.Photos.Find(id);
+            //Photo photo = db.Photos.Find(id);
+            var photo = unitofwork.PhotoRepository.ObtenirPhotoParID(id);
             if (photo == null)
             {
                 return HttpNotFound();
@@ -39,7 +42,8 @@ namespace GestionPhotoImmobilier.Controllers
         // GET: Photos/Create
         public ActionResult Create()
         {
-            ViewBag.ProprieteId = new SelectList(db.Proprietes, "ProprieteId", "Client");
+            //ViewBag.ProprieteId = new SelectList(db.Proprietes, "ProprieteId", "Client");
+            ViewBag.ProprieteId = new SelectList(unitofwork.PhotoRepository.ObtenirPhoto(), "ProprieteId", "Client");
             return View();
         }
 
