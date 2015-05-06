@@ -9,10 +9,18 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Créer une nouvelle séance", "Create")
-    @Html.ActionLink("Séance future", "SeanceFuture")
-</p>
+@using (Html.BeginForm("Index","Seances",FormMethod.Get))
+{
+    <p>
+        @Html.ActionLink("Créer une nouvelle séance", "Create") |
+        @Html.ActionLink("Séance future", "SeanceFuture")
+    </p>
+    <p>
+        Find by name: @Html.TextBox("search", ViewBag.CurrentFilter as string)
+        Find by statut: @Html.TextBox("search", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>

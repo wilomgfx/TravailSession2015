@@ -18,7 +18,7 @@ namespace GestionPhotoImmobilier.Controllers
         private UnitOfWork unitOfWork = new UnitOfWork();
 
         // GET: Seances
-        public ActionResult Index(int? page)
+        public ActionResult Index(string currentFilter, string search,int? page)
         {
             List<SeanceRdv> lstSeanceRdv = new List<SeanceRdv>();
 
@@ -61,6 +61,16 @@ namespace GestionPhotoImmobilier.Controllers
                 }
             }
 
+            if (search != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                search = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = search;
 
 
             int pageSize = 3;

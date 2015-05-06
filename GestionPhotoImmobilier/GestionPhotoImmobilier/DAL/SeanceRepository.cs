@@ -34,6 +34,12 @@ namespace GestionPhotoImmobilier.DAL
             return GetByID(id);
         }
 
+        /*public IEnumerable<Seance> obtenirSeancsRechercheSearch(string recherche)
+        {
+            IEnumerable<Seance> seances;
+            seances = (!String.IsNullOrEmpty(recherche)) ? Get(filter: s => (s.Photographe.Contains(recherche.ToUpper())) || (s.FirstName.ToUpper().Contains(recherche.ToUpper()))) : Get();)
+        }*/
+
         public void InsertSeance(Seance Seance) { Insert(Seance); }
         public void DeleteSeance(Seance Seance) { Delete(Seance); }
         public void UpdateSeance(Seance Seance) { Update(Seance); }
