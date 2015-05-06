@@ -79,6 +79,16 @@ namespace GestionPhotoImmobilier.Controllers
                 return RedirectToAction("Index");
             }
 
+            List<Seance> lstSeancesValides = new List<Seance>();
+
+            foreach (var item in unitOfWork.SeanceRepository.ObtenirSeance())
+            {
+                IEnumerable<Rdv> rdvs = unitOfWork.RdvRepository.ObtenirRdvDeLaSeance(item.SeanceId);
+
+                if (rdvs.Count() == 0)
+                    lstSeancesValides.Add(item);
+            }
+
             SelectList seances = new SelectList(lstSeancesValides, "SeanceId", "DateSeance");
             ViewBag.SeanceId = seances;
 
@@ -127,6 +137,17 @@ namespace GestionPhotoImmobilier.Controllers
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
+
+            List<Seance> lstSeancesValides = new List<Seance>();
+
+            foreach (var item in unitOfWork.SeanceRepository.ObtenirSeance())
+            {
+                IEnumerable<Rdv> rdvs = unitOfWork.RdvRepository.ObtenirRdvDeLaSeance(item.SeanceId);
+
+                if (rdvs.Count() == 0)
+                    lstSeancesValides.Add(item);
+            }
+
             SelectList seances = new SelectList(lstSeancesValides, "SeanceId", "DateSeance");
             ViewBag.SeanceId = seances;
 
