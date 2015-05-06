@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
 using GestionPhotoImmobilier.DAL;
 using GestionPhotoImmobilier.ViewModels;
+using PagedList;
 
 namespace GestionPhotoImmobilier.Controllers
 {
@@ -17,7 +18,7 @@ namespace GestionPhotoImmobilier.Controllers
         private UnitOfWork unitOfWork = new UnitOfWork();
 
         // GET: Seances
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             List<SeanceRdv> lstSeanceRdv = new List<SeanceRdv>();
 
@@ -59,8 +60,13 @@ namespace GestionPhotoImmobilier.Controllers
                     lstSeanceRdv.Add(sRdv);
                 }
             }
-            
-            return View(lstSeanceRdv.OrderByDescending(s => s.DateSeance).ToList());
+
+
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            return View(lstSeanceRdv.OrderByDescending(s => s.DateSeance).ToPagedList(pageNumber,pageSize));
         }
 
         public ActionResult SeanceFuture()

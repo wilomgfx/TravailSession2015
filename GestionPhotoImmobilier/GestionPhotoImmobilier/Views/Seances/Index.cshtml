@@ -1,5 +1,7 @@
 ﻿@*@model IEnumerable<GestionPhotoImmobilier.Models.Seance>*@
-@model List<GestionPhotoImmobilier.ViewModels.SeanceRdv>
+@*model List<GestionPhotoImmobilier.ViewModels.SeanceRdv>*@
+@model PagedList.IPagedList<GestionPhotoImmobilier.ViewModels.SeanceRdv>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -99,3 +101,6 @@
 }
 
 </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page}))
