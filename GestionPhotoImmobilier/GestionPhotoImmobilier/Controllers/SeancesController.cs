@@ -63,6 +63,55 @@ namespace GestionPhotoImmobilier.Controllers
             return View(lstSeanceRdv.OrderByDescending(s => s.DateSeance).ToList());
         }
 
+        public ActionResult SeanceFuture()
+        {
+            List<SeanceRdv> lstSeanceRdv = new List<SeanceRdv>();
+
+            var colSeances = unitOfWork.SeanceRepository.ObtenirSeance();
+            var colRdv = unitOfWork.RdvRepository.ObtenirRdvsComplets();
+
+            foreach (var sea in colSeances)
+            {
+                if (sea.DateSeance > DateTime.Now)
+                {
+                    SeanceRdv sRdv = new SeanceRdv();
+                    bool aUnRDV = false;
+
+                    sRdv.SeanceId = sea.SeanceId;
+                    sRdv.Agent = sea.Agent;
+                    sRdv.Client = sea.Client;
+                    sRdv.Commentaire = sea.Commentaire;
+                    sRdv.DateSeance = sea.DateSeance;
+                    sRdv.Forfait = sea.Forfait;
+                    sRdv.Statut = sea.Statut;
+                    sRdv.Photographe = sea.Photographe;
+
+                    foreach (var rdv in colRdv)
+                    {
+                        if (rdv.Seance.SeanceId == sea.SeanceId)
+                        {
+                            sRdv.Confirmer = rdv.Confirmer;
+                            sRdv.PhotographeRDV = rdv.Photographe;
+
+                            lstSeanceRdv.Add(sRdv);
+                            aUnRDV = true;
+                            break;
+                        }
+                    }
+
+                    if (!aUnRDV)
+                    {
+                        sRdv.Confirmer = null;
+                        sRdv.PhotographeRDV = null;
+
+                        lstSeanceRdv.Add(sRdv);
+                    }
+                }
+            }
+
+            return View(lstSeanceRdv.OrderByDescending(s => s.DateSeance).ToList());
+        }
+
         // GET: Seances/Details/5
         public ActionResult Details(int? id)
         {
