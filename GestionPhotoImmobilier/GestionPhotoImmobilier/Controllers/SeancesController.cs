@@ -157,6 +157,8 @@ namespace GestionPhotoImmobilier.Controllers
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
+            SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
+            ViewBag.AgentId = AgentId;
 
             return View(seance);
         }
@@ -208,6 +210,9 @@ namespace GestionPhotoImmobilier.Controllers
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
+            SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
+            ViewBag.AgentId = AgentId;
+
             return View(seance);
         }
 

@@ -79,6 +79,9 @@ namespace GestionPhotoImmobilier.Controllers
                 return RedirectToAction("Index");
             }
 
+            SelectList seances = new SelectList(lstSeancesValides, "SeanceId", "DateSeance");
+            ViewBag.SeanceId = seances;
+
             return View(rdv);
         }
 
@@ -124,6 +127,9 @@ namespace GestionPhotoImmobilier.Controllers
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
+            SelectList seances = new SelectList(lstSeancesValides, "SeanceId", "DateSeance");
+            ViewBag.SeanceId = seances;
+
             return View(rdv);
         }
 
