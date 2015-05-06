@@ -130,8 +130,8 @@ namespace GestionPhotoImmobilier.Controllers
         // GET: Seances/Create
         public ActionResult Create()
         {
-            SelectList Agent = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
-            ViewBag.Agent = Agent;
+            SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
+            ViewBag.AgentId = AgentId;
             return View();
         }
 
@@ -140,10 +140,13 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SeanceId,DateSeance,Agent,Photographe,Client,Forfait,Commentaire,Statut")] Seance seance)
+        public ActionResult Create([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,Forfait,Commentaire,Statut")] Seance seance)
         {
             if (ModelState.IsValid)
             {
+                Agent ag = unitOfWork.AgentRepository.ObtenirAgentParID(seance.AgentId);
+
+                seance.Agent = ag;
                 unitOfWork.SeanceRepository.InsertSeance(seance);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
@@ -164,6 +167,9 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return HttpNotFound();
             }
+
+            SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom", seance.AgentId);
+            ViewBag.AgentId = AgentId;
             return View(seance);
         }
 
@@ -172,11 +178,27 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SeanceId,DateSeance,Agent,Photographe,Client,Forfait,Commentaire,Statut")] Seance seance)
+        public ActionResult Edit([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,Forfait,Commentaire,Statut")] Seance seance)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.SeanceRepository.UpdateSeance(seance);
+                Agent ag = unitOfWork.AgentRepository.ObtenirAgentParID(seance.AgentId);
+
+                Seance vraiSeance = unitOfWork.SeanceRepository.ObtenirSeanceParID(seance.SeanceId);
+
+                vraiSeance.Agent = ag;
+                vraiSeance.AgentId = seance.AgentId;
+                vraiSeance.Client = seance.Client;
+                vraiSeance.Commentaire = seance.Commentaire;
+                vraiSeance.DateSeance = seance.DateSeance;
+                vraiSeance.Forfait = seance.Forfait;
+                vraiSeance.Photographe = seance.Photographe;
+                vraiSeance.Propriete = seance.Propriete;
+                vraiSeance.ProprieteId = seance.ProprieteId;
+                vraiSeance.Rdvs = seance.Rdvs;
+                vraiSeance.Statut = seance.Statut;
+
+                unitOfWork.SeanceRepository.UpdateSeance(vraiSeance);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }

@@ -30,6 +30,9 @@ namespace GestionPhotoImmobilier.RegleDaffaire
 
                 Seance sea = uow.SeanceRepository.ObtenirSeanceComplete(item.SeanceId);
                 //Rdv rendezvous = sea.Rdvs.OrderByDescending(s => s.RdvId).First();
+                if (uow.RdvRepository.ObtenirRdvDeLaSeance(sea.SeanceId) == null || uow.RdvRepository.ObtenirRdvDeLaSeance(sea.SeanceId).Count() == 0)
+                    continue;
+
                 Rdv rendezvous = uow.RdvRepository.ObtenirRdvDeLaSeance(sea.SeanceId).OrderByDescending(b => b.RdvId).First();
 
                 if(item.Photographe.Equals(seance.Photographe))
