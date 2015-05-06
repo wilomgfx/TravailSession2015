@@ -37,7 +37,8 @@ namespace GestionPhotoImmobilier.RegleDaffaire
                 // vérifie que la date de la seance est plus tard que l'heure actuel
                 if (sea.DateSeance.Value.Year == seance.DateSeance.Value.Year && 
                     sea.DateSeance.Value.Month == seance.DateSeance.Value.Month &&
-                    sea.DateSeance.Value.Day == seance.DateSeance.Value.Day)
+                    sea.DateSeance.Value.Day == seance.DateSeance.Value.Day &&
+                    sea.Photographe.Equals(seance.Photographe))
                 {
                     TimeSpan diff = seance.DateSeance.Value - sea.DateSeance.Value;
 
