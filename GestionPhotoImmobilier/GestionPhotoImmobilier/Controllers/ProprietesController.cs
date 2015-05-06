@@ -84,7 +84,6 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(propriete).State = EntityState.Modified;
                 unitOfWork.ProprieteRepository.UpdatePropriete(propriete);
 
                 unitOfWork.Save();
