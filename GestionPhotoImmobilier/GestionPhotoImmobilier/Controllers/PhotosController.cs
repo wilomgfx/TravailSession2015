@@ -13,13 +13,14 @@ namespace GestionPhotoImmobilier.Controllers
 {
     public class PhotosController : Controller
     {
-        private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
-        //private UnitOfWork unitofwork = new UnitOfWork();
+        //private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
+        private UnitOfWork unitofwork = new UnitOfWork();
 
         // GET: Photos
         public ActionResult Index()
         {
-            var photos = db.Photos.Include(p => p.Propriete);
+            //var photos = db.Photos.Include(p => p.Propriete);
+            var photos = unitofwork.PhotoRepository.ObtenirPhotosComplets();
             return View(photos.ToList());
         }
 
@@ -43,7 +44,7 @@ namespace GestionPhotoImmobilier.Controllers
         public ActionResult Create()
         {
             //ViewBag.ProprieteId = new SelectList(db.Proprietes, "ProprieteId", "Client");
-            ViewBag.ProprieteId = new SelectList(unitofwork.PhotoRepository.ObtenirPhoto(), "ProprieteId", "Client");
+            ViewBag.ProprieteId = new SelectList(unitofwork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Client");
             return View();
         }
 
@@ -56,12 +57,15 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Photos.Add(photo);
-                db.SaveChanges();
+                //db.Photos.Add(photo);
+                //db.SaveChanges();
+                unitofwork.PhotoRepository.InsertPhoto(photo);
+                unitofwork.Save();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProprieteId = new SelectList(db.Proprietes, "ProprieteId", "Client", photo.ProprieteId);
+            //ViewBag.ProprieteId = new SelectList(db.Proprietes, "ProprieteId", "Client", photo.ProprieteId);
+            ViewBag.ProprieteId = new SelectList(unitofwork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Client", photo.ProprieteId);
             return View(photo);
         }
 
@@ -72,12 +76,14 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Photo photo = db.Photos.Find(id);
+            //Photo photo = db.Photos.Find(id);
+            Photo photo = unitofwork.PhotoRepository.ObtenirPhotoParID(id);
             if (photo == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ProprieteId = new SelectList(db.Proprietes, "ProprieteId", "Client", photo.ProprieteId);
+            //ViewBag.ProprieteId = new SelectList(db.Proprietes, "ProprieteId", "Client", photo.ProprieteId);
+            ViewBag.ProprieteId = new SelectList(unitofwork.PhotoRepository.ObtenirPhoto(), "ProprieteId", "Client", photo.ProprieteId);
             return View(photo);
         }
 
@@ -90,11 +96,14 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(photo).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(photo).State = EntityState.Modified;
+                //db.SaveChanges();
+                unitofwork.PhotoRepository.UpdatePhoto(photo);
+                unitofwork.Save();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProprieteId = new SelectList(db.Proprietes, "ProprieteId", "Client", photo.ProprieteId);
+            //ViewBag.ProprieteId = new SelectList(db.Proprietes, "ProprieteId", "Client", photo.ProprieteId);
+            ViewBag.ProprieteId = new SelectList(unitofwork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Client", photo.ProprieteId);
             return View(photo);
         }
 
@@ -105,7 +114,8 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Photo photo = db.Photos.Find(id);
+            //Photo photo = db.Photos.Find(id);
+            Photo photo = unitofwork.PhotoRepository.ObtenirPhotoParID(id);
             if (photo == null)
             {
                 return HttpNotFound();
@@ -118,9 +128,12 @@ namespace GestionPhotoImmobilier.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Photo photo = db.Photos.Find(id);
-            db.Photos.Remove(photo);
-            db.SaveChanges();
+            //Photo photo = db.Photos.Find(id);
+            Photo photo = unitofwork.PhotoRepository.ObtenirPhotoParID(id);
+            //db.Photos.Remove(photo);
+            //db.SaveChanges();
+            unitofwork.PhotoRepository.DeletePhoto(photo);
+            unitofwork.Save();
             return RedirectToAction("Index");
         }
 
@@ -128,7 +141,8 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
+                unitofwork.Dispose();
             }
             base.Dispose(disposing);
         }
