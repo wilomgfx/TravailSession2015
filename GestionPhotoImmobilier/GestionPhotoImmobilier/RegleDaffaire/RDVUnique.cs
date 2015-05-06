@@ -29,9 +29,10 @@ namespace GestionPhotoImmobilier.RegleDaffaire
                     continue;
 
                 Seance sea = uow.SeanceRepository.ObtenirSeanceComplete(item.SeanceId);
-                Rdv rendezvous = sea.Rdvs.OrderByDescending(s => s.RdvId).First();
+                //Rdv rendezvous = sea.Rdvs.OrderByDescending(s => s.RdvId).First();
+                Rdv rendezvous = uow.RdvRepository.ObtenirRdvDeLaSeance(sea.SeanceId).OrderByDescending(b => b.RdvId).First();
 
-                if(rendezvous.Photographe.Equals(rendezVousSeance.Photographe))
+                if(item.Photographe.Equals(seance.Photographe))
                 {
                     if ((item.DateSeance != null) && (item.DateSeance.Value.Year == seance.DateSeance.Value.Year) &&
                         (item.DateSeance.Value.Month == seance.DateSeance.Value.Month) &&

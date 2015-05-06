@@ -20,24 +20,33 @@ namespace GestionPhotoImmobilier.RegleDaffaire
             if(seance == null)
             return ValidationResult.Success;
 
-            foreach(var rdv in seance.Rdvs)
+            foreach(var sea in unitofWork.SeanceRepository.ObtenirSeance())
             {
-                // vérifie que la date n'a pas déjà eu lieu
-                int d =  DateTime.Compare(seance.DateSeance.Value,DateTime.Now);
-                if(d == -1)
-                    return new ValidationResult("La Date de la séance doit être ultérieur à aujourd'hui");
+                // Si la séance n'a pas de date. Ne devrait jamais arrivé.
+                if (sea.DateSeance == null)
+                    return ValidationResult.Success;
 
-                int  heureDiff = (seance.DateSeance.Value.Hour - rdv.Seance.DateSeance.Value.Hour) ;
+                // Si la séance n'a aucun rendez vous de lié.
+                if (unitofWork.RdvRepository.ObtenirRdvDeLaSeance(sea.SeanceId).Count() == 0)
+                    return ValidationResult.Success;
+
+                // Si la séance prise ici est la même que celle qu'on essaye de valider...
+                if (sea.SeanceId == seance.SeanceId)
+                    continue;
 
                 // vérifie que la date de la seance est plus tard que l'heure actuel
-                if(rdv.Seance.DateSeance == seance.DateSeance && seance.DateSeance.Value.Hour < DateTime.Now.Hour)
-                    return new ValidationResult("L'heure de la séance doit être ultérieur à celle d'aujourd'hui");
+                if (sea.DateSeance.Value.Year == seance.DateSeance.Value.Year && 
+                    sea.DateSeance.Value.Month == seance.DateSeance.Value.Month &&
+                    sea.DateSeance.Value.Day == seance.DateSeance.Value.Day)
+                {
+                    TimeSpan diff = seance.DateSeance.Value - sea.DateSeance.Value;
 
-                // vérifie que l'heure de la séance est plus tard d'au moins 4h avec le dernier rendez-vous deja séduler sur l'horaire pour un meme photographe 
-                if (rdv.Seance.DateSeance == seance.DateSeance && seance.DateSeance.Value.Hour < rdv.Seance.DateSeance.Value.AddHours(4).Hour && seance.Photographe == rdv.Seance.Photographe)
-                    return new ValidationResult("L'heure de la séance doit être ultérieur d'au moins 4h au dernier rendez-vous de la journée");
-                
+                    // vérifie que l'heure de la séance est plus tard d'au moins 4h avec le dernier rendez-vous deja séduler sur l'horaire pour un meme photographe 
+                    if (diff.Hours < 4)
+                        return new ValidationResult("L'heure de la séance doit être ultérieur d'au moins 4h au dernier rendez-vous de la journée.");
+                }
             }
+
             return ValidationResult.Success;
         } 
     }

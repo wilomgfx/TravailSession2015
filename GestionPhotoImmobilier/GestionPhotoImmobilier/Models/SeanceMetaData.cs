@@ -14,7 +14,7 @@ namespace GestionPhotoImmobilier.Models
     {
         public int SeanceId { get; set; }
         [DisplayName("Date de la séance")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> DateSeance { get; set; }
         public string Agent { get; set; }
         public string Photographe { get; set; }
