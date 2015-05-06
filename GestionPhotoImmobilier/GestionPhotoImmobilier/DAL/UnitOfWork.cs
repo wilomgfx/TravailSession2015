@@ -11,10 +11,24 @@ namespace GestionPhotoImmobilier.DAL
 
         private H15_PROJET_E03Entities context = new H15_PROJET_E03Entities();
 
+        private AgentRepository agentRepository;
         private SeanceRepository seancerepository;
         private RdvRepository rdvrepository;
         private PhotoRepository photoRepository;
         private ProprieteRepository proprieteRepository;
+
+
+        public AgentRepository AgentRepository
+        {
+            get
+            {
+                if (this.agentRepository == null)
+                {
+                    this.agentRepository = new AgentRepository(context);
+                }
+                return agentRepository;
+            }
+        }
 
         public SeanceRepository SeanceRepository
         {
