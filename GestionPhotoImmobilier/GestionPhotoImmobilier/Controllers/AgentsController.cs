@@ -12,8 +12,8 @@ namespace GestionPhotoImmobilier.Controllers
 {
     public class AgentsController : Controller
     {
-        private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
-
+       // private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
+        private UnitOfWork unitOfWork = new UnitOfWork();
         // GET: Agents
         public ActionResult Index()
         {
