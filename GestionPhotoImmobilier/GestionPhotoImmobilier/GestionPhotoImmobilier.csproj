@@ -131,6 +131,7 @@
     <Compile Include="Controllers\ProprietesController.cs" />
     <Compile Include="Controllers\RdvsController.cs" />
     <Compile Include="Controllers\SeancesController.cs" />
+    <Compile Include="DAL\AgentRepository.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="DAL\IGenericRepository.cs" />
     <Compile Include="DAL\IUnitOfWork.cs" />
