@@ -93,6 +93,21 @@ GO
 
 
 
+
+
+
+ALTER TABLE Proprietes.Photo
+DROP CONSTRAINT PK_Photo_PhotoId_ProprieteId
+GO
+
+ALTER TABLE Proprietes.Photo
+ADD CONSTRAINT PK_Photo_PhotoId
+PRIMARY KEY (PhotoId)
+
+GO
+
+
+
 CREATE TABLE Agences.Agence
 (
 AgenceId int not null identity,
