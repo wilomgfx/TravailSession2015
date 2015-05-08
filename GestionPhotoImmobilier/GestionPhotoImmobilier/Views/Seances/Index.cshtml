@@ -16,8 +16,8 @@
         @Html.ActionLink("Séances futures", "Index", new { showFuture = true })
     </p>
     <p>
-        Par Photographe: @Html.TextBox("search", ViewBag.CurrentFilter as string)
-        Par Statut: @Html.TextBox("search", ViewBag.CurrentFilter as string)
+        Par Photographe: @Html.TextBox("searchPhotographe", ViewBag.CurrentFilter as string)
+        Par Statut: @Html.TextBox("searchStatut", ViewBag.CurrentFilter as string)
         <input type="submit" value="Rechercher" />
     </p>
 }
