@@ -266,6 +266,8 @@
     <Content Include="Views\Photos\Details.cshtml" />
     <Content Include="Views\Photos\Edit.cshtml" />
     <Content Include="Views\Photos\Index.cshtml" />
+    <Content Include="Views\Seances\_InfoAgent.cshtml" />
+    <Content Include="Views\Seances\_InfoPhotographe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
