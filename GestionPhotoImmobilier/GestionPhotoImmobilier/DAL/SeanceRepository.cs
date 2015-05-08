@@ -34,6 +34,11 @@ namespace GestionPhotoImmobilier.DAL
             return GetByID(id);
         }
 
+        public IEnumerable<Seance> ObtenirSeanceFutures(DateTime date)
+        {
+            return Get(filter: s => s.DateSeance > date, includeProperties:"Rdvs");
+        }
+
         /*public IEnumerable<Seance> obtenirSeancsRechercheSearch(string recherche)
         {
             IEnumerable<Seance> seances;

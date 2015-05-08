@@ -13,7 +13,7 @@
 {
     <p>
         @Html.ActionLink("Créer une nouvelle séance", "Create") |
-        @Html.ActionLink("Séance future", "SeanceFuture")
+        @Html.ActionLink("Séances futures", "Index", new { showFuture = true })
     </p>
     <p>
         Find by name: @Html.TextBox("search", ViewBag.CurrentFilter as string)
@@ -111,4 +111,16 @@
 </table>
 
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page}))
+@if (ViewBag.showFuture)
+{
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, showFuture = true }))
+}
+else
+{
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+}
+
+@if(ViewBag.showFuture)
+{ 
+    @Html.Partial("_SeanceFuture", (PagedList.IPagedList<GestionPhotoImmobilier.ViewModels.SeanceRdv>)ViewBag.seancesFutures)
+}

@@ -250,7 +250,7 @@
     <Content Include="Views\Rdvs\Details.cshtml" />
     <Content Include="Views\Rdvs\Edit.cshtml" />
     <Content Include="Views\Rdvs\Index.cshtml" />
-    <Content Include="Views\Shared\SeanceFuture.cshtml" />
+    <Content Include="Views\Seances\_SeanceFuture.cshtml" />
     <Content Include="Views\Agents\Create.cshtml" />
     <Content Include="Views\Agents\Delete.cshtml" />
     <Content Include="Views\Agents\Details.cshtml" />

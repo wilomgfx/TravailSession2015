@@ -18,48 +18,12 @@ namespace GestionPhotoImmobilier.Controllers
         private UnitOfWork unitOfWork = new UnitOfWork();
 
         // GET: Seances
-        public ActionResult Index(string currentFilter, string search,int? page)
+        public ActionResult Index(string currentFilter, string search,int? page, Nullable<bool> showFuture, int? pageFuture)
         {
-            List<SeanceRdv> lstSeanceRdv = new List<SeanceRdv>();
-
             var colSeances = unitOfWork.SeanceRepository.ObtenirSeance();
             var colRdv = unitOfWork.RdvRepository.ObtenirRdvsComplets();
 
-            foreach (var sea in colSeances)
-            {
-                SeanceRdv sRdv = new SeanceRdv();
-                bool aUnRDV = false;
-
-                sRdv.SeanceId = sea.SeanceId;
-                sRdv.Agent = sea.Agent.Nom;
-                sRdv.Client = sea.Client;
-                sRdv.Commentaire = sea.Commentaire;
-                sRdv.DateSeance = sea.DateSeance;
-                sRdv.Forfait = sea.Forfait;
-                sRdv.Statut = sea.Statut;
-                sRdv.Photographe = sea.Photographe;
-
-                foreach (var rdv in colRdv)
-                {
-                    if(rdv.Seance.SeanceId == sea.SeanceId)
-                    {
-                        sRdv.Confirmer = rdv.Confirmer;
-                        sRdv.PhotographeRDV = rdv.Photographe;
-
-                        lstSeanceRdv.Add(sRdv);
-                        aUnRDV = true;
-                        break;
-                    }
-                }
-
-                if(!aUnRDV)
-                {
-                    sRdv.Confirmer = null;
-                    sRdv.PhotographeRDV = null;
-
-                    lstSeanceRdv.Add(sRdv);
-                }
-            }
+            List<SeanceRdv> lstSeanceRdv = GenererSeancesRdvs(colSeances, colRdv);
 
             if (search != null)
             {
@@ -76,56 +40,64 @@ namespace GestionPhotoImmobilier.Controllers
             int pageSize = 3;
             int pageNumber = (page ?? 1);
 
+            if (showFuture == null)
+                showFuture = false;
+
+            if(showFuture.Value)
+            {
+                IEnumerable<Seance> lstSeancesFutures = unitOfWork.SeanceRepository.ObtenirSeanceFutures(DateTime.Now);
+
+                List<SeanceRdv> lstSeancesRdvsFutures = GenererSeancesRdvs(lstSeancesFutures, colRdv);
+
+                int pageNumberFuture = (pageFuture ?? 1);
+                ViewBag.seancesFutures = lstSeancesRdvsFutures.OrderByDescending(s => s.DateSeance).ToPagedList(pageNumberFuture, pageSize);
+            }
+            ViewBag.showFuture = showFuture;
+
             return View(lstSeanceRdv.OrderByDescending(s => s.DateSeance).ToPagedList(pageNumber,pageSize));
         }
 
-        public ActionResult SeanceFuture()
+        private List<SeanceRdv> GenererSeancesRdvs(IEnumerable<Seance> pSeances,IEnumerable<Rdv> pRdvs)
         {
             List<SeanceRdv> lstSeanceRdv = new List<SeanceRdv>();
 
-            var colSeances = unitOfWork.SeanceRepository.ObtenirSeance();
-            var colRdv = unitOfWork.RdvRepository.ObtenirRdvsComplets();
-
-            foreach (var sea in colSeances)
+            foreach (var sea in pSeances)
             {
-                if (sea.DateSeance > DateTime.Now)
+                SeanceRdv sRdv = new SeanceRdv();
+                bool aUnRDV = false;
+
+                sRdv.SeanceId = sea.SeanceId;
+                sRdv.Agent = sea.Agent.Nom;
+                sRdv.Client = sea.Client;
+                sRdv.Commentaire = sea.Commentaire;
+                sRdv.DateSeance = sea.DateSeance;
+                sRdv.Forfait = sea.Forfait;
+                sRdv.Statut = sea.Statut;
+                sRdv.Photographe = sea.Photographe;
+
+                foreach (var rdv in pRdvs)
                 {
-                    SeanceRdv sRdv = new SeanceRdv();
-                    bool aUnRDV = false;
-
-                    sRdv.SeanceId = sea.SeanceId;
-                    sRdv.Agent = sea.Agent.Nom;
-                    sRdv.Client = sea.Client;
-                    sRdv.Commentaire = sea.Commentaire;
-                    sRdv.DateSeance = sea.DateSeance;
-                    sRdv.Forfait = sea.Forfait;
-                    sRdv.Statut = sea.Statut;
-                    sRdv.Photographe = sea.Photographe;
-
-                    foreach (var rdv in colRdv)
+                    if (rdv.Seance.SeanceId == sea.SeanceId)
                     {
-                        if (rdv.Seance.SeanceId == sea.SeanceId)
-                        {
-                            sRdv.Confirmer = rdv.Confirmer;
-                            sRdv.PhotographeRDV = rdv.Photographe;
-
-                            lstSeanceRdv.Add(sRdv);
-                            aUnRDV = true;
-                            break;
-                        }
-                    }
-
-                    if (!aUnRDV)
-                    {
-                        sRdv.Confirmer = null;
-                        sRdv.PhotographeRDV = null;
+                        sRdv.Confirmer = rdv.Confirmer;
+                        sRdv.PhotographeRDV = rdv.Photographe;
 
                         lstSeanceRdv.Add(sRdv);
+                        aUnRDV = true;
+                        break;
                     }
+                }
+
+                if (!aUnRDV)
+                {
+                    sRdv.Confirmer = null;
+                    sRdv.PhotographeRDV = null;
+
+                    lstSeanceRdv.Add(sRdv);
                 }
             }
 
-            return View(lstSeanceRdv.OrderByDescending(s => s.DateSeance).ToList());
+            return lstSeanceRdv;
         }
 
         // GET: Seances/Details/5
