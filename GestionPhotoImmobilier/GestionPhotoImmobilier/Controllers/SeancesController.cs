@@ -106,7 +106,7 @@ namespace GestionPhotoImmobilier.Controllers
                 sRdv.Client = sea.Client;
                 sRdv.Commentaire = sea.Commentaire;
                 sRdv.DateSeance = sea.DateSeance;
-                sRdv.Forfait = sea.Forfait;
+                sRdv.Forfait = sea.Forfait.Nom;
                 sRdv.Statut = sea.Statut;
                 sRdv.Photographe = sea.Photographe;
 

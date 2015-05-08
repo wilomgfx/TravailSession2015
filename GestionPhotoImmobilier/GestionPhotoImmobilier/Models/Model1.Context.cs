@@ -25,10 +25,12 @@ namespace GestionPhotoImmobilier.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Agence> Agences { get; set; }
         public virtual DbSet<Agent> Agents { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<Propriete> Proprietes { get; set; }
         public virtual DbSet<Rdv> Rdvs { get; set; }
+        public virtual DbSet<Forfait> Forfaits { get; set; }
         public virtual DbSet<Seance> Seances { get; set; }
     }
 }

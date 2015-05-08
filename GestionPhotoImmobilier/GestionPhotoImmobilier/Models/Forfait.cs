@@ -12,18 +12,18 @@ namespace GestionPhotoImmobilier.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Agent
+    public partial class Forfait
     {
-        public Agent()
+        public Forfait()
         {
             this.Seances = new HashSet<Seance>();
         }
     
-        public int AgentId { get; set; }
+        public int ForfaitId { get; set; }
         public string Nom { get; set; }
-        public Nullable<int> AgenceId { get; set; }
+        public string DescriptionForfait { get; set; }
+        public string Prix { get; set; }
     
-        public virtual Agence Agence { get; set; }
         public virtual ICollection<Seance> Seances { get; set; }
     }
 }
