@@ -1,0 +1,11 @@
+﻿@model GestionPhotoImmobilier.ViewModels.SommaireSeance
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Sommaire de séance</h2>
+
+@Html.Partial("_InfoPropriete", Model.Propriete)
+
+@Html.Partial("_InfoForfait", Model.SeanceRdv)

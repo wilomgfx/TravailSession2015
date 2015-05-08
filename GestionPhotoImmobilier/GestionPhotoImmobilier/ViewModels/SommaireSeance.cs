@@ -8,8 +8,8 @@ namespace GestionPhotoImmobilier.ViewModels
 {
     public class SommaireSeance
     {
-        SeanceRdv SeanceRdv { get; set; }
-        Agent Agent { get; set; }
-        Propriete Propriete { get; set; }
+        public SeanceRdv SeanceRdv { get; set; }
+        public Agent Agent { get; set; }
+        public Propriete Propriete { get; set; }
     }
 }
