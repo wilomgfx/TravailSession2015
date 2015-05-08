@@ -270,6 +270,8 @@
     <Content Include="Views\Seances\_InfoPropriete.cshtml" />
     <Content Include="Views\Seances\_InfoForfait.cshtml" />
     <Content Include="Views\Seances\Sommaire.cshtml" />
+    <Content Include="Views\Seances\_InfoAgent.cshtml" />
+    <Content Include="Views\Seances\_InfoPhotographe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
