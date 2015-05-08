@@ -92,3 +92,53 @@ GO
 
 
 
+
+
+
+
+ALTER TABLE Proprietes.Photo
+DROP CONSTRAINT PK_Photo_PhotoId_ProprieteId
+GO
+
+ALTER TABLE Proprietes.Photo
+ADD CONSTRAINT PK_Photo_PhotoId
+PRIMARY KEY (PhotoId)
+
+GO
+
+
+
+CREATE TABLE Agences.Agence
+(
+AgenceId int not null identity,
+Nom nvarchar(50),
+Adresse nvarchar(50),
+NumTel nvarchar(12)
+)
+
+Create table Seance.Forfait
+(
+ForfaitId int not null identity,
+Nom nvarchar(50),
+DescriptionForfait nvarchar(200), 
+Prix nvarchar(50)
+)
+
+ALTER TABLE Agences.Agent
+ADD AgenceId int,
+CONSTRAINT FK_Agent_AgenceId
+FOREIGN KEY (AgenceId)
+REFERENCES Agences.Agence(AgenceId)
+GO
+
+ALTER TABLE Seance.Seance
+DROP COLUMN Forfait
+GO
+
+ALTER TABLE Seance.Seance
+ADD ForfaitId int,
+CONSTRAINT FK_Seance_ForfaitId
+FOREIGN KEY (ForfaitId)
+REFERENCES Seance.Forfait(ForfaitId)
+
+GO
