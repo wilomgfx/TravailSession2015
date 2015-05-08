@@ -22,15 +22,15 @@ Create table Proprietes.Propriete
 	Ville nvarchar(50)
 )
 Go
-
+--
 ALTER TABLE Proprietes.Propriete
 	ADD CONSTRAINT PK_Propriete_ProprieteId
 	PRIMARY KEY (ProprieteId);
 GO
 
 ALTER TABLE Proprietes.Photo
-	ADD CONSTRAINT PK_Photo_PhotoId_ProprieteId
-	PRIMARY KEY (PhotoId, ProprieteId),
+	ADD CONSTRAINT PK_Photo_PhotoId
+	PRIMARY KEY (PhotoId),
 	CONSTRAINT FK_Propriete_ProprieteId
 	FOREIGN KEY (ProprieteId)
 	REFERENCES Proprietes.Propriete(ProprieteId)
@@ -96,15 +96,7 @@ GO
 
 
 
-ALTER TABLE Proprietes.Photo
-DROP CONSTRAINT PK_Photo_PhotoId_ProprieteId
-GO
 
-ALTER TABLE Proprietes.Photo
-ADD CONSTRAINT PK_Photo_PhotoId
-PRIMARY KEY (PhotoId)
-
-GO
 
 
 
@@ -115,6 +107,12 @@ Nom nvarchar(50),
 Adresse nvarchar(50),
 NumTel nvarchar(12)
 )
+GO
+
+ALTER TABLE Agences.Agence
+ADD CONSTRAINT PK_Agences_AgenceId
+PRIMARY KEY (AgenceId)
+GO
 
 Create table Seance.Forfait
 (
@@ -123,6 +121,12 @@ Nom nvarchar(50),
 DescriptionForfait nvarchar(200), 
 Prix nvarchar(50)
 )
+GO
+
+ALTER TABLE Seance.Forfait
+ADD CONSTRAINT PK_Seance_Forfait_ForfaitId
+PRIMARY KEY (ForfaitId)
+GO
 
 ALTER TABLE Agences.Agent
 ADD AgenceId int,
