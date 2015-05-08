@@ -21,13 +21,13 @@ BEGIN
 	IF(@statut = 0)
 	BEGIN
 		UPDATE Seance.Seance
-		SET Statut = 'Reportee'
+		SET Statut = 'Reportée'
 		WHERE SeanceId = @idSeance
 	END
 	IF(@statut = 1)
 	BEGIN
 		UPDATE Seance.Seance
-		SET Statut = 'Confirmee'
+		SET Statut = 'Confirmée'
 		WHERE SeanceId = @idSeance
 	END
 END
@@ -62,7 +62,7 @@ BEGIN
 		IF((@hourVieille != @hourNouvelle) OR (@minuteVieille != @minuteNouvelle))
 		BEGIN
 			UPDATE Seance.Seance
-			SET Statut = 'Reportee'
+			SET Statut = 'Reportée'
 			WHERE SeanceId = @idSeance
 		END
 	END
@@ -72,11 +72,11 @@ GO
 
 --quand l’agent demande une séance (statut : demandé)
 
-If OBJECT_ID('Seance.trg_SeanceConfirme') IS NOT NULL DROP TRIGGER Seance.trg_SeanceConfirme;
+If OBJECT_ID('Seance.trg_SeanceDemandee') IS NOT NULL DROP TRIGGER Seance.trg_SeanceDemandee;
 Go
 
 
-CREATE TRIGGER Seance.trg_SeanceConfirme
+CREATE TRIGGER Seance.trg_SeanceDemandee
 ON Seance.Seance
 FOR INSERT
 AS
@@ -84,7 +84,7 @@ BEGIN
 	DECLARE @SeanceId as int = (Select SeanceId FROM (Select TOP 1 * FROM inserted ORDER BY SeanceId DESC) AS I);
 	
 	UPDATE Seance.Seance
-	SET Statut='Demandee'
+	SET Statut='Demandée'
 	WHERE SeanceId = @SeanceId;
 	
   END 

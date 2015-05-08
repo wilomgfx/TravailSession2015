@@ -18,13 +18,48 @@ namespace GestionPhotoImmobilier.Controllers
         private UnitOfWork unitOfWork = new UnitOfWork();
 
         // GET: Seances
-        public ActionResult Index(string currentFilter, string search,int? page, Nullable<bool> showFuture, int? pageFuture)
+        public ActionResult Index(string currentFilter, string searchPhotographe, string searchStatut, int? page, Nullable<bool> showFuture, int? pageFuture)
         {
             var colSeances = unitOfWork.SeanceRepository.ObtenirSeance();
             var colRdv = unitOfWork.RdvRepository.ObtenirRdvsComplets();
 
             List<SeanceRdv> lstSeanceRdv = GenererSeancesRdvs(colSeances, colRdv);
+            if (searchPhotographe != null || searchStatut != null)
+            {
+                List<SeanceRdv> lstSeanceRdvSelonRecherche = new List<SeanceRdv>();
+                foreach(SeanceRdv item in lstSeanceRdv)
+               {
+                   if (searchPhotographe == "" && searchStatut == "")
+                    {
+                        lstSeanceRdvSelonRecherche.Add(item);
+                    }
+                   else if (searchPhotographe != "" && searchStatut != "")
+                      {
+                          if(item.Statut.Equals(searchStatut) && item.Photographe.Equals(searchPhotographe))
+                          {
+                              lstSeanceRdvSelonRecherche.Add(item);
+                          }
+                      }
+                    else if(searchStatut != "")
+                    {
+                        if (item.Statut.Equals(searchStatut))
+                        {
+                            lstSeanceRdvSelonRecherche.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        if (item.Photographe.Equals(searchPhotographe))
+                        {
+                            lstSeanceRdvSelonRecherche.Add(item);
+                        }
+                    }
+               }
+                lstSeanceRdv = lstSeanceRdvSelonRecherche;
+            }
 
+
+            /*
             if (search != null)
             {
                 page = 1;
@@ -35,7 +70,7 @@ namespace GestionPhotoImmobilier.Controllers
             }
 
             ViewBag.CurrentFilter = search;
-
+            */
 
             int pageSize = 3;
             int pageNumber = (page ?? 1);

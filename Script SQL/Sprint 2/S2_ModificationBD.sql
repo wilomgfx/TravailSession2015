@@ -78,15 +78,15 @@ REFERENCES Proprietes.Propriete(ProprieteId)
 GO
 
 
---PHOTOS
+--Seance Photos
 GO
-ALTER TABLE Proprietes.Photo
-ADD photoPrise bit NOT NULL
+ALTER TABLE Seance.Seance
+ADD photoDisponible bit NULL
 Go	
 
-ALTER TABLE Proprietes.Photo
-ADD CONSTRAINT DF_Photo_PhotoPrise
-DEFAULT 'false' FOR photoPrise
+ALTER TABLE Seance.Seance
+ADD CONSTRAINT DF_Seance_photoDisponible
+DEFAULT 'false' FOR photoDisponible
 
 GO
 
