@@ -1,7 +1,6 @@
 USE H15_PROJET_E03;
 GO
 
-
 Create table Seance.Seance
 (
 	SeanceId int identity,
@@ -22,3 +21,5 @@ Create table Rdv.Rdv
 	Client nvarchar(50),
 	Photographe nvarchar(50)
 )
+
+
