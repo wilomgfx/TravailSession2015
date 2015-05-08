@@ -21,7 +21,6 @@
           <Property Name="TypeFichier" Type="nvarchar" MaxLength="4" />
           <Property Name="Chemin" Type="nvarchar" MaxLength="255" />
           <Property Name="ProprieteId" Type="int" Nullable="false" />
-          <Property Name="photoPrise" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Propriete">
           <Key>
@@ -55,6 +54,7 @@
           <Property Name="Statut" Type="nvarchar" MaxLength="50" />
           <Property Name="AgentId" Type="int" />
           <Property Name="ProprieteId" Type="int" />
+          <Property Name="photoDisponible" Type="bit" />
         </EntityType>
         <Association Name="FK_Propriete_ProprieteId">
           <End Role="Propriete" Type="Self.Propriete" Multiplicity="1" />
@@ -149,13 +149,12 @@
           <Property Name="Chemin" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="ProprieteId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Propriete" Relationship="Self.FK_Propriete_ProprieteId" FromRole="Photo" ToRole="Propriete" />
-          <Property Name="photoPrise" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Propriete">
           <Key>
             <PropertyRef Name="ProprieteId" />
           </Key>
-          <Property Name="ProprieteId" Type="Int32" Nullable="false" />
+          <Property Name="ProprieteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Adresse" Type="String" MaxLength="235" FixedLength="false" Unicode="true" />
           <Property Name="Ville" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -186,6 +185,7 @@
           <Property Name="Statut" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AgentId" Type="Int32" />
           <Property Name="ProprieteId" Type="Int32" />
+          <Property Name="photoDisponible" Type="Boolean" />
           <NavigationProperty Name="Agent" Relationship="Self.FK_Seance_AgentId" FromRole="Seance" ToRole="Agent" />
           <NavigationProperty Name="Propriete" Relationship="Self.FK_Seance_ProprieteId" FromRole="Seance" ToRole="Propriete" />
           <NavigationProperty Name="Rdvs" Relationship="Self.FK_RDV_SeanceID" FromRole="Seance" ToRole="Rdv" />
@@ -278,7 +278,6 @@
           <EntitySetMapping Name="Photos">
             <EntityTypeMapping TypeName="H15_PROJET_E03Model.Photo">
               <MappingFragment StoreEntitySet="Photo">
-                <ScalarProperty Name="photoPrise" ColumnName="photoPrise" />
                 <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
                 <ScalarProperty Name="TypeFichier" ColumnName="TypeFichier" />
                 <ScalarProperty Name="Chemin" ColumnName="Chemin" />
@@ -319,6 +318,7 @@
                 <ScalarProperty Name="Statut" ColumnName="Statut" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="ProprieteId" ColumnName="ProprieteId" />
+                <ScalarProperty Name="photoDisponible" ColumnName="photoDisponible" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

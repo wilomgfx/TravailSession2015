@@ -26,7 +26,7 @@ namespace GestionPhotoImmobilier.DAL
                 idVrai = int.Parse(parsed);
             }
 
-            return Get(filter: s => s.SeanceId == idVrai, includeProperties: "Rdvs").First();
+            return Get(filter: s => s.SeanceId == idVrai, includeProperties: "Rdvs,Agent,Propriete").First();
         }
 
         public Seance ObtenirSeanceParID(int? id)

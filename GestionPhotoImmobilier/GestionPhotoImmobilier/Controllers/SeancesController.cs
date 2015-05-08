@@ -100,6 +100,28 @@ namespace GestionPhotoImmobilier.Controllers
             return lstSeanceRdv;
         }
 
+        public ActionResult Sommaire(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Seance seance = unitOfWork.SeanceRepository.ObtenirSeanceComplete(id);
+            IEnumerable<Rdv> rdvs = unitOfWork.RdvRepository.ObtenirRdvDeLaSeance(seance.SeanceId);
+
+            List<Seance> seanceToList = new List<Seance>();
+            seanceToList.Add(seance);
+
+            List<SeanceRdv> seanceRdv = GenererSeancesRdvs(seanceToList, rdvs);
+
+            SommaireSeance sommaire = new SommaireSeance();
+
+            sommaire.SeanceRdv = seanceRdv.First();
+            sommaire.Agent = seance.Agent;
+            sommaire.Propriete = seance.Propriete;
+
+            return View(sommaire);
+        }
+
         // GET: Seances/Details/5
         public ActionResult Details(int? id)
         {
@@ -120,6 +142,9 @@ namespace GestionPhotoImmobilier.Controllers
         {
             SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
             ViewBag.AgentId = AgentId;
+
+            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
+            ViewBag.ProprieteId = ProprieteId;
             return View();
         }
 
@@ -128,19 +153,24 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,Forfait,Commentaire,Statut")] Seance seance)
+        public ActionResult Create([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,Forfait,Commentaire,Statut,ProprieteId")] Seance seance)
         {
             if (ModelState.IsValid)
             {
                 Agent ag = unitOfWork.AgentRepository.ObtenirAgentParID(seance.AgentId);
 
                 seance.Agent = ag;
+                seance.Propriete = unitOfWork.ProprieteRepository.ObtenirProprieteParID(seance.ProprieteId);
+
                 unitOfWork.SeanceRepository.InsertSeance(seance);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
             SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
             ViewBag.AgentId = AgentId;
+
+            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
+            ViewBag.ProprieteId = ProprieteId;
 
             return View(seance);
         }
@@ -160,6 +190,9 @@ namespace GestionPhotoImmobilier.Controllers
 
             SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom", seance.AgentId);
             ViewBag.AgentId = AgentId;
+
+            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
+            ViewBag.ProprieteId = ProprieteId;
             return View(seance);
         }
 
@@ -168,11 +201,12 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,Forfait,Commentaire,Statut")] Seance seance)
+        public ActionResult Edit([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,Forfait,Commentaire,Statut,ProprieteId")] Seance seance)
         {
             if (ModelState.IsValid)
             {
                 Agent ag = unitOfWork.AgentRepository.ObtenirAgentParID(seance.AgentId);
+                Propriete pro = unitOfWork.ProprieteRepository.ObtenirProprieteParID(seance.ProprieteId);
 
                 Seance vraiSeance = unitOfWork.SeanceRepository.ObtenirSeanceParID(seance.SeanceId);
 
@@ -187,6 +221,8 @@ namespace GestionPhotoImmobilier.Controllers
                 vraiSeance.ProprieteId = seance.ProprieteId;
                 vraiSeance.Rdvs = seance.Rdvs;
                 vraiSeance.Statut = seance.Statut;
+                vraiSeance.ProprieteId = seance.ProprieteId;
+                vraiSeance.Propriete = pro;
 
                 unitOfWork.SeanceRepository.UpdateSeance(vraiSeance);
                 unitOfWork.Save();
@@ -194,6 +230,9 @@ namespace GestionPhotoImmobilier.Controllers
             }
             SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
             ViewBag.AgentId = AgentId;
+
+            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
+            ViewBag.ProprieteId = ProprieteId;
 
             return View(seance);
         }

@@ -272,6 +272,7 @@
     <Content Include="Views\Seances\Sommaire.cshtml" />
     <Content Include="Views\Seances\_InfoAgent.cshtml" />
     <Content Include="Views\Seances\_InfoPhotographe.cshtml" />
+    <Content Include="Views\Seances\_InfoSeanceRdv.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />

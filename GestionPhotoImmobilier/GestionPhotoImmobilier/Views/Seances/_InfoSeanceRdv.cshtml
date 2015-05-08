@@ -1,0 +1,60 @@
+﻿@model GestionPhotoImmobilier.ViewModels.SeanceRdv
+
+<h4>Informations de la Séance</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DateSeance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Client)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Commentaire)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Statut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Confirmer)
+        </th>
+    </tr>
+
+    <tr>
+        @{
+        
+        bool bonBool = false;
+
+        if (Model.Confirmer != null)
+        {
+            bonBool = (bool)Model.Confirmer;
+        }
+
+        string boolFrancais = "";
+        if (bonBool == true)
+        {
+        boolFrancais = "Oui";
+        }
+        else
+        {
+        boolFrancais = "Non";
+        }
+
+        <td>
+            @Html.DisplayFor(model => model.DateSeance)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Client)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Commentaire)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Statut)
+        </td>
+        <td>
+            @boolFrancais
+        </td>
+        }
+    </tr>
+</table>

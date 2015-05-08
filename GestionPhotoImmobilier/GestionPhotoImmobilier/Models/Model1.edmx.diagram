@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8a72750dd3034010a350ed7f7a537491" Name="Diagram1">
+      <Diagram DiagramId="35775aa8906e4f51a5c9a78bb6a540bb" Name="Diagram1">
         <EntityTypeShape EntityType="H15_PROJET_E03Model.Agent" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="H15_PROJET_E03Model.Photo" Width="1.5" PointX="3.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="H15_PROJET_E03Model.Photo" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="H15_PROJET_E03Model.Propriete" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="H15_PROJET_E03Model.Rdv" Width="1.5" PointX="8.25" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="H15_PROJET_E03Model.Seance" Width="1.5" PointX="6" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="H15_PROJET_E03Model.Seance" Width="1.5" PointX="6" PointY="2.75" IsExpanded="true" />
         <AssociationConnector Association="H15_PROJET_E03Model.FK_Seance_AgentId" ManuallyRouted="false" />
         <AssociationConnector Association="H15_PROJET_E03Model.FK_Propriete_ProprieteId" ManuallyRouted="false" />
         <AssociationConnector Association="H15_PROJET_E03Model.FK_Seance_ProprieteId" ManuallyRouted="false" />

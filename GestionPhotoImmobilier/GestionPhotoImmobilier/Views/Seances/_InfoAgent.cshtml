@@ -1,17 +1,16 @@
 ﻿@model GestionPhotoImmobilier.Models.Agent
 
-<div>
-    <h4>Information sur l'agent</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
+<h4>Information sur l'agent</h4>
+<table class="table">
+    <tr>
+        <th>
             @Html.DisplayNameFor(model => model.Nom)
-        </dt>
+        </th>
+    </tr>
 
-        <dd>
+    <tr>
+        <td>
             @Html.DisplayFor(model => model.Nom)
-        </dd>
-
-    </dl>
-</div>
-
+        </td>
+    </tr>
+</table>

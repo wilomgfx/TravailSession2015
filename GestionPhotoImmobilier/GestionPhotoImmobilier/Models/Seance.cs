@@ -28,6 +28,7 @@ namespace GestionPhotoImmobilier.Models
         public string Statut { get; set; }
         public Nullable<int> AgentId { get; set; }
         public Nullable<int> ProprieteId { get; set; }
+        public Nullable<bool> photoDisponible { get; set; }
     
         public virtual Agent Agent { get; set; }
         public virtual Propriete Propriete { get; set; }

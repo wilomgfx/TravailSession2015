@@ -18,7 +18,6 @@ namespace GestionPhotoImmobilier.Models
         public string TypeFichier { get; set; }
         public string Chemin { get; set; }
         public int ProprieteId { get; set; }
-        public bool photoPrise { get; set; }
     
         public virtual Propriete Propriete { get; set; }
     }

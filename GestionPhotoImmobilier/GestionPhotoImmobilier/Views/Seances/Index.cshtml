@@ -16,9 +16,9 @@
         @Html.ActionLink("Séances futures", "Index", new { showFuture = true })
     </p>
     <p>
-        Find by name: @Html.TextBox("search", ViewBag.CurrentFilter as string)
-        Find by statut: @Html.TextBox("search", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
+        Par Photographe: @Html.TextBox("search", ViewBag.CurrentFilter as string)
+        Par Statut: @Html.TextBox("search", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Rechercher" />
     </p>
 }
 <table class="table">
@@ -102,7 +102,7 @@
         </td>
         <td>
             @Html.ActionLink("Modifier", "Edit", new { id=item.SeanceId }) |
-            @Html.ActionLink("Détails", "Details", new { id=item.SeanceId }) |
+            @Html.ActionLink("Détails", "Sommaire", new { id=item.SeanceId }) |
             @Html.ActionLink("Supprimer", "Delete", new { id=item.SeanceId })
         </td>
     </tr>
