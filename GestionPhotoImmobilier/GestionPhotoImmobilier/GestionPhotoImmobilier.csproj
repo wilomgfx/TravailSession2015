@@ -181,6 +181,7 @@
     <Compile Include="RegleDaffaire\Validation4hEntreRendezVous.cs" />
     <Compile Include="RegleDaffaire\SeanceValidation.cs" />
     <Compile Include="ViewModels\SeanceRdv.cs" />
+    <Compile Include="ViewModels\SommaireSeance.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\GestionPhotoImmobilier.mdf" />
@@ -266,6 +267,9 @@
     <Content Include="Views\Photos\Details.cshtml" />
     <Content Include="Views\Photos\Edit.cshtml" />
     <Content Include="Views\Photos\Index.cshtml" />
+    <Content Include="Views\Seances\_InfoPropriete.cshtml" />
+    <Content Include="Views\Seances\_InfoForfait.cshtml" />
+    <Content Include="Views\Seances\Sommaire.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
