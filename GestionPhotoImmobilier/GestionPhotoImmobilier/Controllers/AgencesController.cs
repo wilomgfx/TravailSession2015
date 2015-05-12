@@ -11,123 +11,116 @@ using GestionPhotoImmobilier.DAL;
 
 namespace GestionPhotoImmobilier.Controllers
 {
-    public class ForfaitsController : Controller
+    public class AgencesController : Controller
     {
-        private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
         //private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
-          private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork = new UnitOfWork();
 
 
-        // GET: Forfaits
+        // GET: Agences
         public ActionResult Index()
         {
-            return View(db.Forfaits.ToList());
-            return View(unitOfWork.ForfaitRepository.ObtenirForfait().ToList());
+            return View(unitOfWork.AgenceRepository.ObtenirAgence().ToList());
         }
 
-        // GET: Forfaits/Details/5
+        // GET: Agences/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Forfait forfait = db.Forfaits.Find(id);
-            Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
-            if (forfait == null)
+            Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
+            if (agence == null)
             {
                 return HttpNotFound();
             }
-            return View(forfait);
+            return View(agence);
         }
 
-        // GET: Forfaits/Create
+        // GET: Agences/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Forfaits/Create
+        // POST: Agences/Create
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ForfaitId,Nom,DescriptionForfait,Prix")] Forfait forfait)
+        public ActionResult Create([Bind(Include = "AgenceId,Nom,Adresse,NumTel")] Agence agence)
         {
             if (ModelState.IsValid)
             {
-                db.Forfaits.Add(forfait);
-                db.SaveChanges();
-
-                unitOfWork.ForfaitRepository.InsertForfait(forfait);
+                //db.Agences.Add(agence);
+                //db.SaveChanges();
+                unitOfWork.AgenceRepository.InsertAgence(agence);
                 unitOfWork.Save();
-
                 return RedirectToAction("Index");
             }
 
-            return View(forfait);
+            return View(agence);
         }
 
-        // GET: Forfaits/Edit/5
+        // GET: Agences/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Forfait forfait = db.Forfaits.Find(id);
-            Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
-            if (forfait == null)
+            Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
+            if (agence == null)
             {
                 return HttpNotFound();
             }
-            return View(forfait);
+            return View(agence);
         }
 
-        // POST: Forfaits/Edit/5
+        // POST: Agences/Edit/5
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ForfaitId,Nom,DescriptionForfait,Prix")] Forfait forfait)
+        public ActionResult Edit([Bind(Include = "AgenceId,Nom,Adresse,NumTel")] Agence agence)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(forfait).State = EntityState.Modified;
-                db.SaveChanges();
-                unitOfWork.ForfaitRepository.UpdateForfait(forfait);
+                //db.Entry(agence).State = EntityState.Modified;
+                //db.SaveChanges();
+
+                unitOfWork.AgenceRepository.UpdateAgence(agence);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
-            return View(forfait);
+            return View(agence);
         }
 
-        // GET: Forfaits/Delete/5
+        // GET: Agences/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Forfait forfait = db.Forfaits.Find(id);
-            Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id); ;
-            if (forfait == null)
+            Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
+            if (agence == null)
             {
                 return HttpNotFound();
             }
-            return View(forfait);
+            return View(agence);
         }
 
-        // POST: Forfaits/Delete/5
+        // POST: Agences/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Forfait forfait = db.Forfaits.Find(id);
-            db.Forfaits.Remove(forfait);
-            db.SaveChanges();
-            Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
-            unitOfWork.ForfaitRepository.DeleteForfait(forfait);
+            Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
+            //db.Agences.Remove(agence);
+            //db.SaveChanges();
+            unitOfWork.AgenceRepository.DeleteAgence(agence);
             unitOfWork.Save();
             return RedirectToAction("Index");
         }
@@ -136,7 +129,7 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
                 unitOfWork.Dispose();
             }
             base.Dispose(disposing);
