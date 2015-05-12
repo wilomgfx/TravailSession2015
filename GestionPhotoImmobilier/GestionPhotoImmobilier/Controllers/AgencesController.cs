@@ -7,17 +7,20 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
+using GestionPhotoImmobilier.DAL;
 
 namespace GestionPhotoImmobilier.Controllers
 {
     public class AgencesController : Controller
     {
-        private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
+        //private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
+        private UnitOfWork unitOfWork = new UnitOfWork();
+
 
         // GET: Agences
         public ActionResult Index()
         {
-            return View(db.Agences.ToList());
+            return View(unitOfWork.AgenceRepository.ObtenirAgence().ToList());
         }
 
         // GET: Agences/Details/5
@@ -27,7 +30,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agence agence = db.Agences.Find(id);
+            Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
             if (agence == null)
             {
                 return HttpNotFound();
@@ -50,8 +53,10 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Agences.Add(agence);
-                db.SaveChanges();
+                //db.Agences.Add(agence);
+                //db.SaveChanges();
+                unitOfWork.AgenceRepository.InsertAgence(agence);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +70,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agence agence = db.Agences.Find(id);
+            Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
             if (agence == null)
             {
                 return HttpNotFound();
@@ -82,8 +87,11 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(agence).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(agence).State = EntityState.Modified;
+                //db.SaveChanges();
+
+                unitOfWork.AgenceRepository.UpdateAgence(agence);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
             return View(agence);
@@ -96,7 +104,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agence agence = db.Agences.Find(id);
+            Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
             if (agence == null)
             {
                 return HttpNotFound();
@@ -109,9 +117,11 @@ namespace GestionPhotoImmobilier.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Agence agence = db.Agences.Find(id);
-            db.Agences.Remove(agence);
-            db.SaveChanges();
+            Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
+            //db.Agences.Remove(agence);
+            //db.SaveChanges();
+            unitOfWork.AgenceRepository.DeleteAgence(agence);
+            unitOfWork.Save();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +129,8 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
+                unitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }
