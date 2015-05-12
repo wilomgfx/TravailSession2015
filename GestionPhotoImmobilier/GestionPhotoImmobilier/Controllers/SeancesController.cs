@@ -106,7 +106,8 @@ namespace GestionPhotoImmobilier.Controllers
                 sRdv.Client = sea.Client;
                 sRdv.Commentaire = sea.Commentaire;
                 sRdv.DateSeance = sea.DateSeance;
-                sRdv.Forfait = sea.Forfait.Nom;
+                Forfait forfait = unitOfWork.ForfaitRepository.GetByID(sea.ForfaitId);
+                sRdv.Forfait = forfait;
                 sRdv.Statut = sea.Statut;
                 sRdv.Photographe = sea.Photographe;
 
@@ -153,6 +154,7 @@ namespace GestionPhotoImmobilier.Controllers
             sommaire.SeanceRdv = seanceRdv.First();
             sommaire.Agent = seance.Agent;
             sommaire.Propriete = seance.Propriete;
+            
 
             return View(sommaire);
         }
@@ -180,6 +182,9 @@ namespace GestionPhotoImmobilier.Controllers
 
             SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
             ViewBag.ProprieteId = ProprieteId;
+
+            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom");
+            ViewBag.ForfaitId = ForfaitId;
             return View();
         }
 
@@ -193,9 +198,11 @@ namespace GestionPhotoImmobilier.Controllers
             if (ModelState.IsValid)
             {
                 Agent ag = unitOfWork.AgentRepository.ObtenirAgentParID(seance.AgentId);
+                Forfait forf = unitOfWork.ForfaitRepository.GetByID(seance.ForfaitId);
 
                 seance.Agent = ag;
                 seance.Propriete = unitOfWork.ProprieteRepository.ObtenirProprieteParID(seance.ProprieteId);
+                seance.Forfait = forf;
 
                 unitOfWork.SeanceRepository.InsertSeance(seance);
                 unitOfWork.Save();
@@ -206,6 +213,9 @@ namespace GestionPhotoImmobilier.Controllers
 
             SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
             ViewBag.ProprieteId = ProprieteId;
+
+            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom");
+            ViewBag.ForfaitId = ForfaitId;
 
             return View(seance);
         }
@@ -228,6 +238,9 @@ namespace GestionPhotoImmobilier.Controllers
 
             SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
             ViewBag.ProprieteId = ProprieteId;
+
+            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom");
+            ViewBag.ForfaitId = ForfaitId;
             return View(seance);
         }
 
@@ -242,6 +255,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 Agent ag = unitOfWork.AgentRepository.ObtenirAgentParID(seance.AgentId);
                 Propriete pro = unitOfWork.ProprieteRepository.ObtenirProprieteParID(seance.ProprieteId);
+                Forfait forf = unitOfWork.ForfaitRepository.GetByID(seance.ForfaitId);
 
                 Seance vraiSeance = unitOfWork.SeanceRepository.ObtenirSeanceParID(seance.SeanceId);
 
@@ -258,6 +272,8 @@ namespace GestionPhotoImmobilier.Controllers
                 vraiSeance.Statut = seance.Statut;
                 vraiSeance.ProprieteId = seance.ProprieteId;
                 vraiSeance.Propriete = pro;
+                vraiSeance.Forfait = forf;
+                vraiSeance.ForfaitId = forf.ForfaitId;
 
                 unitOfWork.SeanceRepository.UpdateSeance(vraiSeance);
                 unitOfWork.Save();
@@ -268,6 +284,9 @@ namespace GestionPhotoImmobilier.Controllers
 
             SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
             ViewBag.ProprieteId = ProprieteId;
+
+            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom");
+            ViewBag.ForfaitId = ForfaitId;
 
             return View(seance);
         }

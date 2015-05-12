@@ -4,13 +4,25 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Forfait)
+            @Html.DisplayNameFor(model => model.Forfait.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Forfait.DescriptionForfait)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Forfait.Prix)
         </th>
     </tr>
 
     <tr>
         <td>
-            @Html.DisplayFor(model => model.Forfait)
+            @Html.DisplayFor(model => model.Forfait.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Forfait.DescriptionForfait)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Forfait.Prix)
         </td>
     </tr>
 </table>

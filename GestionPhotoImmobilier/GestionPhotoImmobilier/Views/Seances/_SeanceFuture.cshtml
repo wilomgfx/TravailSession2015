@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.First().Client)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.First().Forfait)
+            @Html.DisplayNameFor(model => model.First().Forfait.Nom)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.First().Commentaire)
@@ -71,7 +71,7 @@
                 @Html.DisplayFor(modelItem => item.Client)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Forfait)
+                @Html.DisplayFor(modelItem => item.Forfait.Nom)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Commentaire)
