@@ -120,6 +120,17 @@ namespace GestionPhotoImmobilier.Controllers
             Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
             //db.Agences.Remove(agence);
             //db.SaveChanges();
+
+            IEnumerable<Agent> lstAgents = unitOfWork.AgentRepository.ObtenirAgentParAgence(agence.AgenceId);
+
+            foreach (Agent ag in lstAgents)
+            {
+                ag.AgenceId = null;
+                ag.Agence = null;
+
+                unitOfWork.AgentRepository.Update(ag);
+            }
+
             unitOfWork.AgenceRepository.DeleteAgence(agence);
             unitOfWork.Save();
             return RedirectToAction("Index");

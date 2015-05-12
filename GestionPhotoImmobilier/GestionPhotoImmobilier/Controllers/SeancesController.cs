@@ -102,12 +102,23 @@ namespace GestionPhotoImmobilier.Controllers
                 bool aUnRDV = false;
 
                 sRdv.SeanceId = sea.SeanceId;
-                sRdv.Agent = sea.Agent.Nom;
+
+                if (sea.Agent != null)
+                    sRdv.Agent = sea.Agent.Nom;
+                else
+                    sRdv.Agent = null;
+
                 sRdv.Client = sea.Client;
                 sRdv.Commentaire = sea.Commentaire;
                 sRdv.DateSeance = sea.DateSeance;
+
                 Forfait forfait = unitOfWork.ForfaitRepository.GetByID(sea.ForfaitId);
-                sRdv.Forfait = forfait;
+
+                if (forfait != null)
+                    sRdv.Forfait = forfait;
+                else
+                    sRdv.Forfait = null;
+
                 sRdv.Statut = sea.Statut;
                 sRdv.Photographe = sea.Photographe;
 

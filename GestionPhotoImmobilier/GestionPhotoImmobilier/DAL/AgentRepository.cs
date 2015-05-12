@@ -28,6 +28,11 @@ namespace GestionPhotoImmobilier.DAL
             return Get(filter: r => r.AgentId == id);
         }
 
+        public IEnumerable<Agent> ObtenirAgentParAgence(int? id)
+        {
+            return Get(filter: a => a.AgenceId == id);
+        }
+
         public void InsertAgent(Agent Agent) { Insert(Agent); }
         public void DeleteAgent(Agent Agent) { Delete(Agent); }
         public void UpdateAgent(Agent Agent) { Update(Agent); }
