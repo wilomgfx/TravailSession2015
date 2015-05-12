@@ -19,9 +19,9 @@ namespace GestionPhotoImmobilier.DAL
         {
             return Get();
         }
-        public void InsertAgent(Forfait Forfait) { Insert(Forfait); }
-        public void DeleteAgent(Forfait Forfait) { Delete(Forfait); }
-        public void UpdateAgent(Forfait Forfait) { Update(Forfait); }
+        public void InsertForfait(Forfait Forfait) { Insert(Forfait); }
+        public void DeleteForfait(Forfait Forfait) { Delete(Forfait); }
+        public void UpdateForfait(Forfait Forfait) { Update(Forfait); }
 
 
 

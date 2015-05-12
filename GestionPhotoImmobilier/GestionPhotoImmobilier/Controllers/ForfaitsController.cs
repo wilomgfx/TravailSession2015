@@ -7,17 +7,20 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
+using GestionPhotoImmobilier.DAL;
 
 namespace GestionPhotoImmobilier.Controllers
 {
     public class ForfaitsController : Controller
     {
-        private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
+        //private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
+          private UnitOfWork unitOfWork = new UnitOfWork();
+
 
         // GET: Forfaits
         public ActionResult Index()
         {
-            return View(db.Forfaits.ToList());
+            return View(unitOfWork.ForfaitRepository.ObtenirForfait().ToList());
         }
 
         // GET: Forfaits/Details/5
@@ -27,7 +30,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Forfait forfait = db.Forfaits.Find(id);
+            Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
             if (forfait == null)
             {
                 return HttpNotFound();
@@ -50,8 +53,10 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Forfaits.Add(forfait);
-                db.SaveChanges();
+
+                unitOfWork.ForfaitRepository.InsertForfait(forfait);
+                unitOfWork.Save();
+
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +70,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Forfait forfait = db.Forfaits.Find(id);
+            Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
             if (forfait == null)
             {
                 return HttpNotFound();
@@ -82,8 +87,8 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(forfait).State = EntityState.Modified;
-                db.SaveChanges();
+                unitOfWork.ForfaitRepository.UpdateForfait(forfait);
+                unitOfWork.Save();
                 return RedirectToAction("Index");
             }
             return View(forfait);
@@ -96,7 +101,7 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Forfait forfait = db.Forfaits.Find(id);
+            Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id); ;
             if (forfait == null)
             {
                 return HttpNotFound();
@@ -109,9 +114,9 @@ namespace GestionPhotoImmobilier.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Forfait forfait = db.Forfaits.Find(id);
-            db.Forfaits.Remove(forfait);
-            db.SaveChanges();
+            Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
+            unitOfWork.ForfaitRepository.DeleteForfait(forfait);
+            unitOfWork.Save();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +124,7 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                unitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }
