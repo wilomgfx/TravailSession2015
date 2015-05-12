@@ -13,15 +13,13 @@ namespace GestionPhotoImmobilier.Controllers
 {
     public class ForfaitsController : Controller
     {
-        private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
         //private H15_PROJET_E03Entities db = new H15_PROJET_E03Entities();
-          private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork = new UnitOfWork();
 
 
         // GET: Forfaits
         public ActionResult Index()
         {
-            return View(db.Forfaits.ToList());
             return View(unitOfWork.ForfaitRepository.ObtenirForfait().ToList());
         }
 
@@ -32,7 +30,6 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Forfait forfait = db.Forfaits.Find(id);
             Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
             if (forfait == null)
             {
@@ -56,8 +53,6 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Forfaits.Add(forfait);
-                db.SaveChanges();
 
                 unitOfWork.ForfaitRepository.InsertForfait(forfait);
                 unitOfWork.Save();
@@ -75,7 +70,6 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Forfait forfait = db.Forfaits.Find(id);
             Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
             if (forfait == null)
             {
@@ -93,8 +87,6 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(forfait).State = EntityState.Modified;
-                db.SaveChanges();
                 unitOfWork.ForfaitRepository.UpdateForfait(forfait);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
@@ -109,7 +101,6 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Forfait forfait = db.Forfaits.Find(id);
             Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id); ;
             if (forfait == null)
             {
@@ -123,9 +114,6 @@ namespace GestionPhotoImmobilier.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Forfait forfait = db.Forfaits.Find(id);
-            db.Forfaits.Remove(forfait);
-            db.SaveChanges();
             Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
             unitOfWork.ForfaitRepository.DeleteForfait(forfait);
             unitOfWork.Save();
@@ -136,7 +124,6 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
                 unitOfWork.Dispose();
             }
             base.Dispose(disposing);
