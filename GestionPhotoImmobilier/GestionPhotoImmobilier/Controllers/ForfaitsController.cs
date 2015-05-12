@@ -115,6 +115,14 @@ namespace GestionPhotoImmobilier.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(id);
+            IEnumerable<Seance> lstSeances = unitOfWork.SeanceRepository.ObtenirSeanceParForfait(forfait.ForfaitId);
+
+            foreach (Seance sea in lstSeances)
+            {
+                sea.Forfait = null;
+                unitOfWork.SeanceRepository.Update(sea);
+            }
+
             unitOfWork.ForfaitRepository.DeleteForfait(forfait);
             unitOfWork.Save();
             return RedirectToAction("Index");

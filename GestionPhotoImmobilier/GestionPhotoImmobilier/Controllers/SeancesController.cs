@@ -193,7 +193,7 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,Forfait,Commentaire,Statut,ProprieteId")] Seance seance)
+        public ActionResult Create([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,ForfaitId,Commentaire,Statut,ProprieteId")] Seance seance)
         {
             if (ModelState.IsValid)
             {
@@ -239,7 +239,7 @@ namespace GestionPhotoImmobilier.Controllers
             SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
             ViewBag.ProprieteId = ProprieteId;
 
-            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom");
+            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom", seance.ForfaitId);
             ViewBag.ForfaitId = ForfaitId;
             return View(seance);
         }
@@ -249,7 +249,7 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,Forfait,Commentaire,Statut,ProprieteId")] Seance seance)
+        public ActionResult Edit([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,ForfaitId,Commentaire,Statut,ProprieteId")] Seance seance)
         {
             if (ModelState.IsValid)
             {
