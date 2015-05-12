@@ -16,8 +16,20 @@ namespace GestionPhotoImmobilier.DAL
         private RdvRepository rdvrepository;
         private PhotoRepository photoRepository;
         private ProprieteRepository proprieteRepository;
+        private ForfaitRepository forfaitRepository;
 
+        public ForfaitRepository ForfaitRepository
+        {
+            get
+            {
 
+                if (this.forfaitRepository == null)
+                {
+                    this.forfaitRepository = new ForfaitRepository(context);
+                }
+                return forfaitRepository;
+            }
+        }
         public AgentRepository AgentRepository
         {
             get
