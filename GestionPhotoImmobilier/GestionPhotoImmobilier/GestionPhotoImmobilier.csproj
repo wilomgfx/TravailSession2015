@@ -127,6 +127,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AgencesController.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
+    <Compile Include="Controllers\ForfaitsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Controllers\ProprietesController.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Controllers\SeancesController.cs" />
     <Compile Include="DAL\AgenceRepository.cs" />
     <Compile Include="DAL\AgentRepository.cs" />
+    <Compile Include="DAL\ForfaitRepository.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="DAL\IGenericRepository.cs" />
     <Compile Include="DAL\IUnitOfWork.cs" />
@@ -288,6 +290,11 @@
     <Content Include="Views\Agences\Details.cshtml" />
     <Content Include="Views\Agences\Edit.cshtml" />
     <Content Include="Views\Agences\Index.cshtml" />
+    <Content Include="Views\Forfaits\Create.cshtml" />
+    <Content Include="Views\Forfaits\Delete.cshtml" />
+    <Content Include="Views\Forfaits\Details.cshtml" />
+    <Content Include="Views\Forfaits\Edit.cshtml" />
+    <Content Include="Views\Forfaits\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
