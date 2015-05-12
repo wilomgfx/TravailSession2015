@@ -40,6 +40,9 @@ namespace GestionPhotoImmobilier.Controllers
         // GET: Agents/Create
         public ActionResult Create()
         {
+            SelectList AgenceId = new SelectList(unitOfWork.AgenceRepository.ObtenirAgence(), "AgenceId", "Nom");
+            ViewBag.AgenceId = AgenceId;
+
             return View();
         }
 
@@ -48,14 +51,20 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AgentId,Nom")] Agent agent)
+        public ActionResult Create([Bind(Include = "AgentId,Nom,AgenceId")] Agent agent)
         {
             if (ModelState.IsValid)
             {
+                Agence agence = unitOfWork.AgenceRepository.ObtenirAgenceParID(agent.AgenceId);
+                agent.Agence = agence;
+
                 unitOfWork.AgentRepository.InsertAgent(agent);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
+
+            SelectList AgenceId = new SelectList(unitOfWork.AgenceRepository.ObtenirAgence(), "AgenceId", "Nom", agent.AgenceId);
+            ViewBag.AgenceId = AgenceId;
 
             return View(agent);
         }
@@ -72,6 +81,9 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return HttpNotFound();
             }
+            SelectList AgenceId = new SelectList(unitOfWork.AgenceRepository.ObtenirAgence(), "AgenceId", "Nom", agent.AgenceId);
+            ViewBag.AgenceId = AgenceId;
+
             return View(agent);
         }
 
@@ -80,14 +92,26 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AgentId,Nom")] Agent agent)
+        public ActionResult Edit([Bind(Include = "AgentId,Nom,AgenceId")] Agent agent)
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.AgentRepository.UpdateAgent(agent);
+                Agence age = unitOfWork.AgenceRepository.ObtenirAgenceParID(agent.AgenceId);
+
+                Agent vraiAgent = unitOfWork.AgentRepository.ObtenirAgentParID(agent.AgentId);
+
+                vraiAgent.Agence = age;
+                vraiAgent.AgenceId = age.AgenceId;
+                vraiAgent.Nom = agent.Nom;
+                vraiAgent.Seances = agent.Seances;
+
+                unitOfWork.AgentRepository.UpdateAgent(vraiAgent);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
+            SelectList AgenceId = new SelectList(unitOfWork.AgenceRepository.ObtenirAgence(), "AgenceId", "Nom", agent.AgenceId);
+            ViewBag.AgenceId = AgenceId;
+
             return View(agent);
         }
 
@@ -112,6 +136,25 @@ namespace GestionPhotoImmobilier.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Agent agent = unitOfWork.AgentRepository.ObtenirAgentParID(id);
+
+            Agence age = unitOfWork.AgenceRepository.ObtenirAgenceParID(agent.AgenceId);
+
+            if (age != null)
+            {
+                age.Agents.Remove(agent);
+                unitOfWork.AgenceRepository.Update(age);
+            }
+
+            IEnumerable<Seance> seancesDagent = unitOfWork.SeanceRepository.ObtenirSeanceParAgent(agent.AgentId);
+
+            foreach (Seance sea in seancesDagent)
+            {
+                sea.AgentId = null;
+                sea.Agent = null;
+
+                unitOfWork.SeanceRepository.Update(sea);
+            }
+
             unitOfWork.AgentRepository.DeleteAgent(agent);
             unitOfWork.Save();
             return RedirectToAction("Index");

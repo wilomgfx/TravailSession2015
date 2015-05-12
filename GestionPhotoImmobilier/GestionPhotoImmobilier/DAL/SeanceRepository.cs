@@ -45,6 +45,11 @@ namespace GestionPhotoImmobilier.DAL
             return Get(filter: s => s.ForfaitId == id);
         }
 
+        public IEnumerable<Seance> ObtenirSeanceParAgent(int? id)
+        {
+            return Get(filter: s => s.AgentId == id);
+        }
+
         /*public IEnumerable<Seance> obtenirSeancsRechercheSearch(string recherche)
         {
             IEnumerable<Seance> seances;

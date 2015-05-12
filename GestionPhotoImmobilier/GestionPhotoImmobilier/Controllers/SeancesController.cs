@@ -208,13 +208,13 @@ namespace GestionPhotoImmobilier.Controllers
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
-            SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
+            SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom", seance.AgentId);
             ViewBag.AgentId = AgentId;
 
-            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
+            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse", seance.ProprieteId);
             ViewBag.ProprieteId = ProprieteId;
 
-            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom");
+            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom", seance.ForfaitId);
             ViewBag.ForfaitId = ForfaitId;
 
             return View(seance);
@@ -236,7 +236,7 @@ namespace GestionPhotoImmobilier.Controllers
             SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom", seance.AgentId);
             ViewBag.AgentId = AgentId;
 
-            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
+            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse", seance.ProprieteId);
             ViewBag.ProprieteId = ProprieteId;
 
             SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom", seance.ForfaitId);
@@ -279,13 +279,13 @@ namespace GestionPhotoImmobilier.Controllers
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
-            SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom");
+            SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom", seance.AgentId);
             ViewBag.AgentId = AgentId;
 
-            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse");
+            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse", seance.ProprieteId);
             ViewBag.ProprieteId = ProprieteId;
 
-            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom");
+            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom", seance.ForfaitId);
             ViewBag.ForfaitId = ForfaitId;
 
             return View(seance);
@@ -312,6 +312,18 @@ namespace GestionPhotoImmobilier.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Seance seance = unitOfWork.SeanceRepository.ObtenirSeanceParID(id);
+            IEnumerable<Rdv> rdvsSeance = unitOfWork.RdvRepository.ObtenirRdvDeLaSeance(seance.SeanceId);
+
+            foreach (Rdv rdv in rdvsSeance)
+            {
+                unitOfWork.RdvRepository.Delete(rdv);
+            }
+
+            Forfait forf = unitOfWork.ForfaitRepository.GetByID(seance.ForfaitId);
+
+            if(forf != null)
+                forf.Seances.Remove(seance);
+
             unitOfWork.SeanceRepository.DeleteSeance(seance);
             unitOfWork.Save();
             return RedirectToAction("Index");
