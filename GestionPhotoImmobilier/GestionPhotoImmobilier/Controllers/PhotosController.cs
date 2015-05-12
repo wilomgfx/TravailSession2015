@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
 using GestionPhotoImmobilier.DAL;
+using System.IO;
+using System.Security.AccessControl;
+using System.Configuration;
 
 namespace GestionPhotoImmobilier.Controllers
 {
@@ -32,7 +35,13 @@ namespace GestionPhotoImmobilier.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //Photo photo = db.Photos.Find(id);
+            var cheminBase = AppDomain.CurrentDomain.BaseDirectory + @"Images\Photos\";
+
+            DirectorySecurity securityRules = new DirectorySecurity();
+            securityRules.AddAccessRule(new FileSystemAccessRule(ConfigurationManager.AppSettings["monUserName"], FileSystemRights.FullControl, AccessControlType.Allow));
+
             var photo = unitofwork.PhotoRepository.ObtenirPhotoParID(id);
+            ViewBag.cheminBase = "\\Images\\Photos\\"+ photo.Chemin;
             if (photo == null)
             {
                 return HttpNotFound();
@@ -53,12 +62,29 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PhotoId,TypeFichier,Chemin,ProprieteId")] Photo photo)
+        public ActionResult Create([Bind(Include = "PhotoId,TypeFichier,Chemin,ProprieteId")] Photo photo, IEnumerable<HttpPostedFileBase> imageFile)
         {
             if (ModelState.IsValid)
             {
-                //db.Photos.Add(photo);
-                //db.SaveChanges();
+                
+                var cheminBase = AppDomain.CurrentDomain.BaseDirectory + @"Images\Photos\";
+                //définir les droits d’accès
+                DirectorySecurity securityRules = new DirectorySecurity();
+                securityRules.AddAccessRule(new FileSystemAccessRule(ConfigurationManager.AppSettings["monUserName"], FileSystemRights.FullControl, AccessControlType.Allow));
+                var baserepertoire = Directory.CreateDirectory(cheminBase + photo.ProprieteId, securityRules);
+
+
+                //Soit file le fichier uploadé. la sauvegarde dans le répertoire de ce fichier:
+                foreach (var file in imageFile)
+                {
+                    //sauvegarde dans le local le dossier
+                    var chemin = cheminBase + baserepertoire + @"/" + Path.GetFileName(file.FileName);
+                    var cheminReplaced = chemin.Replace('\\','/');
+                    file.SaveAs(chemin);
+                    photo.TypeFichier = file.FileName.Substring(file.FileName.LastIndexOf('.')+1);
+                    photo.Chemin = photo.ProprieteId +"/" +  file.FileName;
+                }
+
                 unitofwork.PhotoRepository.InsertPhoto(photo);
                 unitofwork.Save();
                 return RedirectToAction("Index");
@@ -76,7 +102,6 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //Photo photo = db.Photos.Find(id);
             Photo photo = unitofwork.PhotoRepository.ObtenirPhotoParID(id);
             if (photo == null)
             {

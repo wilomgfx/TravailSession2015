@@ -35,6 +35,8 @@
         </dd>
 
     </dl>
+    @{var cheminBase = ViewBag.cheminBase;}
+    <img src="@cheminBase" />
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
