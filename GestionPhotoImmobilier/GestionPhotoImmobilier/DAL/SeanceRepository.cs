@@ -8,7 +8,8 @@ namespace GestionPhotoImmobilier.DAL
 {
     public class SeanceRepository : GenericRepository<Seance>
     {
-        public SeanceRepository(GestionPhotoImmobilierEntities context) : base(context) { }
+        //public SeanceRepository(H15_PROJET_E03Entities context) : base(context) { }
+        public SeanceRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
 
         public IEnumerable<Seance> ObtenirSeance()
         {
@@ -26,13 +27,35 @@ namespace GestionPhotoImmobilier.DAL
                 idVrai = int.Parse(parsed);
             }
 
-            return Get(filter: s => s.SeanceId == idVrai, includeProperties: "Rdvs").First();
+            return Get(filter: s => s.SeanceId == idVrai, includeProperties: "Rdvs,Agent,Propriete").First();
         }
 
         public Seance ObtenirSeanceParID(int? id)
         {
             return GetByID(id);
         }
+
+        public IEnumerable<Seance> ObtenirSeanceFutures(DateTime date)
+        {
+            return Get(filter: s => s.DateSeance > date, includeProperties:"Rdvs");
+        }
+
+
+        public IEnumerable<Seance> ObtenirSeanceParForfait(int? id)
+        {
+            return Get(filter: s => s.ForfaitId == id);
+        }
+
+        public IEnumerable<Seance> ObtenirSeanceParAgent(int? id)
+        {
+            return Get(filter: s => s.AgentId == id);
+        }
+
+        /*public IEnumerable<Seance> obtenirSeancsRechercheSearch(string recherche)
+        {
+            IEnumerable<Seance> seances;
+            seances = (!String.IsNullOrEmpty(recherche)) ? Get(filter: s => (s.Photographe.Contains(recherche.ToUpper())) || (s.FirstName.ToUpper().Contains(recherche.ToUpper()))) : Get();)
+        }*/
 
         public void InsertSeance(Seance Seance) { Insert(Seance); }
         public void DeleteSeance(Seance Seance) { Delete(Seance); }

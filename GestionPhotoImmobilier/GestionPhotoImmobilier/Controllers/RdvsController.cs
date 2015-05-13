@@ -65,38 +65,32 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                //IEnumerable<Rdv> rdvsSeanceReliee = null;
+                Seance seanceModifiée = unitOfWork.SeanceRepository.ObtenirSeanceParID(rdv.SeanceId);
 
-                //try
-                //{
-                //    rdvsSeanceReliee = unitOfWork.SeanceRepository.ObtenirSeanceParID(rdv.SeanceId).Rdvs;
-                //}
-                //catch
-                //{
-                //    ModelState.AddModelError("", "La Seance n'existe pas.");
-                //    return View(rdv);
-                //}
+                List<Rdv> lstRdvs = new List<Rdv>();
+                lstRdvs.Add(rdv);
 
-                //List<Rdv> lstRdvsNouveaux = new List<Rdv>();
+                seanceModifiée.Rdvs = lstRdvs;
+                rdv.Seance = seanceModifiée;
 
-                //foreach (var item in rdvsSeanceReliee)
-                //{
-                //    Rdv unRdv = item;
-                //    lstRdvsNouveaux.Add(unRdv);
-                //}
-
-                //lstRdvsNouveaux.Add(rdv);
-
-                //Seance seanceOrig = unitOfWork.SeanceRepository.ObtenirSeanceParID(rdv.SeanceId);
-
-                //seanceOrig.Rdvs = lstRdvsNouveaux;
-
-                //unitOfWork.RdvRepository.InsertRdv(rdv);
-                //unitOfWork.SeanceRepository.UpdateSeance(seanceOrig);
+                unitOfWork.SeanceRepository.Update(seanceModifiée);
                 unitOfWork.RdvRepository.Insert(rdv);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
+
+            List<Seance> lstSeancesValides = new List<Seance>();
+
+            foreach (var item in unitOfWork.SeanceRepository.ObtenirSeance())
+            {
+                IEnumerable<Rdv> rdvs = unitOfWork.RdvRepository.ObtenirRdvDeLaSeance(item.SeanceId);
+
+                if (rdvs.Count() == 0)
+                    lstSeancesValides.Add(item);
+            }
+
+            SelectList seances = new SelectList(lstSeancesValides, "SeanceId", "DateSeance");
+            ViewBag.SeanceId = seances;
 
             return View(rdv);
         }
@@ -125,10 +119,38 @@ namespace GestionPhotoImmobilier.Controllers
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.RdvRepository.UpdateRdv(rdv);
+                Seance seanceLiee = unitOfWork.SeanceRepository.ObtenirSeanceParID(rdv.SeanceId);
+                Rdv rdvOriginal = unitOfWork.RdvRepository.ObtenirRdvParID(rdv.RdvId);
+
+                rdvOriginal.Client = rdv.Client;
+                rdvOriginal.Confirmer = rdv.Confirmer;
+                rdvOriginal.Photographe = rdv.Photographe;
+                rdvOriginal.Seance = seanceLiee;
+                rdvOriginal.SeanceId = rdv.SeanceId;
+
+                List<Rdv> lstRdvs = new List<Rdv>();
+                lstRdvs.Add(rdvOriginal);
+                seanceLiee.Rdvs = lstRdvs;
+
+                unitOfWork.SeanceRepository.Update(seanceLiee);
+                unitOfWork.RdvRepository.UpdateRdv(rdvOriginal);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
             }
+
+            List<Seance> lstSeancesValides = new List<Seance>();
+
+            foreach (var item in unitOfWork.SeanceRepository.ObtenirSeance())
+            {
+                IEnumerable<Rdv> rdvs = unitOfWork.RdvRepository.ObtenirRdvDeLaSeance(item.SeanceId);
+
+                if (rdvs.Count() == 0)
+                    lstSeancesValides.Add(item);
+            }
+
+            SelectList seances = new SelectList(lstSeancesValides, "SeanceId", "DateSeance");
+            ViewBag.SeanceId = seances;
+
             return View(rdv);
         }
 
@@ -153,6 +175,11 @@ namespace GestionPhotoImmobilier.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Rdv rdv = unitOfWork.RdvRepository.ObtenirRdvParID(id);
+            Seance seanceLiee = unitOfWork.SeanceRepository.ObtenirSeanceParID(rdv.SeanceId);
+
+            seanceLiee.Rdvs = null;
+
+            unitOfWork.SeanceRepository.Update(seanceLiee);
             unitOfWork.RdvRepository.DeleteRdv(rdv);
             unitOfWork.Save();
             return RedirectToAction("Index");

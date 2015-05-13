@@ -9,10 +9,56 @@ namespace GestionPhotoImmobilier.DAL
     public class UnitOfWork : IUnitOfWork
     {
 
-        private GestionPhotoImmobilierEntities context = new GestionPhotoImmobilierEntities();
+        //private H15_PROJET_E03Entities context = new H15_PROJET_E03Entities();
+        private GestionPhotoImmobilierEntities1 context = new GestionPhotoImmobilierEntities1();
 
+
+        private AgenceRepository agenceRepository;
+        private AgentRepository agentRepository;
         private SeanceRepository seancerepository;
         private RdvRepository rdvrepository;
+        private PhotoRepository photoRepository;
+        private ProprieteRepository proprieteRepository;
+        private ForfaitRepository forfaitRepository;
+
+        public ForfaitRepository ForfaitRepository
+        {
+            get
+            {
+
+                if (this.forfaitRepository == null)
+                {
+                    this.forfaitRepository = new ForfaitRepository(context);
+                }
+                return forfaitRepository;
+            }
+        }
+
+        public AgenceRepository AgenceRepository
+        {
+            get
+            {
+
+                if (this.agenceRepository == null)
+                {
+                    this.agenceRepository = new AgenceRepository(context);
+                }
+                return agenceRepository;
+            }
+        }
+
+
+        public AgentRepository AgentRepository
+        {
+            get
+            {
+                if (this.agentRepository == null)
+                {
+                    this.agentRepository = new AgentRepository(context);
+                }
+                return agentRepository;
+            }
+        }
 
         public SeanceRepository SeanceRepository
         {
@@ -38,7 +84,29 @@ namespace GestionPhotoImmobilier.DAL
             }
         }
 
+        public PhotoRepository PhotoRepository
+        {
+            get
+            {
+                if (this.photoRepository == null)
+                {
+                    this.photoRepository = new PhotoRepository(context);
+                }
+                return photoRepository;
+            }
+        }
 
+        public ProprieteRepository ProprieteRepository 
+        {
+            get
+            {
+                if (this.proprieteRepository == null)
+                {
+                    this.proprieteRepository = new ProprieteRepository(context);
+                }
+                return proprieteRepository;
+            }
+        }
 
 
         public void Save()

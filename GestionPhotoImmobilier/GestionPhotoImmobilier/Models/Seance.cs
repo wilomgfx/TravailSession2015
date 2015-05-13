@@ -21,13 +21,18 @@ namespace GestionPhotoImmobilier.Models
     
         public int SeanceId { get; set; }
         public Nullable<System.DateTime> DateSeance { get; set; }
-        public string Agent { get; set; }
         public string Photographe { get; set; }
         public string Client { get; set; }
-        public string Forfait { get; set; }
         public string Commentaire { get; set; }
         public string Statut { get; set; }
+        public Nullable<int> AgentId { get; set; }
+        public Nullable<int> ProprieteId { get; set; }
+        public Nullable<bool> photoDisponible { get; set; }
+        public Nullable<int> ForfaitId { get; set; }
     
+        public virtual Agent Agent { get; set; }
+        public virtual Propriete Propriete { get; set; }
         public virtual ICollection<Rdv> Rdvs { get; set; }
+        public virtual Forfait Forfait { get; set; }
     }
 }

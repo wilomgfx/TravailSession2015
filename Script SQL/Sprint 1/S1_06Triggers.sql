@@ -1,14 +1,14 @@
-USE GestionPhotoImmobilier;
+USE H15_PROJET_E03;
 GO
 
-IF OBJECT_ID('RDV.trg_RDVConfirme') IS NOT NULL
-	DROP TRIGGER RDV.trg_RDVConfirme
+IF OBJECT_ID('Rdv.trg_RDVConfirme') IS NOT NULL
+	DROP TRIGGER Rdv.trg_RDVConfirme
 GO
 
 -- QUAND LE RENDEZ-VOUS EST PRIS, LE STATUT DE LA SÉANCE DEVIENT CONFIRMÉ
 
-CREATE TRIGGER RDV.trg_RDVConfirme
-ON RDV.RDV
+CREATE TRIGGER Rdv.trg_RDVConfirme
+ON Rdv.Rdv
 AFTER UPDATE
 AS
 BEGIN
@@ -21,13 +21,13 @@ BEGIN
 	IF(@statut = 0)
 	BEGIN
 		UPDATE Seance.Seance
-		SET Statut = 'Reportee'
+		SET Statut = 'Reportée'
 		WHERE SeanceId = @idSeance
 	END
 	IF(@statut = 1)
 	BEGIN
 		UPDATE Seance.Seance
-		SET Statut = 'Confirmee'
+		SET Statut = 'Confirmée'
 		WHERE SeanceId = @idSeance
 	END
 END
@@ -62,10 +62,30 @@ BEGIN
 		IF((@hourVieille != @hourNouvelle) OR (@minuteVieille != @minuteNouvelle))
 		BEGIN
 			UPDATE Seance.Seance
-			SET Statut = 'Reportee'
+			SET Statut = 'Reportée'
 			WHERE SeanceId = @idSeance
 		END
 	END
 
 END
+GO
+
+--quand l’agent demande une séance (statut : demandé)
+
+If OBJECT_ID('Seance.trg_SeanceDemandee') IS NOT NULL DROP TRIGGER Seance.trg_SeanceDemandee;
+Go
+
+
+CREATE TRIGGER Seance.trg_SeanceDemandee
+ON Seance.Seance
+FOR INSERT
+AS
+BEGIN
+	DECLARE @SeanceId as int = (Select SeanceId FROM (Select TOP 1 * FROM inserted ORDER BY SeanceId DESC) AS I);
+	
+	UPDATE Seance.Seance
+	SET Statut='Demandée'
+	WHERE SeanceId = @SeanceId;
+	
+  END 
 GO

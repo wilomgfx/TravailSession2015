@@ -1,0 +1,23 @@
+﻿@model GestionPhotoImmobilier.Models.Propriete
+
+<h4>Propriété</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Adresse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ville)
+        </th>
+    </tr>
+
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.Adresse)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Ville)
+        </td>
+    </tr>
+</table>

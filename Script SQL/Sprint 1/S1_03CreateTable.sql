@@ -1,6 +1,5 @@
-USE GestionPhotoImmobilier;
+USE H15_PROJET_E03;
 GO
-
 
 Create table Seance.Seance
 (
@@ -22,3 +21,5 @@ Create table Rdv.Rdv
 	Client nvarchar(50),
 	Photographe nvarchar(50)
 )
+
+

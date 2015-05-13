@@ -1,5 +1,7 @@
 ﻿@*@model IEnumerable<GestionPhotoImmobilier.Models.Seance>*@
-@model List<GestionPhotoImmobilier.ViewModels.SeanceRdv>
+@*model List<GestionPhotoImmobilier.ViewModels.SeanceRdv>*@
+@model PagedList.IPagedList<GestionPhotoImmobilier.ViewModels.SeanceRdv>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -7,10 +9,18 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Créer une nouvelle séance", "Create")
-    @Html.ActionLink("Séance future", "SeanceFuture")
-</p>
+@using (Html.BeginForm("Index","Seances",FormMethod.Get))
+{
+    <p>
+        @Html.ActionLink("Créer une nouvelle séance", "Create") |
+        @Html.ActionLink("Séances futures", "Index", new { showFuture = true })
+    </p>
+    <p>
+        Par Photographe: @Html.TextBox("searchPhotographe", ViewBag.CurrentFilter as string)
+        Par Statut: @Html.TextBox("searchStatut", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Rechercher" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -76,7 +86,7 @@
             @Html.DisplayFor(modelItem => item.Client)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Forfait)
+            @Html.DisplayFor(modelItem => item.Forfait.Nom)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Commentaire)
@@ -92,10 +102,25 @@
         </td>
         <td>
             @Html.ActionLink("Modifier", "Edit", new { id=item.SeanceId }) |
-            @Html.ActionLink("Détails", "Details", new { id=item.SeanceId }) |
+            @Html.ActionLink("Détails", "Sommaire", new { id=item.SeanceId }) |
             @Html.ActionLink("Supprimer", "Delete", new { id=item.SeanceId })
         </td>
     </tr>
 }
 
 </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
+@if (ViewBag.showFuture)
+{
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, showFuture = true }))
+}
+else
+{
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+}
+
+@if(ViewBag.showFuture)
+{ 
+    @Html.Partial("_SeanceFuture", (PagedList.IPagedList<GestionPhotoImmobilier.ViewModels.SeanceRdv>)ViewBag.seancesFutures)
+}

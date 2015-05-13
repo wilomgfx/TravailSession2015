@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GestionPhotoImmobilier.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace GestionPhotoImmobilier.ViewModels
         [DisplayName("Photographe Séance")]
         public string Photographe { get; set; }
         public string Client { get; set; }
-        public string Forfait { get; set; }
+        public Forfait Forfait { get; set; }
         public string Commentaire { get; set; }
         public string Statut { get; set; }
         //rdv

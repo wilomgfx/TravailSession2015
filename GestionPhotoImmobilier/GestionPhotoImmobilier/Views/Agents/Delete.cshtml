@@ -1,0 +1,39 @@
+﻿@model GestionPhotoImmobilier.Models.Agent
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Supprimer</h2>
+
+<h3>Êtes-vous certain de vouloir suppprimer cet agent ?</h3>
+<div>
+    <h4>Agent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Agence)
+        </dt>
+
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.Agence.Nom)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Retouner à la liste", "Index")
+        </div>
+    }
+</div>

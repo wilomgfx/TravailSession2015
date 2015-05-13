@@ -4,7 +4,42 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GestionPhotoImmobilierModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GestionPhotoImmobilierModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Agence">
+          <Key>
+            <PropertyRef Name="AgenceId" />
+          </Key>
+          <Property Name="AgenceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" />
+          <Property Name="Adresse" Type="nvarchar" MaxLength="50" />
+          <Property Name="NumTel" Type="nvarchar" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="Agent">
+          <Key>
+            <PropertyRef Name="AgentId" />
+          </Key>
+          <Property Name="AgentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" />
+          <Property Name="AgenceId" Type="int" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="PhotoId" />
+          </Key>
+          <Property Name="PhotoId" Type="int" Nullable="false" />
+          <Property Name="TypeFichier" Type="nvarchar" MaxLength="4" />
+          <Property Name="Chemin" Type="nvarchar" MaxLength="255" />
+          <Property Name="ProprieteId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Propriete">
+          <Key>
+            <PropertyRef Name="ProprieteId" />
+          </Key>
+          <Property Name="ProprieteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Client" Type="nvarchar" MaxLength="50" />
+          <Property Name="Adresse" Type="nvarchar" MaxLength="235" />
+          <Property Name="Ville" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Rdv">
           <Key>
             <PropertyRef Name="RdvId" />
@@ -15,19 +50,54 @@
           <Property Name="Photographe" Type="nvarchar" MaxLength="50" />
           <Property Name="SeanceId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Forfait">
+          <Key>
+            <PropertyRef Name="ForfaitId" />
+          </Key>
+          <Property Name="ForfaitId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" />
+          <Property Name="DescriptionForfait" Type="nvarchar" MaxLength="200" />
+          <Property Name="Prix" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Seance">
           <Key>
             <PropertyRef Name="SeanceId" />
           </Key>
           <Property Name="SeanceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DateSeance" Type="datetime" />
-          <Property Name="Agent" Type="nvarchar" MaxLength="50" />
           <Property Name="Photographe" Type="nvarchar" MaxLength="50" />
           <Property Name="Client" Type="nvarchar" MaxLength="50" />
-          <Property Name="Forfait" Type="nvarchar" MaxLength="50" />
           <Property Name="Commentaire" Type="nvarchar" MaxLength="375" />
           <Property Name="Statut" Type="nvarchar" MaxLength="50" />
+          <Property Name="AgentId" Type="int" />
+          <Property Name="ProprieteId" Type="int" />
+          <Property Name="photoDisponible" Type="bit" />
+          <Property Name="ForfaitId" Type="int" />
         </EntityType>
+        <Association Name="FK_Agent_AgenceId">
+          <End Role="Agence" Type="Self.Agence" Multiplicity="0..1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agence">
+              <PropertyRef Name="AgenceId" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="AgenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Propriete_ProprieteId">
+          <End Role="Propriete" Type="Self.Propriete" Multiplicity="1" />
+          <End Role="Photo" Type="Self.Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Propriete">
+              <PropertyRef Name="ProprieteId" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="ProprieteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RDV_SeanceID">
           <End Role="Seance" Type="Self.Seance" Multiplicity="1" />
           <End Role="Rdv" Type="Self.Rdv" Multiplicity="*" />
@@ -40,19 +110,120 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Seance_AgentId">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
+          <End Role="Seance" Type="Self.Seance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="AgentId" />
+            </Principal>
+            <Dependent Role="Seance">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seance_ForfaitId">
+          <End Role="Forfait" Type="Self.Forfait" Multiplicity="0..1" />
+          <End Role="Seance" Type="Self.Seance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Forfait">
+              <PropertyRef Name="ForfaitId" />
+            </Principal>
+            <Dependent Role="Seance">
+              <PropertyRef Name="ForfaitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seance_ProprieteId">
+          <End Role="Propriete" Type="Self.Propriete" Multiplicity="0..1" />
+          <End Role="Seance" Type="Self.Seance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Propriete">
+              <PropertyRef Name="ProprieteId" />
+            </Principal>
+            <Dependent Role="Seance">
+              <PropertyRef Name="ProprieteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="GestionPhotoImmobilierModelStoreContainer">
+          <EntitySet Name="Agence" EntityType="Self.Agence" Schema="Agences" store:Type="Tables" />
+          <EntitySet Name="Agent" EntityType="Self.Agent" Schema="Agences" store:Type="Tables" />
+          <EntitySet Name="Photo" EntityType="Self.Photo" Schema="Proprietes" store:Type="Tables" />
+          <EntitySet Name="Propriete" EntityType="Self.Propriete" Schema="Proprietes" store:Type="Tables" />
           <EntitySet Name="Rdv" EntityType="Self.Rdv" Schema="Rdv" store:Type="Tables" />
+          <EntitySet Name="Forfait" EntityType="Self.Forfait" Schema="Seance" store:Type="Tables" />
           <EntitySet Name="Seance" EntityType="Self.Seance" Schema="Seance" store:Type="Tables" />
+          <AssociationSet Name="FK_Agent_AgenceId" Association="Self.FK_Agent_AgenceId">
+            <End Role="Agence" EntitySet="Agence" />
+            <End Role="Agent" EntitySet="Agent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Propriete_ProprieteId" Association="Self.FK_Propriete_ProprieteId">
+            <End Role="Propriete" EntitySet="Propriete" />
+            <End Role="Photo" EntitySet="Photo" />
+          </AssociationSet>
           <AssociationSet Name="FK_RDV_SeanceID" Association="Self.FK_RDV_SeanceID">
             <End Role="Seance" EntitySet="Seance" />
             <End Role="Rdv" EntitySet="Rdv" />
           </AssociationSet>
+          <AssociationSet Name="FK_Seance_AgentId" Association="Self.FK_Seance_AgentId">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="Seance" EntitySet="Seance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seance_ForfaitId" Association="Self.FK_Seance_ForfaitId">
+            <End Role="Forfait" EntitySet="Forfait" />
+            <End Role="Seance" EntitySet="Seance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seance_ProprieteId" Association="Self.FK_Seance_ProprieteId">
+            <End Role="Propriete" EntitySet="Propriete" />
+            <End Role="Seance" EntitySet="Seance" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GestionPhotoImmobilierModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Agence">
+          <Key>
+            <PropertyRef Name="AgenceId" />
+          </Key>
+          <Property Name="AgenceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Adresse" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumTel" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Agents" Relationship="Self.FK_Agent_AgenceId" FromRole="Agence" ToRole="Agent" />
+        </EntityType>
+        <EntityType Name="Agent">
+          <Key>
+            <PropertyRef Name="AgentId" />
+          </Key>
+          <Property Name="AgentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgenceId" Type="Int32" />
+          <NavigationProperty Name="Agence" Relationship="Self.FK_Agent_AgenceId" FromRole="Agent" ToRole="Agence" />
+          <NavigationProperty Name="Seances" Relationship="Self.FK_Seance_AgentId" FromRole="Agent" ToRole="Seance" />
+        </EntityType>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="PhotoId" />
+          </Key>
+          <Property Name="PhotoId" Type="Int32" Nullable="false" />
+          <Property Name="TypeFichier" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Chemin" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ProprieteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Propriete" Relationship="Self.FK_Propriete_ProprieteId" FromRole="Photo" ToRole="Propriete" />
+        </EntityType>
+        <EntityType Name="Propriete">
+          <Key>
+            <PropertyRef Name="ProprieteId" />
+          </Key>
+          <Property Name="ProprieteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Adresse" Type="String" MaxLength="235" FixedLength="false" Unicode="true" />
+          <Property Name="Ville" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Photos" Relationship="Self.FK_Propriete_ProprieteId" FromRole="Propriete" ToRole="Photo" />
+          <NavigationProperty Name="Seances" Relationship="Self.FK_Seance_ProprieteId" FromRole="Propriete" ToRole="Seance" />
+        </EntityType>
         <EntityType Name="Rdv">
           <Key>
             <PropertyRef Name="RdvId" />
@@ -64,20 +235,83 @@
           <Property Name="SeanceId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Seance" Relationship="Self.FK_RDV_SeanceID" FromRole="Rdv" ToRole="Seance" />
         </EntityType>
+        <EntityType Name="Forfait">
+          <Key>
+            <PropertyRef Name="ForfaitId" />
+          </Key>
+          <Property Name="ForfaitId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DescriptionForfait" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Prix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Seances" Relationship="Self.FK_Seance_ForfaitId" FromRole="Forfait" ToRole="Seance" />
+        </EntityType>
         <EntityType Name="Seance">
           <Key>
             <PropertyRef Name="SeanceId" />
           </Key>
           <Property Name="SeanceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateSeance" Type="DateTime" Precision="3" />
-          <Property Name="Agent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Photographe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Client" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Forfait" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Commentaire" Type="String" MaxLength="375" FixedLength="false" Unicode="true" />
           <Property Name="Statut" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentId" Type="Int32" />
+          <Property Name="ProprieteId" Type="Int32" />
+          <Property Name="photoDisponible" Type="Boolean" />
+          <Property Name="ForfaitId" Type="Int32" />
+          <NavigationProperty Name="Agent" Relationship="Self.FK_Seance_AgentId" FromRole="Seance" ToRole="Agent" />
+          <NavigationProperty Name="Propriete" Relationship="Self.FK_Seance_ProprieteId" FromRole="Seance" ToRole="Propriete" />
           <NavigationProperty Name="Rdvs" Relationship="Self.FK_RDV_SeanceID" FromRole="Seance" ToRole="Rdv" />
+          <NavigationProperty Name="Forfait" Relationship="Self.FK_Seance_ForfaitId" FromRole="Seance" ToRole="Forfait" />
         </EntityType>
+        <Association Name="FK_Agent_AgenceId">
+          <End Role="Agence" Type="Self.Agence" Multiplicity="0..1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agence">
+              <PropertyRef Name="AgenceId" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="AgenceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seance_AgentId">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
+          <End Role="Seance" Type="Self.Seance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="AgentId" />
+            </Principal>
+            <Dependent Role="Seance">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Propriete_ProprieteId">
+          <End Role="Propriete" Type="Self.Propriete" Multiplicity="1" />
+          <End Role="Photo" Type="Self.Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Propriete">
+              <PropertyRef Name="ProprieteId" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="ProprieteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seance_ProprieteId">
+          <End Role="Propriete" Type="Self.Propriete" Multiplicity="0..1" />
+          <End Role="Seance" Type="Self.Seance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Propriete">
+              <PropertyRef Name="ProprieteId" />
+            </Principal>
+            <Dependent Role="Seance">
+              <PropertyRef Name="ProprieteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RDV_SeanceID">
           <End Role="Seance" Type="Self.Seance" Multiplicity="1" />
           <End Role="Rdv" Type="Self.Rdv" Multiplicity="*" />
@@ -90,12 +324,49 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="GestionPhotoImmobilierEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="FK_Seance_ForfaitId">
+          <End Role="Forfait" Type="Self.Forfait" Multiplicity="0..1" />
+          <End Role="Seance" Type="Self.Seance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Forfait">
+              <PropertyRef Name="ForfaitId" />
+            </Principal>
+            <Dependent Role="Seance">
+              <PropertyRef Name="ForfaitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GestionPhotoImmobilierEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Agences" EntityType="Self.Agence" />
+          <EntitySet Name="Agents" EntityType="Self.Agent" />
+          <EntitySet Name="Photos" EntityType="Self.Photo" />
+          <EntitySet Name="Proprietes" EntityType="Self.Propriete" />
           <EntitySet Name="Rdvs" EntityType="Self.Rdv" />
+          <EntitySet Name="Forfaits" EntityType="Self.Forfait" />
           <EntitySet Name="Seances" EntityType="Self.Seance" />
+          <AssociationSet Name="FK_Agent_AgenceId" Association="Self.FK_Agent_AgenceId">
+            <End Role="Agence" EntitySet="Agences" />
+            <End Role="Agent" EntitySet="Agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seance_AgentId" Association="Self.FK_Seance_AgentId">
+            <End Role="Agent" EntitySet="Agents" />
+            <End Role="Seance" EntitySet="Seances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Propriete_ProprieteId" Association="Self.FK_Propriete_ProprieteId">
+            <End Role="Propriete" EntitySet="Proprietes" />
+            <End Role="Photo" EntitySet="Photos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seance_ProprieteId" Association="Self.FK_Seance_ProprieteId">
+            <End Role="Propriete" EntitySet="Proprietes" />
+            <End Role="Seance" EntitySet="Seances" />
+          </AssociationSet>
           <AssociationSet Name="FK_RDV_SeanceID" Association="Self.FK_RDV_SeanceID">
             <End Role="Seance" EntitySet="Seances" />
             <End Role="Rdv" EntitySet="Rdvs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seance_ForfaitId" Association="Self.FK_Seance_ForfaitId">
+            <End Role="Forfait" EntitySet="Forfaits" />
+            <End Role="Seance" EntitySet="Seances" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -103,7 +374,46 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="GestionPhotoImmobilierModelStoreContainer" CdmEntityContainer="GestionPhotoImmobilierEntities">
+        <EntityContainerMapping StorageEntityContainer="GestionPhotoImmobilierModelStoreContainer" CdmEntityContainer="GestionPhotoImmobilierEntities1">
+          <EntitySetMapping Name="Agences">
+            <EntityTypeMapping TypeName="GestionPhotoImmobilierModel.Agence">
+              <MappingFragment StoreEntitySet="Agence">
+                <ScalarProperty Name="AgenceId" ColumnName="AgenceId" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+                <ScalarProperty Name="NumTel" ColumnName="NumTel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agents">
+            <EntityTypeMapping TypeName="GestionPhotoImmobilierModel.Agent">
+              <MappingFragment StoreEntitySet="Agent">
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="AgenceId" ColumnName="AgenceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photos">
+            <EntityTypeMapping TypeName="GestionPhotoImmobilierModel.Photo">
+              <MappingFragment StoreEntitySet="Photo">
+                <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
+                <ScalarProperty Name="TypeFichier" ColumnName="TypeFichier" />
+                <ScalarProperty Name="Chemin" ColumnName="Chemin" />
+                <ScalarProperty Name="ProprieteId" ColumnName="ProprieteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proprietes">
+            <EntityTypeMapping TypeName="GestionPhotoImmobilierModel.Propriete">
+              <MappingFragment StoreEntitySet="Propriete">
+                <ScalarProperty Name="ProprieteId" ColumnName="ProprieteId" />
+                <ScalarProperty Name="Client" ColumnName="Client" />
+                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+                <ScalarProperty Name="Ville" ColumnName="Ville" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Rdvs">
             <EntityTypeMapping TypeName="GestionPhotoImmobilierModel.Rdv">
               <MappingFragment StoreEntitySet="Rdv">
@@ -115,17 +425,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Forfaits">
+            <EntityTypeMapping TypeName="GestionPhotoImmobilierModel.Forfait">
+              <MappingFragment StoreEntitySet="Forfait">
+                <ScalarProperty Name="ForfaitId" ColumnName="ForfaitId" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="DescriptionForfait" ColumnName="DescriptionForfait" />
+                <ScalarProperty Name="Prix" ColumnName="Prix" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Seances">
             <EntityTypeMapping TypeName="GestionPhotoImmobilierModel.Seance">
               <MappingFragment StoreEntitySet="Seance">
                 <ScalarProperty Name="SeanceId" ColumnName="SeanceId" />
                 <ScalarProperty Name="DateSeance" ColumnName="DateSeance" />
-                <ScalarProperty Name="Agent" ColumnName="Agent" />
                 <ScalarProperty Name="Photographe" ColumnName="Photographe" />
                 <ScalarProperty Name="Client" ColumnName="Client" />
-                <ScalarProperty Name="Forfait" ColumnName="Forfait" />
                 <ScalarProperty Name="Commentaire" ColumnName="Commentaire" />
                 <ScalarProperty Name="Statut" ColumnName="Statut" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="ProprieteId" ColumnName="ProprieteId" />
+                <ScalarProperty Name="photoDisponible" ColumnName="photoDisponible" />
+                <ScalarProperty Name="ForfaitId" ColumnName="ForfaitId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

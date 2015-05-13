@@ -1,0 +1,32 @@
+﻿@model GestionPhotoImmobilier.Models.Agent
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Détails</h2>
+
+<div>
+    <h4>Agent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Agence)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.Agence.Nom)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Modifier", "Edit", new { id = Model.AgentId }) |
+    @Html.ActionLink("Retourner à la liste", "Index")
+</p>
