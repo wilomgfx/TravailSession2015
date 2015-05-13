@@ -9,7 +9,9 @@ namespace GestionPhotoImmobilier.DAL
     public class AgentRepository : GenericRepository<Agent>
     {
 
-        public AgentRepository(H15_PROJET_E03Entities context) : base(context) { }
+        //public AgentRepository(H15_PROJET_E03Entities context) : base(context) { }
+        public AgentRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
+
         public Agent ObtenirAgentParID(int? id)
         {
             return GetByID(id);

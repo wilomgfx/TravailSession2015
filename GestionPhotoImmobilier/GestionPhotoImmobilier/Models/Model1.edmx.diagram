@@ -4,20 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="623aeda323a84358a18b64031e19f0a2" Name="Diagram1">
-        <EntityTypeShape EntityType="H15_PROJET_E03Model.Agence" Width="1.5" PointX="1.5" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="H15_PROJET_E03Model.Agent" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="H15_PROJET_E03Model.Photo" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="H15_PROJET_E03Model.Propriete" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="H15_PROJET_E03Model.Rdv" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="H15_PROJET_E03Model.Forfait" Width="1.5" PointX="3.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="H15_PROJET_E03Model.Seance" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
-        <AssociationConnector Association="H15_PROJET_E03Model.FK_Agent_AgenceId" ManuallyRouted="false" />
-        <AssociationConnector Association="H15_PROJET_E03Model.FK_Seance_AgentId" ManuallyRouted="false" />
-        <AssociationConnector Association="H15_PROJET_E03Model.FK_Propriete_ProprieteId" ManuallyRouted="false" />
-        <AssociationConnector Association="H15_PROJET_E03Model.FK_Seance_ProprieteId" ManuallyRouted="false" />
-        <AssociationConnector Association="H15_PROJET_E03Model.FK_RDV_SeanceID" ManuallyRouted="false" />
-        <AssociationConnector Association="H15_PROJET_E03Model.FK_Seance_ForfaitId" ManuallyRouted="false" />
+      <Diagram DiagramId="8caa3876a54f4576af82907903d25867" Name="Diagram1">
+        <EntityTypeShape EntityType="GestionPhotoImmobilierModel.Agence" Width="1.5" PointX="1.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionPhotoImmobilierModel.Agent" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionPhotoImmobilierModel.Photo" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionPhotoImmobilierModel.Propriete" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionPhotoImmobilierModel.Rdv" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionPhotoImmobilierModel.Forfait" Width="1.5" PointX="3.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GestionPhotoImmobilierModel.Seance" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="GestionPhotoImmobilierModel.FK_Agent_AgenceId" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionPhotoImmobilierModel.FK_Seance_AgentId" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionPhotoImmobilierModel.FK_Propriete_ProprieteId" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionPhotoImmobilierModel.FK_Seance_ProprieteId" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionPhotoImmobilierModel.FK_RDV_SeanceID" ManuallyRouted="false" />
+        <AssociationConnector Association="GestionPhotoImmobilierModel.FK_Seance_ForfaitId" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
