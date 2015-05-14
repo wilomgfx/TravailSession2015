@@ -103,7 +103,8 @@
         <td>
             @Html.ActionLink("Modifier", "Edit", new { id=item.SeanceId }) |
             @Html.ActionLink("Détails", "Sommaire", new { id=item.SeanceId }) |
-            @Html.ActionLink("Supprimer", "Delete", new { id=item.SeanceId })
+            @Html.ActionLink("Supprimer", "Delete", new { id=item.SeanceId }) |
+            @Html.ActionLink("Extras", "Extra", new { id = item.SeanceId })
         </td>
     </tr>
 }

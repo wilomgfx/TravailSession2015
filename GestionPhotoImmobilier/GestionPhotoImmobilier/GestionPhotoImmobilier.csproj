@@ -192,6 +192,7 @@
     <Compile Include="RegleDaffaire\RDVUnique.cs" />
     <Compile Include="RegleDaffaire\Validation4hEntreRendezVous.cs" />
     <Compile Include="RegleDaffaire\SeanceValidation.cs" />
+    <Compile Include="ViewModels\SeanceForfait.cs" />
     <Compile Include="ViewModels\SeanceRdv.cs" />
     <Compile Include="ViewModels\SommaireSeance.cs" />
   </ItemGroup>
@@ -298,6 +299,7 @@
     <Content Include="Views\Forfaits\Details.cshtml" />
     <Content Include="Views\Forfaits\Edit.cshtml" />
     <Content Include="Views\Forfaits\Index.cshtml" />
+    <Content Include="Views\Seances\Extra.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
