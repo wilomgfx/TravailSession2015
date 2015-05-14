@@ -21,6 +21,7 @@
             @Html.DisplayNameFor(model => model.NumTel)
         </th>
         <th></th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -38,6 +39,9 @@
             @Html.ActionLink("Modifier", "Edit", new { id=item.AgenceId }) |
             @Html.ActionLink("Détails", "Details", new { id=item.AgenceId }) |
             @Html.ActionLink("Supprimer", "Delete", new { id=item.AgenceId })
+        </td>
+        <td>
+            @Html.ActionLink("Produire un rapport", "Rapport", new { id=item.AgenceId })
         </td>
     </tr>
 }

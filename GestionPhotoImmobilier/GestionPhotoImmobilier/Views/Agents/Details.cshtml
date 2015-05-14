@@ -1,4 +1,4 @@
-﻿@model GestionPhotoImmobilier.Models.Agent
+﻿@model GestionPhotoImmobilier.ViewModels.AgentRapport
 
 @{
     ViewBag.Title = "Details";
@@ -11,22 +11,91 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Nom)
+            @Html.DisplayNameFor(model => model.Agent.Nom)
         </dt>
         <dt>
-            @Html.DisplayNameFor(model => model.Agence)
+            @Html.DisplayNameFor(model => model.Agent.Agence)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Nom)
+            @Html.DisplayFor(model => model.Agent.Nom)
         </dd>
         <dd>
-            @Html.DisplayFor(model => model.Agence.Nom)
+            @Html.DisplayFor(model => model.Agent.Agence.Nom)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Modifier", "Edit", new { id = Model.AgentId }) |
+    @Html.ActionLink("Modifier", "Edit", new { id = Model.Agent.AgentId }) |
     @Html.ActionLink("Retourner à la liste", "Index")
 </p>
+
+
+<h3>Rapport Annuel</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RapportAgent.First().DateSeance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RapportAgent.First().Photographe)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RapportAgent.First().Forfait)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RapportAgent.First().Statut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RapportAgent.First().Extras)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RapportAgent.First().Adresse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RapportAgent.First().Ville)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RapportAgent.First().Propriétaire)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RapportAgent.First().Prix)
+        </th>
+    </tr>
+
+    @{
+        foreach (var item in Model.RapportAgent)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.DateSeance)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Photographe)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Forfait)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Statut)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Extras)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Adresse)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Ville)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Propriétaire)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Prix)
+                </td>
+            </tr>
+        }
+    }
+</table>

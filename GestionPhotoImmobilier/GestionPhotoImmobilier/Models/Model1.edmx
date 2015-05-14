@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="H15_PROJET_E03Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="H15_PROJET_E03Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Agence">
           <Key>
             <PropertyRef Name="AgenceId" />
@@ -74,6 +74,34 @@
           <Property Name="photoDisponible" Type="bit" />
           <Property Name="ForfaitId" Type="int" />
           <Property Name="Extras" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'H15_PROJET_E03.dbo.view_VueEnsembleAgence' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="view_VueEnsembleAgence">
+          <Key>
+            <PropertyRef Name="AgenceId" />
+            <PropertyRef Name="AgentId" />
+            <PropertyRef Name="SeanceId" />
+            <PropertyRef Name="ProprieteId" />
+          </Key>
+          <Property Name="AgenceId" Type="int" Nullable="false" />
+          <Property Name="Agence" Type="nvarchar" MaxLength="50" />
+          <Property Name="NumTel" Type="nvarchar" MaxLength="12" />
+          <Property Name="Adresse Agence" Type="nvarchar" MaxLength="50" />
+          <Property Name="AgentId" Type="int" Nullable="false" />
+          <Property Name="Agent" Type="nvarchar" MaxLength="50" />
+          <Property Name="SeanceId" Type="int" Nullable="false" />
+          <Property Name="DateSeance" Type="datetime" />
+          <Property Name="Client Séance" Type="nvarchar" MaxLength="50" />
+          <Property Name="Photographe" Type="nvarchar" MaxLength="50" />
+          <Property Name="Forfait" Type="nvarchar" MaxLength="50" />
+          <Property Name="Prix" Type="nvarchar" MaxLength="50" />
+          <Property Name="Statut" Type="nvarchar" MaxLength="50" />
+          <Property Name="Extras" Type="nvarchar" MaxLength="200" />
+          <Property Name="ProprieteId" Type="int" Nullable="false" />
+          <Property Name="Adresse" Type="nvarchar" MaxLength="235" />
+          <Property Name="Ville" Type="nvarchar" MaxLength="50" />
+          <Property Name="Propriétaire" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Agent_AgenceId">
           <End Role="Agence" Type="Self.Agence" Multiplicity="0..1" />
@@ -147,6 +175,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_ProduireRapportAgence" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="agenceId" Type="int" Mode="In" />
+          <Parameter Name="annee" Type="int" Mode="In" />
+          <Parameter Name="mois" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_ProduireRapportAgent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="agentId" Type="int" Mode="In" />
+          <Parameter Name="annee" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="H15_PROJET_E03ModelStoreContainer">
           <EntitySet Name="Agence" EntityType="Self.Agence" Schema="Agences" store:Type="Tables" />
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="Agences" store:Type="Tables" />
@@ -155,6 +223,28 @@
           <EntitySet Name="Rdv" EntityType="Self.Rdv" Schema="Rdv" store:Type="Tables" />
           <EntitySet Name="Forfait" EntityType="Self.Forfait" Schema="Seance" store:Type="Tables" />
           <EntitySet Name="Seance" EntityType="Self.Seance" Schema="Seance" store:Type="Tables" />
+          <EntitySet Name="view_VueEnsembleAgence" EntityType="Self.view_VueEnsembleAgence" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [view_VueEnsembleAgence].[AgenceId] AS [AgenceId], 
+    [view_VueEnsembleAgence].[Agence] AS [Agence], 
+    [view_VueEnsembleAgence].[NumTel] AS [NumTel], 
+    [view_VueEnsembleAgence].[Adresse Agence] AS [Adresse Agence], 
+    [view_VueEnsembleAgence].[AgentId] AS [AgentId], 
+    [view_VueEnsembleAgence].[Agent] AS [Agent], 
+    [view_VueEnsembleAgence].[SeanceId] AS [SeanceId], 
+    [view_VueEnsembleAgence].[DateSeance] AS [DateSeance], 
+    [view_VueEnsembleAgence].[Client Séance] AS [Client Séance], 
+    [view_VueEnsembleAgence].[Photographe] AS [Photographe], 
+    [view_VueEnsembleAgence].[Forfait] AS [Forfait], 
+    [view_VueEnsembleAgence].[Prix] AS [Prix], 
+    [view_VueEnsembleAgence].[Statut] AS [Statut], 
+    [view_VueEnsembleAgence].[Extras] AS [Extras], 
+    [view_VueEnsembleAgence].[ProprieteId] AS [ProprieteId], 
+    [view_VueEnsembleAgence].[Adresse] AS [Adresse], 
+    [view_VueEnsembleAgence].[Ville] AS [Ville], 
+    [view_VueEnsembleAgence].[Propriétaire] AS [Propriétaire]
+    FROM [dbo].[view_VueEnsembleAgence] AS [view_VueEnsembleAgence]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Agent_AgenceId" Association="Self.FK_Agent_AgenceId">
             <End Role="Agence" EntitySet="Agence" />
             <End Role="Agent" EntitySet="Agent" />
@@ -180,8 +270,7 @@
             <End Role="Seance" EntitySet="Seance" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="H15_PROJET_E03Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -371,7 +460,114 @@
             <End Role="Forfait" EntitySet="Forfaits" />
             <End Role="Seance" EntitySet="Seances" />
           </AssociationSet>
+          <EntitySet Name="view_VueEnsembleAgence" EntityType="H15_PROJET_E03Model.view_VueEnsembleAgence" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(H15_PROJET_E03Model.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(H15_PROJET_E03Model.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="usp_ProduireRapportAgence" ReturnType="Collection(H15_PROJET_E03Model.usp_ProduireRapportAgence_Result)">
+            <Parameter Name="agenceId" Mode="In" Type="Int32" />
+            <Parameter Name="annee" Mode="In" Type="Int32" />
+            <Parameter Name="mois" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ProduireRapportAgent" ReturnType="Collection(H15_PROJET_E03Model.usp_ProduireRapportAgent_Result)">
+            <Parameter Name="agentId" Mode="In" Type="Int32" />
+            <Parameter Name="annee" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="view_VueEnsembleAgence">
+          <Key>
+            <PropertyRef Name="AgenceId" />
+            <PropertyRef Name="AgentId" />
+            <PropertyRef Name="SeanceId" />
+            <PropertyRef Name="ProprieteId" />
+          </Key>
+          <Property Name="AgenceId" Type="Int32" Nullable="false" />
+          <Property Name="Agence" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumTel" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Adresse_Agence" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentId" Type="Int32" Nullable="false" />
+          <Property Name="Agent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SeanceId" Type="Int32" Nullable="false" />
+          <Property Name="DateSeance" Type="DateTime" Precision="3" />
+          <Property Name="Client_Séance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Photographe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Forfait" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Prix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Statut" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Extras" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProprieteId" Type="Int32" Nullable="false" />
+          <Property Name="Adresse" Type="String" MaxLength="235" FixedLength="false" Unicode="true" />
+          <Property Name="Ville" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Propriétaire" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_ProduireRapportAgence_Result">
+          <Property Type="String" Name="Agence" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NumTel" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="Adresse_Agence" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="AgentId" Nullable="false" />
+          <Property Type="String" Name="Agent" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SeanceId" Nullable="false" />
+          <Property Type="DateTime" Name="DateSeance" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Client_Séance" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Photographe" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Forfait" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Prix" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Statut" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Extras" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Adresse" Nullable="true" MaxLength="235" />
+          <Property Type="String" Name="Ville" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Propriétaire" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="usp_ProduireRapportAgent_Result">
+          <Property Type="DateTime" Name="DateSeance" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Client_Séance" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Photographe" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Forfait" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Statut" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Extras" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Adresse" Nullable="true" MaxLength="235" />
+          <Property Type="String" Name="Ville" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Propriétaire" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Prix" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -455,6 +651,92 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="view_VueEnsembleAgence">
+            <EntityTypeMapping TypeName="H15_PROJET_E03Model.view_VueEnsembleAgence">
+              <MappingFragment StoreEntitySet="view_VueEnsembleAgence">
+                <ScalarProperty Name="Propriétaire" ColumnName="Propriétaire" />
+                <ScalarProperty Name="Ville" ColumnName="Ville" />
+                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+                <ScalarProperty Name="ProprieteId" ColumnName="ProprieteId" />
+                <ScalarProperty Name="Extras" ColumnName="Extras" />
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+                <ScalarProperty Name="Prix" ColumnName="Prix" />
+                <ScalarProperty Name="Forfait" ColumnName="Forfait" />
+                <ScalarProperty Name="Photographe" ColumnName="Photographe" />
+                <ScalarProperty Name="Client_Séance" ColumnName="Client Séance" />
+                <ScalarProperty Name="DateSeance" ColumnName="DateSeance" />
+                <ScalarProperty Name="SeanceId" ColumnName="SeanceId" />
+                <ScalarProperty Name="Agent" ColumnName="Agent" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Adresse_Agence" ColumnName="Adresse Agence" />
+                <ScalarProperty Name="NumTel" ColumnName="NumTel" />
+                <ScalarProperty Name="Agence" ColumnName="Agence" />
+                <ScalarProperty Name="AgenceId" ColumnName="AgenceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="H15_PROJET_E03Model.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="H15_PROJET_E03Model.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="H15_PROJET_E03Model.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="H15_PROJET_E03Model.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="H15_PROJET_E03Model.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="H15_PROJET_E03Model.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="H15_PROJET_E03Model.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="H15_PROJET_E03Model.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="H15_PROJET_E03Model.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="usp_ProduireRapportAgence" FunctionName="H15_PROJET_E03Model.Store.usp_ProduireRapportAgence">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="H15_PROJET_E03Model.usp_ProduireRapportAgence_Result">
+                <ScalarProperty Name="Agence" ColumnName="Agence" />
+                <ScalarProperty Name="NumTel" ColumnName="NumTel" />
+                <ScalarProperty Name="Adresse_Agence" ColumnName="Adresse Agence" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="Agent" ColumnName="Agent" />
+                <ScalarProperty Name="SeanceId" ColumnName="SeanceId" />
+                <ScalarProperty Name="DateSeance" ColumnName="DateSeance" />
+                <ScalarProperty Name="Client_Séance" ColumnName="Client Séance" />
+                <ScalarProperty Name="Photographe" ColumnName="Photographe" />
+                <ScalarProperty Name="Forfait" ColumnName="Forfait" />
+                <ScalarProperty Name="Prix" ColumnName="Prix" />
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+                <ScalarProperty Name="Extras" ColumnName="Extras" />
+                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+                <ScalarProperty Name="Ville" ColumnName="Ville" />
+                <ScalarProperty Name="Propriétaire" ColumnName="Propriétaire" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ProduireRapportAgent" FunctionName="H15_PROJET_E03Model.Store.usp_ProduireRapportAgent">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="H15_PROJET_E03Model.usp_ProduireRapportAgent_Result">
+                <ScalarProperty Name="DateSeance" ColumnName="DateSeance" />
+                <ScalarProperty Name="Client_Séance" ColumnName="Client Séance" />
+                <ScalarProperty Name="Photographe" ColumnName="Photographe" />
+                <ScalarProperty Name="Forfait" ColumnName="Forfait" />
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+                <ScalarProperty Name="Extras" ColumnName="Extras" />
+                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+                <ScalarProperty Name="Ville" ColumnName="Ville" />
+                <ScalarProperty Name="Propriétaire" ColumnName="Propriétaire" />
+                <ScalarProperty Name="Prix" ColumnName="Prix" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -34,7 +34,27 @@ namespace GestionPhotoImmobilier.Controllers
             {
                 return HttpNotFound();
             }
-            return View(agent);
+
+            ViewModels.AgentRapport rapport = new ViewModels.AgentRapport();
+
+            List<usp_ProduireRapportAgent_Result> lstRapport = new List<usp_ProduireRapportAgent_Result>();
+
+            H15_PROJET_E03Entities context = new H15_PROJET_E03Entities();
+
+            using (context)
+            {
+                var result = context.usp_ProduireRapportAgent(id, DateTime.Now.Year);
+
+                foreach (var item in result)
+                {
+                    lstRapport.Add(item);
+                }
+
+                rapport.RapportAgent = lstRapport;
+                rapport.Agent = agent;
+            }
+
+            return View(rapport);
         }
 
         // GET: Agents/Create

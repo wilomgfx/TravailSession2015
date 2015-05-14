@@ -1,0 +1,72 @@
+﻿@model List<GestionPhotoImmobilier.Models.usp_ProduireRapportAgence_Result>
+
+@{
+    string date = ViewBag.date.ToString("MMMM"); date = date.Substring(0, 1).ToUpper() + date.Substring(1, date.Length - 1);
+    string annee = ((DateTime)ViewBag.date).Year.ToString();
+    <h4>Rapport du mois de @date @annee</h4>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Agent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().DateSeance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Photographe)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Forfait)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Prix)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Statut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Adresse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Ville)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Propriétaire)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Agent)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.DateSeance)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Photographe)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Forfait)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Prix)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Statut)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Adresse)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Ville)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Propriétaire)
+            </td>
+        </tr>
+    }
+</table>

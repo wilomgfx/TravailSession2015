@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
 using GestionPhotoImmobilier.DAL;
+using System.Data.SqlClient;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Core.Objects;
 
 namespace GestionPhotoImmobilier.Controllers
 {
@@ -135,6 +138,94 @@ namespace GestionPhotoImmobilier.Controllers
             unitOfWork.Save();
             return RedirectToAction("Index");
         }
+
+        public ActionResult Rapport(int? id)
+        {
+            H15_PROJET_E03Entities context = new H15_PROJET_E03Entities();
+
+            if(id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Agence age = unitOfWork.AgenceRepository.ObtenirAgenceParID(id);
+
+            if(age == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            List<usp_ProduireRapportAgence_Result> lstResults = new List<usp_ProduireRapportAgence_Result>();
+
+            ViewBag.nomAgence = unitOfWork.AgenceRepository.GetByID(id).Nom;
+            ViewBag.agenceId = id;
+
+            return View(lstResults);
+        }
+
+       [HttpPost, ActionName("Rapport")]
+       public ActionResult Rapport (int id, FormCollection formCollection)
+       {
+           H15_PROJET_E03Entities context = new H15_PROJET_E03Entities();
+           
+           List<usp_ProduireRapportAgence_Result> lstResults = new List<usp_ProduireRapportAgence_Result>();
+
+           string anneeString = formCollection["Année"];
+           string moisString = formCollection["Mois"];
+
+           int? annee;
+           int? mois;
+
+           if (anneeString == null || anneeString == "")
+               annee = null;
+           else
+           {
+               try
+               {
+                   annee = int.Parse(anneeString);
+               }
+               catch
+               {
+                   annee = null;
+               }
+           }
+
+           if (moisString == null || moisString == "")
+               mois = null;
+           else
+           {
+               try
+               {
+                   mois = int.Parse(moisString);
+               }
+               catch
+               {
+                   mois = null;
+               }
+           }
+
+           if (annee != null && mois != null)
+           {
+               using (context)
+               {
+                   var result = context.usp_ProduireRapportAgence(id, annee, mois);
+
+                   foreach (var item in result)
+                   {
+                       lstResults.Add(item);
+                   }
+
+                   DateTime dateDemandee = new DateTime(annee.Value, mois.Value, 1);
+
+                   ViewBag.date = dateDemandee;
+
+                   ViewBag.agenceId = id;
+                   ViewBag.annee = annee;
+                   ViewBag.mois = mois;
+                   ViewBag.nomAgence = unitOfWork.AgenceRepository.GetByID(id).Nom;
+
+                   return View(lstResults);
+               }
+           }
+
+           return RedirectToAction("Rapport");
+       }
 
         protected override void Dispose(bool disposing)
         {

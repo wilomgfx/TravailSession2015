@@ -1,0 +1,34 @@
+﻿@*@model System.Data.Entity.Core.Objects.ObjectResult<GestionPhotoImmobilier.Models.usp_ProduireRapportAgence_Result>*@
+@model List<GestionPhotoImmobilier.Models.usp_ProduireRapportAgence_Result>
+
+@{
+    ViewBag.Title = "Rapport de " + ViewBag.nomAgence;
+}
+
+<h2>Rapport Mensuel</h2>
+<hr />
+<br />
+<h3>Agence : @ViewBag.nomAgence</h3>
+<br />
+@{
+    using (Html.BeginForm("Rapport", "Agences", new {id=ViewBag.agenceId}, FormMethod.Post))
+    {
+        <label for="Année">Année :</label>
+        <input type="number" name="Année" min="1900" value="@ViewBag.annee" />
+        <br />
+        <label for="Mois">Mois :</label>
+        <input type="number" name="Mois" min="1" max="12" value="@ViewBag.mois" />
+        <br />
+    
+        <input type="submit" value="Générer le rapport" />
+    }
+}
+<hr />
+@{
+    if(Model.Count != 0 && ViewBag.mois != null && ViewBag.annee != null)
+    {
+        @Html.Partial("_RapportAgence", Model)
+    }
+}
+
+@Html.ActionLink("Retour à la liste des Agences", "Index")
