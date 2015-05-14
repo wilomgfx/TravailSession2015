@@ -39,11 +39,15 @@ namespace GestionPhotoImmobilier.Controllers
                     }
                    else if (searchPhotographe != "" && searchStatut != "")
                       {
-                          if(item.Statut.Equals(searchStatut) && item.Photographe.Equals(searchPhotographe))
+                          if(item.Statut.Equals(searchStatut) && item.Photographe.ToUpper().Contains(searchPhotographe.ToUpper()))
                           {
                               lstSeanceRdvSelonRecherche.Add(item);
                           }
                       }
+                   else if(item.Photographe.ToUpper().Contains(searchPhotographe.ToUpper()))
+                   {
+                       lstSeanceRdvSelonRecherche.Add(item);
+                   }
                     else if(searchStatut != "")
                     {
                         if (item.Statut.Equals(searchStatut))
@@ -89,7 +93,7 @@ namespace GestionPhotoImmobilier.Controllers
                 List<SeanceRdv> lstSeancesRdvsFutures = GenererSeancesRdvs(lstSeancesFutures, colRdv);
 
                 int pageNumberFuture = (pageFuture ?? 1);
-                ViewBag.seancesFutures = lstSeancesRdvsFutures.OrderByDescending(s => s.DateSeance).ToPagedList(pageNumberFuture, pageSize);
+                ViewBag.seancesFutures = lstSeancesRdvsFutures.OrderBy(s => s.DateSeance).ToPagedList(pageNumberFuture, pageSize);
             }
             ViewBag.showFuture = showFuture;
 
