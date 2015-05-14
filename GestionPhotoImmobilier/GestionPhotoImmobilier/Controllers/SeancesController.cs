@@ -170,6 +170,23 @@ namespace GestionPhotoImmobilier.Controllers
             sommaire.Agent = seance.Agent;
             sommaire.Propriete = seance.Propriete;
 
+
+
+
+            double? PrixSeance = unitOfWork.SeanceRepository.ObtenirPrixSeance(id);
+            double? PrixTpsDeSeance = unitOfWork.SeanceRepository.ObtenirPrixCoutTps(id);
+            double? PrixTvqDeSeance = unitOfWork.SeanceRepository.ObtenirPrixCoutTvq(id);
+            double? PrixTotalSeance = unitOfWork.SeanceRepository.ObtenirCoutTotal(id);
+            double? PrixExtra = unitOfWork.SeanceRepository.ObtenirCoutExtra(id);
+
+
+            sommaire.PrixSeance = PrixSeance;
+            sommaire.PrixTotalSeance = PrixTotalSeance;
+            sommaire.PrixTpsSeance = PrixTpsDeSeance;
+            sommaire.PrixTvqSeance = PrixTvqDeSeance;
+            sommaire.PrixExtra = PrixExtra;
+
+
             return View(sommaire);
         }
         [HttpPost, ActionName("Sommaire")]
