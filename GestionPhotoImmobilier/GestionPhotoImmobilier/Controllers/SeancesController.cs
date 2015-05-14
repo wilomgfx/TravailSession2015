@@ -340,6 +340,63 @@ namespace GestionPhotoImmobilier.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Extra(int? id)
+        {
+            Seance seance = unitOfWork.SeanceRepository.ObtenirSeanceComplete(id);
+
+            if(seance == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Forfait forfait = unitOfWork.ForfaitRepository.ObtenirForfaitParID(seance.ForfaitId);
+
+            SeanceForfait scf = new SeanceForfait();
+
+            scf.Forfait = forfait;
+            scf.Seance = seance;
+
+            ViewBag.extraExistant = seance.Extras;
+
+            return View(scf);
+        }
+
+        [HttpPost, ActionName("Extra")]
+        public ActionResult Extra(int id, FormCollection formCollection, bool? delete)
+        {
+            if(delete != null && delete == true)
+            {
+                Seance seaDelete = unitOfWork.SeanceRepository.ObtenirSeanceParID(id);
+
+                seaDelete.Extras = null;
+
+                unitOfWork.SeanceRepository.Update(seaDelete);
+                unitOfWork.Save();
+
+                return RedirectToAction("Extra");
+            }
+
+            string extraExistants = unitOfWork.SeanceRepository.ObtenirSeanceParID(id).Extras;
+            string nomExtra = formCollection["nomExtra"];
+            string prixExtra = formCollection["prixExtra"];
+
+            string nouvelEnsembleExtra = "";
+            
+            if(extraExistants != null && extraExistants != "")
+            {
+                nouvelEnsembleExtra = extraExistants;
+                nouvelEnsembleExtra += '|' + nomExtra + '$' + prixExtra;
+            }
+            else
+                nouvelEnsembleExtra += nomExtra + '$' + prixExtra;
+
+            Seance sea = unitOfWork.SeanceRepository.ObtenirSeanceParID(id);
+
+            sea.Extras = nouvelEnsembleExtra;
+
+            unitOfWork.SeanceRepository.Update(sea);
+            unitOfWork.Save();
+
+            return RedirectToAction("Extra");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -146,3 +146,7 @@ FOREIGN KEY (ForfaitId)
 REFERENCES Seance.Forfait(ForfaitId)
 
 GO
+
+ALTER TABLE Seance.Seance
+ADD Extras nvarchar(200)
+GO

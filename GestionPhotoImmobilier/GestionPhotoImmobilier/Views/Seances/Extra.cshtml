@@ -1,0 +1,136 @@
+﻿@model GestionPhotoImmobilier.ViewModels.SeanceForfait
+
+@{
+    ViewBag.Title = "Extra";
+}
+
+<h2>Ajouter des Extras</h2>
+
+<h3>Informations sur la seance</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Seance.DateSeance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Seance.Client)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Seance.Agent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Seance.Commentaire)
+        </th>
+    </tr>
+
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.Seance.DateSeance)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Seance.Client)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Seance.Agent.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Seance.Commentaire)
+        </td>
+    </tr>
+
+</table>
+
+<h3>Informations sur le forfait</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Forfait.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Seance.Forfait.Prix)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Seance.Forfait.DescriptionForfait)
+        </th>
+    </tr>
+
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.Seance.Forfait.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Seance.Forfait.Prix)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Seance.Forfait.DescriptionForfait)
+        </td>
+    </tr>
+
+</table>
+
+<hr />
+
+<h2>Ajouter un extra</h2>
+
+@{
+    if (ViewBag.extraExistant != null)
+    {
+        <h3>Extras Presents</h3>
+
+        string[] tabExtras = ((string)ViewBag.extraExistant).Split('|');
+
+        <table class="table">
+            <tr>
+                <th>
+                    Extra
+                </th>
+                <th>
+                    Prix
+                </th>
+            </tr>
+            @for (int i = 0; i < tabExtras.Length; i++)
+            {
+                string[] tabExtraPrix = tabExtras[i].Split('$');
+                string extra = tabExtraPrix[0];
+                string prix = tabExtraPrix[1];
+
+                <tr>
+                    <td>
+                        @extra
+                    </td>
+                    <td>
+                        @prix
+                    </td>
+                </tr>
+            }
+        </table>
+
+
+        using (Html.BeginForm("Extra", "Seances", new { id = Model.Seance.SeanceId }, FormMethod.Post))
+        {
+            <p>
+                Nom de l'extra: @Html.TextBox("nomExtra", ViewBag.nomExtra as string)
+                Prix: @Html.TextBox("prixExtra", ViewBag.prixExtra as string)
+                <input type="submit" value="Ajouter" />
+            </p>
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("Extra", "Seances", new { id = Model.Seance.SeanceId }, FormMethod.Post))
+        {
+            <p>
+                Nom de l'extra: @Html.TextBox("nomExtra", ViewBag.nomExtra as string)
+                Prix: @Html.TextBox("prixExtra", ViewBag.prixExtra as string)
+                <input type="submit" value="Ajouter" />
+            </p>
+        }
+    }
+    
+    using (Html.BeginForm("Extra", "Seances", new { id = Model.Seance.SeanceId, delete = true }))
+    {
+        <br />
+        <br />
+        <input type="submit" value="Supprimer tous les extras" />
+    }
+}

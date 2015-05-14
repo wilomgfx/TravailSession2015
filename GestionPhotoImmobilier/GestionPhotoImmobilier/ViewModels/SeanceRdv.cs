@@ -25,5 +25,7 @@ namespace GestionPhotoImmobilier.ViewModels
         public Nullable<bool> Confirmer { get; set; }
         [DisplayName("Photographe RDV")]
         public string PhotographeRDV { get; set; }
+
+        public string Extras { get; set; }
     }
 }
