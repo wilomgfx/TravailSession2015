@@ -303,7 +303,7 @@
     <Content Include="Views\Seances\_GalleriePhoto.cshtml" />
 
     <Content Include="Views\Seances\Extra.cshtml" />
- 779ba28b1416e2aad08169eebc109662ed17e5bc
+
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
