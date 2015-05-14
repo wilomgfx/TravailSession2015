@@ -8,8 +8,8 @@ namespace GestionPhotoImmobilier.DAL
 {
     public class PhotoRepository:GenericRepository<Photo>
     {
-        //public PhotoRepository(H15_PROJET_E03Entities context) : base(context) { }
-        public PhotoRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
+        public PhotoRepository(H15_PROJET_E03Entities context) : base(context) { }
+        //public PhotoRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
 
 
         public IEnumerable<Photo> ObtenirPhoto()

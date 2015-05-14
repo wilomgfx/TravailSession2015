@@ -10,8 +10,8 @@ namespace GestionPhotoImmobilier.DAL
 {
     public class ForfaitRepository : GenericRepository<Forfait>
     {
-        //public ForfaitRepository(H15_PROJET_E03Entities context) : base(context) { }
-        public ForfaitRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
+        public ForfaitRepository(H15_PROJET_E03Entities context) : base(context) { }
+        //public ForfaitRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
 
         public Forfait ObtenirForfaitParID(int? id)
         {

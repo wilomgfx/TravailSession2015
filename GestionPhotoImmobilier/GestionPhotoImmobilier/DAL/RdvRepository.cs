@@ -8,8 +8,8 @@ namespace GestionPhotoImmobilier.DAL
 {
     public class RdvRepository : GenericRepository<Rdv>
     {
-        //public RdvRepository(H15_PROJET_E03Entities context) : base(context) { }
-        public RdvRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
+        public RdvRepository(H15_PROJET_E03Entities context) : base(context) { }
+        //public RdvRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
         public IEnumerable<Rdv> ObtenirRdv()
         {
             return Get();

@@ -301,9 +301,7 @@
     <Content Include="Views\Forfaits\Edit.cshtml" />
     <Content Include="Views\Forfaits\Index.cshtml" />
     <Content Include="Views\Seances\_GalleriePhoto.cshtml" />
-
     <Content Include="Views\Seances\Extra.cshtml" />
-
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

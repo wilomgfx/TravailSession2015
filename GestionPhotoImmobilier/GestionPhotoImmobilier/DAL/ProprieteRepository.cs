@@ -8,8 +8,8 @@ namespace GestionPhotoImmobilier.DAL
 {
     public class ProprieteRepository:GenericRepository<Propriete>
     {
-        //public ProprieteRepository(H15_PROJET_E03Entities context) : base(context) { }
-        public ProprieteRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
+        public ProprieteRepository(H15_PROJET_E03Entities context) : base(context) { }
+        //public ProprieteRepository(GestionPhotoImmobilierEntities1 context) : base(context) { }
 
         public IEnumerable<Propriete> ObtenirPropriete()
         {

@@ -11,12 +11,12 @@ namespace GestionPhotoImmobilier.DAL
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        //internal H15_PROJET_E03Entities context;
-        internal GestionPhotoImmobilierEntities1 context;
+        internal H15_PROJET_E03Entities context;
+        //internal GestionPhotoImmobilierEntities1 context;
         internal DbSet<TEntity> dbSet;
 
-        //public GenericRepository(H15_PROJET_E03Entities context)
-        public GenericRepository(GestionPhotoImmobilierEntities1 context)
+        public GenericRepository(H15_PROJET_E03Entities context)
+        //public GenericRepository(GestionPhotoImmobilierEntities1 context)
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();

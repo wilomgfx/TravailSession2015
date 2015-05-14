@@ -13,10 +13,10 @@ namespace GestionPhotoImmobilier.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class GestionPhotoImmobilierEntities1 : DbContext
+    public partial class H15_PROJET_E03Entities : DbContext
     {
-        public GestionPhotoImmobilierEntities1()
-            : base("name=GestionPhotoImmobilierEntities1")
+        public H15_PROJET_E03Entities()
+            : base("name=H15_PROJET_E03Entities")
         {
         }
     
