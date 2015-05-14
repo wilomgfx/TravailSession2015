@@ -38,7 +38,7 @@ namespace GestionPhotoImmobilier.Controllers
             var cheminBase = AppDomain.CurrentDomain.BaseDirectory + @"Images\Photos\";
 
             DirectorySecurity securityRules = new DirectorySecurity();
-            securityRules.AddAccessRule(new FileSystemAccessRule(ConfigurationManager.AppSettings["monUserName"], FileSystemRights.FullControl, AccessControlType.Allow));
+            securityRules.AddAccessRule(new FileSystemAccessRule(ConfigurationManager.AppSettings["JoeUsername"], FileSystemRights.FullControl, AccessControlType.Allow));
 
             var photo = unitofwork.PhotoRepository.ObtenirPhotoParID(id);
             ViewBag.cheminBase = "\\Images\\Photos\\"+ photo.Chemin;
@@ -70,7 +70,7 @@ namespace GestionPhotoImmobilier.Controllers
                 var cheminBase = AppDomain.CurrentDomain.BaseDirectory + @"Images\Photos\";
                 //définir les droits d’accès
                 DirectorySecurity securityRules = new DirectorySecurity();
-                securityRules.AddAccessRule(new FileSystemAccessRule(ConfigurationManager.AppSettings["monUserName"], FileSystemRights.FullControl, AccessControlType.Allow));
+                securityRules.AddAccessRule(new FileSystemAccessRule(ConfigurationManager.AppSettings["JoeUsername"], FileSystemRights.FullControl, AccessControlType.Allow));
                 var baserepertoire = Directory.CreateDirectory(cheminBase + photo.ProprieteId, securityRules);
 
 
@@ -83,10 +83,12 @@ namespace GestionPhotoImmobilier.Controllers
                     file.SaveAs(chemin);
                     photo.TypeFichier = file.FileName.Substring(file.FileName.LastIndexOf('.')+1);
                     photo.Chemin = photo.ProprieteId +"/" +  file.FileName;
+
+                    unitofwork.PhotoRepository.InsertPhoto(photo);
+                    unitofwork.Save();
                 }
 
-                unitofwork.PhotoRepository.InsertPhoto(photo);
-                unitofwork.Save();
+
                 return RedirectToAction("Index");
             }
 

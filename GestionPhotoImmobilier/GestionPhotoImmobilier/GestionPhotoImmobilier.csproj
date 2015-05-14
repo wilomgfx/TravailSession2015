@@ -208,6 +208,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\Photos\1\Penguins.jpg" />
+    <Content Include="Images\Photos\2\logo.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\Model1.edmx">
@@ -298,6 +299,7 @@
     <Content Include="Views\Forfaits\Details.cshtml" />
     <Content Include="Views\Forfaits\Edit.cshtml" />
     <Content Include="Views\Forfaits\Index.cshtml" />
+    <Content Include="Views\Seances\_GalleriePhoto.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

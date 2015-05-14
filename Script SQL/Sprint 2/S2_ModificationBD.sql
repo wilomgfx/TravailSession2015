@@ -6,7 +6,7 @@ GO
 
 Create table Proprietes.Photo
 (
-	PhotoId int NOT NULL,
+	PhotoId int NOT NULL IDENTITY,
 	TypeFichier nvarchar(4),
 	Chemin nvarchar(255),
 	ProprieteId int NOT NULL
