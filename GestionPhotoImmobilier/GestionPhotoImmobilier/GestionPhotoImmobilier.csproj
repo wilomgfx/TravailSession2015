@@ -45,6 +45,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -194,6 +197,7 @@
     <Compile Include="RegleDaffaire\SeanceValidation.cs" />
     <Compile Include="ViewModels\SeanceForfait.cs" />
     <Compile Include="ViewModels\SeanceRdv.cs" />
+    <Compile Include="ViewModels\SommairePhoto.cs" />
     <Compile Include="ViewModels\SommaireSeance.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -208,7 +212,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\Photos\1\Penguins.jpg" />
+    <Content Include="Images\Photos\1\Chrysanthemum.jpg" />
+    <Content Include="Images\Photos\1\Desert.jpg" />
+    <Content Include="Images\Photos\1\Hydrangeas.jpg" />
     <Content Include="Images\Photos\2\logo.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

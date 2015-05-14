@@ -1,1 +1,14 @@
-﻿@model GestionPhotoImmobilier.Models.Photo
+﻿
+@model GestionPhotoImmobilier.ViewModels.SommairePhoto
+
+<h4>Photos</h4>
+
+@foreach (var photo in Model.Photos)
+{
+    <p>Photo @photo.PhotoId</p>
+    <img src="\images\photos\@photo.Chemin" />
+}
+@using(Html.BeginForm("Sommaire","Seances",new {id = Model.SeanceId},FormMethod.Post))
+{
+    <input type="submit" value="Télécharger les photos" />
+}

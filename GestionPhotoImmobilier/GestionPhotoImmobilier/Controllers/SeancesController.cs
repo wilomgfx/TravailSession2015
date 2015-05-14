@@ -10,6 +10,10 @@ using GestionPhotoImmobilier.Models;
 using GestionPhotoImmobilier.DAL;
 using GestionPhotoImmobilier.ViewModels;
 using PagedList;
+using Ionic.Zip;
+using System.Security.AccessControl;
+using System.IO;
+using System.Configuration;
 
 namespace GestionPhotoImmobilier.Controllers
 {
@@ -165,9 +169,42 @@ namespace GestionPhotoImmobilier.Controllers
             sommaire.SeanceRdv = seanceRdv.First();
             sommaire.Agent = seance.Agent;
             sommaire.Propriete = seance.Propriete;
-            
 
             return View(sommaire);
+        }
+        [HttpPost, ActionName("Sommaire")]
+        public ActionResult Sommaire(int id)
+        {
+            
+
+            var cheminBase = AppDomain.CurrentDomain.BaseDirectory + @"Images\Photos\";
+            //définir les droits d’accès
+            DirectorySecurity securityRules = new DirectorySecurity();
+            securityRules.AddAccessRule(new FileSystemAccessRule(ConfigurationManager.AppSettings["WillUserName"], FileSystemRights.FullControl, AccessControlType.Allow));
+
+            Seance seance = unitOfWork.SeanceRepository.ObtenirSeanceComplete(id);
+            //string directory = "\\images\\photos\\";
+            string directory = cheminBase;
+            ICollection<Photo> lstPhoto = seance.Propriete.Photos;
+
+            string path = cheminBase + seance.ProprieteId + "\\" + "SeanceDu" + seance.DateSeance.Value.ToString("yyyy-MM-dd HH-mm-ss") + ".zip";
+
+            ZipOutputStream outpoutstream = new ZipOutputStream(path);
+
+            using (ZipFile zipy = new ZipFile())
+            {
+                foreach (Photo photos in lstPhoto)
+                {
+                    outpoutstream.PutNextEntry(directory+photos.Chemin);
+                    zipy.AddFile(directory+photos.Chemin);
+                }
+
+                zipy.Save(outpoutstream);
+
+            }
+            outpoutstream.Close();
+
+            return RedirectToAction("Index");
         }
 
         // GET: Seances/Details/5
