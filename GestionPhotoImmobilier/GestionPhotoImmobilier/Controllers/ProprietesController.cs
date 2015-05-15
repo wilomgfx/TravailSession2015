@@ -113,7 +113,8 @@ namespace GestionPhotoImmobilier.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Propriete propriete = unitOfWork.ProprieteRepository.ObtenirProprieteParID(id);
-            unitOfWork.ProprieteRepository.DeletePropriete(propriete);
+            //unitOfWork.ProprieteRepository.DeletePropriete(propriete);
+            unitOfWork.ProprieteRepository.DeleteProprieteEtPhoto(propriete);
             unitOfWork.Save();
 
             return RedirectToAction("Index");
