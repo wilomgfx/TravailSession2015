@@ -54,6 +54,17 @@ namespace GestionPhotoImmobilier.Controllers
                 rapport.Agent = agent;
             }
 
+            double? prixTotal = 0;
+
+            foreach (var item in rapport.RapportAgent)
+            {
+
+                Seance sea = unitOfWork.SeanceRepository.ObtenirSeanceparDate(item.DateSeance.Value);
+                prixTotal += unitOfWork.SeanceRepository.ObtenirCoutTotal(sea.SeanceId);
+            }
+
+            ViewBag.prixTotal = prixTotal;
+
             return View(rapport);
         }
 

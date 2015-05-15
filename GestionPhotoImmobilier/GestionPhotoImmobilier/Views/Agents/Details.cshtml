@@ -13,13 +13,12 @@
         <dt>
             @Html.DisplayNameFor(model => model.Agent.Nom)
         </dt>
-        <dt>
-            @Html.DisplayNameFor(model => model.Agent.Agence)
-        </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Agent.Nom)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Agent.Agence)
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.Agent.Agence.Nom)
         </dd>
@@ -99,3 +98,10 @@
         }
     }
 </table>
+
+@{
+    if(ViewBag.prixTotal != null)
+    { 
+        <h3>Total des séances avec extras: @ViewBag.prixTotal $</h3>
+    }
+}

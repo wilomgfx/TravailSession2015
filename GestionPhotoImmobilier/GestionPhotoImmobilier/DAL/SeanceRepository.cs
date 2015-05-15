@@ -223,6 +223,12 @@ namespace GestionPhotoImmobilier.DAL
             return null;
 
         }
+
+
+        public Seance ObtenirSeanceparDate(DateTime date)
+        {
+            return Get(filter: s => s.DateSeance.Value.Equals(date)).First();
+        }
         /*public IEnumerable<Seance> obtenirSeancsRechercheSearch(string recherche)
         {
             IEnumerable<Seance> seances;
