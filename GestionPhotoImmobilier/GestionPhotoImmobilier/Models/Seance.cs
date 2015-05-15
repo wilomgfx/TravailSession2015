@@ -30,6 +30,8 @@ namespace GestionPhotoImmobilier.Models
         public Nullable<bool> photoDisponible { get; set; }
         public Nullable<int> ForfaitId { get; set; }
         public string Extras { get; set; }
+        public bool Facture { get; set; }
+        public byte[] RVersion { get; set; }
     
         public virtual Agent Agent { get; set; }
         public virtual Propriete Propriete { get; set; }

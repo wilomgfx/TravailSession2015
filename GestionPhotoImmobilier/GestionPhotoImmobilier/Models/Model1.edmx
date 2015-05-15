@@ -22,6 +22,16 @@
           <Property Name="Nom" Type="nvarchar" MaxLength="50" />
           <Property Name="AgenceId" Type="int" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="Photo">
           <Key>
             <PropertyRef Name="PhotoId" />
@@ -74,6 +84,8 @@
           <Property Name="photoDisponible" Type="bit" />
           <Property Name="ForfaitId" Type="int" />
           <Property Name="Extras" Type="nvarchar" MaxLength="200" />
+          <Property Name="Facture" Type="bit" Nullable="false" />
+          <Property Name="RVersion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <!--Erreurs détectées durant la génération :
 avertissement 6002: La table/vue 'H15_PROJET_E03.dbo.view_VueEnsembleAgence' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
@@ -218,6 +230,7 @@ avertissement 6002: La table/vue 'H15_PROJET_E03.dbo.view_VueEnsembleAgence' n'a
         <EntityContainer Name="H15_PROJET_E03ModelStoreContainer">
           <EntitySet Name="Agence" EntityType="Self.Agence" Schema="Agences" store:Type="Tables" />
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="Agences" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photo" EntityType="Self.Photo" Schema="Proprietes" store:Type="Tables" />
           <EntitySet Name="Propriete" EntityType="Self.Propriete" Schema="Proprietes" store:Type="Tables" />
           <EntitySet Name="Rdv" EntityType="Self.Rdv" Schema="Rdv" store:Type="Tables" />
@@ -355,6 +368,8 @@ avertissement 6002: La table/vue 'H15_PROJET_E03.dbo.view_VueEnsembleAgence' n'a
           <NavigationProperty Name="Propriete" Relationship="Self.FK_Seance_ProprieteId" FromRole="Seance" ToRole="Propriete" />
           <NavigationProperty Name="Rdvs" Relationship="Self.FK_RDV_SeanceID" FromRole="Seance" ToRole="Rdv" />
           <NavigationProperty Name="Forfait" Relationship="Self.FK_Seance_ForfaitId" FromRole="Seance" ToRole="Forfait" />
+          <Property Name="Facture" Type="Boolean" Nullable="false" />
+          <Property Name="RVersion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <Association Name="FK_Agent_AgenceId">
           <End Role="Agence" Type="Self.Agence" Multiplicity="0..1" />
@@ -500,6 +515,7 @@ avertissement 6002: La table/vue 'H15_PROJET_E03.dbo.view_VueEnsembleAgence' n'a
             <Parameter Name="agentId" Mode="In" Type="Int32" />
             <Parameter Name="annee" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="sysdiagrams" EntityType="H15_PROJET_E03Model.sysdiagram" />
         </EntityContainer>
         <EntityType Name="view_VueEnsembleAgence">
           <Key>
@@ -568,6 +584,16 @@ avertissement 6002: La table/vue 'H15_PROJET_E03.dbo.view_VueEnsembleAgence' n'a
           <Property Type="String" Name="Propriétaire" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Prix" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -637,6 +663,8 @@ avertissement 6002: La table/vue 'H15_PROJET_E03.dbo.view_VueEnsembleAgence' n'a
           <EntitySetMapping Name="Seances">
             <EntityTypeMapping TypeName="H15_PROJET_E03Model.Seance">
               <MappingFragment StoreEntitySet="Seance">
+                <ScalarProperty Name="RVersion" ColumnName="RVersion" />
+                <ScalarProperty Name="Facture" ColumnName="Facture" />
                 <ScalarProperty Name="SeanceId" ColumnName="SeanceId" />
                 <ScalarProperty Name="DateSeance" ColumnName="DateSeance" />
                 <ScalarProperty Name="Photographe" ColumnName="Photographe" />
@@ -737,6 +765,17 @@ avertissement 6002: La table/vue 'H15_PROJET_E03.dbo.view_VueEnsembleAgence' n'a
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="H15_PROJET_E03Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

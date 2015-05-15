@@ -19,6 +19,7 @@
         <AssociationConnector Association="H15_PROJET_E03Model.FK_RDV_SeanceID" ManuallyRouted="false" />
         <AssociationConnector Association="H15_PROJET_E03Model.FK_Seance_ForfaitId" ManuallyRouted="false" />
         <EntityTypeShape EntityType="H15_PROJET_E03Model.view_VueEnsembleAgence" Width="1.5" PointX="6.375" PointY="8.75" />
+        <EntityTypeShape EntityType="H15_PROJET_E03Model.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

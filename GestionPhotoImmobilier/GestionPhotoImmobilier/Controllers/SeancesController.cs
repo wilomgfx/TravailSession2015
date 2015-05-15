@@ -9,11 +9,14 @@ using System.Web.Mvc;
 using GestionPhotoImmobilier.Models;
 using GestionPhotoImmobilier.DAL;
 using GestionPhotoImmobilier.ViewModels;
+using GestionPhotoImmobilier.RegleDaffaire;
 using PagedList;
 using Ionic.Zip;
 using System.Security.AccessControl;
 using System.IO;
 using System.Configuration;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 
 namespace GestionPhotoImmobilier.Controllers
 {
@@ -318,7 +321,7 @@ namespace GestionPhotoImmobilier.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,ForfaitId,Commentaire,Statut,ProprieteId")] Seance seance)
+        public ActionResult Edit([Bind(Include = "SeanceId,DateSeance,AgentId,Photographe,Client,ForfaitId,Commentaire,Statut,ProprieteId,RVersion")] Seance seance)
         {
             if (ModelState.IsValid)
             {
@@ -344,19 +347,54 @@ namespace GestionPhotoImmobilier.Controllers
                 vraiSeance.Forfait = forf;
                 vraiSeance.ForfaitId = forf.ForfaitId;
 
-                unitOfWork.SeanceRepository.UpdateSeance(vraiSeance);
-                unitOfWork.Save();
-                return RedirectToAction("Index");
+
+
+                // section pour la validation de concurrence entre deux éléments
+                Seance seanceModif = unitOfWork.SeanceRepository.ObtenirSeanceParID(seance.SeanceId);
+                if (TryUpdateModel(seanceModif, new string[] { "SeanceId", "DateSeance", "AgentId", "Photographe", "Client", "ForfaitId", "Commentaire", "Statut", "ProprieteId", "RVersion" }))
+                {
+                    unitOfWork.SeanceRepository.UpdateSeance(vraiSeance);
+                    try
+                    {
+                        unitOfWork.Save();
+                        return RedirectToAction("Index");
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+
+                        RecupereErreurValidation(ex);
+
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        var entry = ex.Entries.Single();
+
+                        //Si vous voulez voir les différentes valeurs
+                        // Response.Write("CurrentValues:" + entry.CurrentValues["FirstName"] +"<br/>");
+                        //Response.Write("Original:" + entry.OriginalValues["FirstName"] + "<br/>");
+                        //Response.Write("DatabaseValues:" + entry.GetDatabaseValues()["FirstName"] + "<br/>");                          
+
+                        RecupererErreurUpdate(ex);
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        //erreur lors de la modification de la BD
+                        ModelState.AddModelError("DbUpdateException", ex.Message);
+
+                    }
+
+                }
+                SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom", seance.AgentId);
+                ViewBag.AgentId = AgentId;
+
+                SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse", seance.ProprieteId);
+                ViewBag.ProprieteId = ProprieteId;
+
+                SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom", seance.ForfaitId);
+                ViewBag.ForfaitId = ForfaitId;
+
+                return View(seanceModif);
             }
-            SelectList AgentId = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom", seance.AgentId);
-            ViewBag.AgentId = AgentId;
-
-            SelectList ProprieteId = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse", seance.ProprieteId);
-            ViewBag.ProprieteId = ProprieteId;
-
-            SelectList ForfaitId = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom", seance.ForfaitId);
-            ViewBag.ForfaitId = ForfaitId;
-
             return View(seance);
         }
 
@@ -462,6 +500,64 @@ namespace GestionPhotoImmobilier.Controllers
                 unitOfWork.Dispose();
             }
             base.Dispose(disposing);
+        }
+        // pour mettre les messages d'erreur dans le modelState
+        private void RecupereErreurValidation(DbEntityValidationException ex)
+        {
+            foreach (var erreur in ex.EntityValidationErrors)
+            {
+                //var message = erreur.Entry.Entity.GetType();
+                foreach (var validationErreur in erreur.ValidationErrors)
+                {
+                    ModelState.AddModelError("", validationErreur.ErrorMessage);
+                }
+            }
+
+        }
+
+        //creation message en cas d'accès concurrents
+        private void RecupererErreurUpdate(DbUpdateConcurrencyException ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            var entry = ex.Entries.Single();
+            var clientValues = (Seance)entry.Entity;
+            var databaseValues = (Seance)entry.GetDatabaseValues().ToObject();
+            if (databaseValues == null)
+            {
+                ModelState.AddModelError(string.Empty, "Unable to save changes. The department was deleted by another user.");
+            }
+            else
+            {
+
+                if (databaseValues.Agent != clientValues.Agent)
+                    ModelState.AddModelError("Agent", "Current value: " + databaseValues.Agent);
+                if (databaseValues.Client != clientValues.Client)
+                    ModelState.AddModelError("Client", "Current value: " + databaseValues.Client);
+                if (databaseValues.Commentaire != clientValues.Commentaire)
+                    ModelState.AddModelError("Commentaire", "Current value: " + databaseValues.Commentaire);
+                if (databaseValues.DateSeance != clientValues.DateSeance)
+                    ModelState.AddModelError("DateSeance", "Current value: " + databaseValues.DateSeance);
+                if (databaseValues.Extras != clientValues.Extras)
+                    ModelState.AddModelError("Extras", "Current value: " + databaseValues.Extras);
+                if (databaseValues.Facture != clientValues.Facture)
+                    ModelState.AddModelError("Facture", "Current value: " + databaseValues.Facture);
+                if (databaseValues.Forfait != clientValues.Forfait)
+                    ModelState.AddModelError("Forfait", "Current value: " + databaseValues.Forfait);
+                if (databaseValues.ForfaitId != clientValues.ForfaitId)
+                    ModelState.AddModelError("ForfaitId", "Current value: " + databaseValues.ForfaitId);
+                if (databaseValues.photoDisponible != clientValues.photoDisponible)
+                    ModelState.AddModelError("photoDisponible", "Current value: " + databaseValues.photoDisponible);
+                if (databaseValues.Photographe != clientValues.Photographe)
+                    ModelState.AddModelError("Photographe", "Current value: " + databaseValues.Photographe);
+                if (databaseValues.Propriete != clientValues.Propriete)
+                    ModelState.AddModelError("Propriete", "Current value: " + databaseValues.Propriete);
+                if (databaseValues.Rdvs != clientValues.Rdvs)
+                    ModelState.AddModelError("Rdvs", "Current value: " + databaseValues.Rdvs);
+                if (databaseValues.RVersion != clientValues.RVersion)
+                    ModelState.AddModelError("RVersion", "Current value: " + databaseValues.RVersion);
+                if (databaseValues.Statut != clientValues.Statut)
+                    ModelState.AddModelError("Statut", "Current value: " + databaseValues.Statut);
+            }
         }
     }
 }
