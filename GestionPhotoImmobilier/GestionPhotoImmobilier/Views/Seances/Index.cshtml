@@ -7,123 +7,143 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-@using (Html.BeginForm("Index","Seances",FormMethod.Get))
-{
-    <p>
-        @Html.ActionLink("Créer une nouvelle séance", "Create") |
-        @Html.ActionLink("Séances futures", "Index", new { showFuture = true }) <br />
-        @Html.ActionLink("Afficher l'ensemble des séances", "Index", new { CurrentFilter = "", searchPhotographe = "", searchStatut = ""})
-    </p>
-    <p>
-        Par Photographe: @Html.TextBox("searchPhotographe", ViewBag.CurrentFilter as string)
-        Par Statut: @Html.TextBox("searchStatut", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Rechercher" />
-    </p>
-        
-}
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().DateSeance)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Agent)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Photographe)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Client)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Forfait)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Commentaire)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Statut)
-        </th>
-        <th> 
-            @Html.DisplayNameFor(model => model.First().Confirmer)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().PhotographeRDV)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-
-    bool bonBool = false;
-    
-    if (item.Confirmer != null)
+@{
+    if (!ViewBag.showFuture)
     {
-        bonBool = (bool)item.Confirmer;
+        <h2>Archive des séances</h2>
     }
-    
-    string boolFrancais = "";
-    if (bonBool == true)
-    {
-        boolFrancais = "Oui";
-    }
-    else
-    {
-        boolFrancais = "Non";
-    }
-    
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateSeance)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Agent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Photographe)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Client)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Forfait.Nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Commentaire)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Statut)
-        </td>
-        <td>
-            @boolFrancais
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhotographeRDV)
-        </td>
-        <td>
-            @Html.ActionLink("Modifier", "Edit", new { id=item.SeanceId }) |
-            @Html.ActionLink("Détails", "Sommaire", new { id=item.SeanceId }) |
-            @Html.ActionLink("Supprimer", "Delete", new { id=item.SeanceId }) |
-            @Html.ActionLink("Extras", "Extra", new { id = item.SeanceId })
-        </td>
-    </tr>
 }
 
-</table>
+@{
+    if(!ViewBag.showFuture)
+    {
+        using (Html.BeginForm("Index", "Seances", FormMethod.Get))
+        {
+            <p>
+                @Html.ActionLink("Créer une nouvelle séance", "Create") |
+                @Html.ActionLink("Séances futures", "Index", new { showFuture = true }) <br />
+                @Html.ActionLink("Afficher l'ensemble des séances", "Index", new { CurrentFilter = "", searchPhotographe = "", searchStatut = "" })
+            </p>
+            <p>
+                Par Photographe: @Html.TextBox("searchPhotographe", ViewBag.CurrentFilter as string)
+                Par Statut: @Html.TextBox("searchStatut", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Rechercher" />
+            </p>
 
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
+        }
+    }
+}
+
+
+@{
+    if(!ViewBag.showFuture)
+    { 
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().DateSeance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Agent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Photographe)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Client)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Forfait)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Commentaire)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Statut)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Confirmer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().PhotographeRDV)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+
+                bool bonBool = false;
+
+                if (item.Confirmer != null)
+                {
+                    bonBool = (bool)item.Confirmer;
+                }
+
+                string boolFrancais = "";
+                if (bonBool == true)
+                {
+                    boolFrancais = "Oui";
+                }
+                else
+                {
+                    boolFrancais = "Non";
+                }
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateSeance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Agent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Photographe)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Forfait.Nom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Commentaire)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Statut)
+                    </td>
+                    <td>
+                        @boolFrancais
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhotographeRDV)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Modifier", "Edit", new { id = item.SeanceId }) |
+                        @Html.ActionLink("Détails", "Sommaire", new { id = item.SeanceId }) |
+                        @Html.ActionLink("Supprimer", "Delete", new { id = item.SeanceId }) |
+                        @Html.ActionLink("Extras", "Extra", new { id = item.SeanceId })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+        <p>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount</p>
+    
+        if (ViewBag.showFuture)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, showFuture = true }))
+        }
+        else
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        }
+    }
+}
+
+
 @if (ViewBag.showFuture)
-{
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, showFuture = true }))
-}
-else
-{
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-}
-
-@if(ViewBag.showFuture)
 { 
     @Html.Partial("_SeanceFuture", (PagedList.IPagedList<GestionPhotoImmobilier.ViewModels.SeanceRdv>)ViewBag.seancesFutures)
 }
