@@ -1,5 +1,8 @@
+USE H15_PROJET_E03
+GO
+
 --quand les photos sont prises (statut : réalisée)
-If OBJECT_ID('Seance.trg_PhotosPrise') IS NOT NULL DROP TRIGGER Proprietes.trg_PhotosPrise;
+If OBJECT_ID('Seance.trg_PhotosPrise') IS NOT NULL DROP TRIGGER Seance.trg_PhotosPrise;
 Go
 
 CREATE TRIGGER Seance.trg_PhotosPrise
@@ -16,7 +19,7 @@ BEGIN
 		IF @photoDisponible = 'true'
 		BEGIN
 			UPDATE Seance.Seance
-			SET Statut='réalisé'
+			SET Statut='Réalisée'
 			WHERE SeanceId = @SeanceId;
 		END
 		ELSE

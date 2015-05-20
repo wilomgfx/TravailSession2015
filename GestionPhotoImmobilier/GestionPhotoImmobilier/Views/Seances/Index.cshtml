@@ -141,6 +141,19 @@
                     @ligne
                 }
 
+                bool photoPriseNulle = false;
+                if (item.PhotoPrise == null)
+                {
+                    photoPriseNulle = true;
+                }
+
+                if (photoPriseNulle || !item.PhotoPrise.Value)
+                {
+                    @Html.ActionLink("Séance Terminée", "PhotosPrises", new { id = item.SeanceId })
+                    string ligne = " |";
+                    @ligne
+                }
+
                 bool factureNulle = false;
                 if (item.Facturer == null)
                 {
@@ -151,6 +164,7 @@
                 {
                     @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId })
                 }
+                
                         }
                     </td>
                 </tr>

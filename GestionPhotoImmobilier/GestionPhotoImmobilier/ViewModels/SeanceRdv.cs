@@ -28,5 +28,6 @@ namespace GestionPhotoImmobilier.ViewModels
 
         public string Extras { get; set; }
         public Nullable<bool> Facturer { get; set; }
+        public Nullable<bool> PhotoPrise { get; set; }
     }
 }
