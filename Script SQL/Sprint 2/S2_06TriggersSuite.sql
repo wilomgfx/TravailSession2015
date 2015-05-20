@@ -1,8 +1,8 @@
 --quand les photos sont prises (statut : réalisée)
-If OBJECT_ID('Proprietes.trg_PhotosPrise') IS NOT NULL DROP TRIGGER Proprietes.trg_PhotosPrise;
+If OBJECT_ID('Seance.trg_PhotosPrise') IS NOT NULL DROP TRIGGER Proprietes.trg_PhotosPrise;
 Go
 
-CREATE TRIGGER Seance.trg_PhotosLivree
+CREATE TRIGGER Seance.trg_PhotosPrise
 ON Seance.Seance
 AFTER UPDATE
 AS
@@ -30,6 +30,10 @@ BEGIN
   END 
 GO
 
+--TEST--
+UPDATE Seance.Seance
+SET [photoDisponible] = 1
+WHERE [SeanceId] = 1009;
 
 
 
@@ -55,11 +59,11 @@ GO
 
 
 --quand les photos sont disponibles pour l’agent (statut : livrée)
-If OBJECT_ID('Seance.trg_PhotosLivree') IS NOT NULL DROP TRIGGER Seance.trg_PhotosLivree;
+If OBJECT_ID('Proprietes.trg_PhotosLivree') IS NOT NULL DROP TRIGGER Proprietes.trg_PhotosLivree;
 Go
 
 
-CREATE TRIGGER Seance.trg_PhotosLivree
+CREATE TRIGGER Proprietes.trg_PhotosLivree
 ON Proprietes.Photo
 AFTER INSERT
 AS
@@ -75,6 +79,10 @@ BEGIN
 
   END 
 GO
+--TEST--
+--INSERT INTO [Proprietes].[Photo]
+--VALUES('jpeg','C:\\Espace Labo',1003)
+
 
 
 --ON Seance.Seance
@@ -103,6 +111,7 @@ GO
 	
 --  END 
 --GO
+
 --TESTS
 --INSERT INTO Seance.Seance(DateSeance,Photographe,Client,Forfait,Commentaire,AgentId,ProprieteId)
 --VALUES('20150508','BoB','Jorge','goodshit',':D',1,1)
