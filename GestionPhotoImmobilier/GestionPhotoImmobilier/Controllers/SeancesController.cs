@@ -36,27 +36,29 @@ namespace GestionPhotoImmobilier.Controllers
                 List<SeanceRdv> lstSeanceRdvSelonRecherche = new List<SeanceRdv>();
                 foreach(SeanceRdv item in lstSeanceRdv)
                {
-                   if (searchPhotographe == "" && searchStatut == "")
+                    if (searchPhotographe == "" && searchStatut == "")
                     {
                         lstSeanceRdvSelonRecherche.Add(item);
+                        continue;
                     }
-                   else if (searchPhotographe != "" && searchStatut != "")
-                      {
-                          if(item.Statut.Equals(searchStatut) && item.Photographe.ToUpper().Contains(searchPhotographe.ToUpper()))
-                          {
-                              lstSeanceRdvSelonRecherche.Add(item);
-                          }
-                      }
-                   else if(item.Photographe.ToUpper().Contains(searchPhotographe.ToUpper()))
-                   {
-                       lstSeanceRdvSelonRecherche.Add(item);
-                   }
-                    else if(searchStatut != "")
+                    else if (searchPhotographe != "" && searchStatut != "")
+                    {
+                        if(item.Statut.Equals(searchStatut) && item.Photographe.ToUpper().Contains(searchPhotographe.ToUpper()))
+                        {
+                            lstSeanceRdvSelonRecherche.Add(item);
+                        }
+                        continue;
+                    }
+                    if (searchStatut != "")
                     {
                         if (item.Statut.Equals(searchStatut))
                         {
                             lstSeanceRdvSelonRecherche.Add(item);
                         }
+                    }
+                    else if(item.Photographe.ToUpper().Contains(searchPhotographe.ToUpper()))
+                    {
+                        lstSeanceRdvSelonRecherche.Add(item);
                     }
                     else
                     {
