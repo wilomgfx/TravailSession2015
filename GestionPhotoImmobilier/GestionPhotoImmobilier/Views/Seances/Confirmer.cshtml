@@ -56,10 +56,12 @@
 </dl>
 
 @{
-    using (Html.BeginForm("Confirmer", "Seances", new { id= Model.SeanceId }, FormMethod.Post)
+    using (Html.BeginForm("Confirmer", "Seances", new { id= Model.SeanceId }, FormMethod.Post))
     {
-        
+        <input type="submit" value="Confirmer le rendez-vous" />
     }
 }
+
+<br />
 
 @Html.ActionLink("Back to List", "Index")
