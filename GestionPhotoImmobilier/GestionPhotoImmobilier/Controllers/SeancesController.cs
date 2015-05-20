@@ -122,6 +122,7 @@ namespace GestionPhotoImmobilier.Controllers
                 sRdv.Client = sea.Client;
                 sRdv.Commentaire = sea.Commentaire;
                 sRdv.DateSeance = sea.DateSeance;
+                sRdv.Facturer = sea.Facture;
 
                 Forfait forfait = unitOfWork.ForfaitRepository.GetByID(sea.ForfaitId);
 
@@ -176,7 +177,6 @@ namespace GestionPhotoImmobilier.Controllers
             sommaire.SeanceRdv = seanceRdv.First();
             sommaire.Agent = seance.Agent;
             sommaire.Propriete = seance.Propriete;
-
 
 
 
@@ -476,6 +476,33 @@ namespace GestionPhotoImmobilier.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Facturer(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Seance seance = unitOfWork.SeanceRepository.ObtenirSeanceParID(id);
+            if (seance == null)
+            {
+                return HttpNotFound();
+            }
+            return View(seance);
+        }
+
+        [HttpPost, ActionName("Facturer")]
+        public ActionResult Facturer(int id)
+        {
+            Seance sea = unitOfWork.SeanceRepository.ObtenirSeanceComplete(id);
+
+            sea.Facture = true;
+
+            unitOfWork.SeanceRepository.Update(sea);
+
+            unitOfWork.Save();
+
+            return RedirectToAction("Index");
+        }
         public ActionResult Confirmer(int? id)
         {
             if (id == null)

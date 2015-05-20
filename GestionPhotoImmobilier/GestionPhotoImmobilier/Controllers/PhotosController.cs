@@ -75,6 +75,7 @@ namespace GestionPhotoImmobilier.Controllers
 
 
                 //Soit file le fichier uploadé. la sauvegarde dans le répertoire de ce fichier:
+                
                 foreach (var file in imageFile)
                 {
                     //sauvegarde dans le local le dossier

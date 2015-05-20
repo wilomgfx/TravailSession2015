@@ -142,6 +142,31 @@
                 }
                         }
                         @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId })
+                            bool estNull = false;
+                            
+                            if (item.Confirmer == null)
+                            {
+                                estNull = true;
+                            }
+                            
+                            if (!estNull && !item.Confirmer.Value)
+                            { 
+                                @Html.ActionLink("Confirmer RDV", "Confirmer", new { id = item.SeanceId })
+                                string ligne = " |";
+                                @ligne
+                            }
+
+                            bool factureNulle = false;
+                            if (item.Facturer == null)
+                            {
+                                factureNulle = true;
+                            }
+
+                            if (factureNulle || !item.Facturer.Value)
+                            {
+                                @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId }) 
+                            }                        
+                        }                                                
                     </td>
                 </tr>
             }

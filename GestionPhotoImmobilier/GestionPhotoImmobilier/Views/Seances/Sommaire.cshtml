@@ -25,20 +25,33 @@
 }
 
 
+@{
+    bool factureNull = false;
 
-<h4>Facture</h4>
-<hr />
-<h8>Total forfait de base : @Model.PrixSeance $</h8><br />
-<h8> Prix des extras :   @if (@Model.PrixExtra == null)
-                         {
-                             <span>0 $</span>
-                         }
-                         else
-                         {
-                            <span>@Model.PrixExtra $</span>
-                         } </h8><br />
-<h8>Tps : @Model.PrixTpsSeance $</h8> <br />
-<h8>Tvq : @Model.PrixTvqSeance $</h8>
-<hr />
-<h8>Total après taxe : @Model.PrixTotalSeance $</h8>
-<hr />
+    if(Model.SeanceRdv.Facturer == null)
+    {
+        factureNull = true;
+    }
+
+    if(!factureNull && Model.SeanceRdv.Facturer.Value)
+    {
+        <h4>Facture</h4>
+        <hr />
+        <h8>Total forfait de base : @Model.PrixSeance $</h8><br />
+        <h8>
+            Prix des extras :   @if (@Model.PrixExtra == null)
+            {
+                <span>0 $</span>
+            }
+            else
+            {
+                <span>@Model.PrixExtra $</span>
+            }
+        </h8><br />
+        <h8>Tps : @Model.PrixTpsSeance $</h8> <br />
+        <h8>Tvq : @Model.PrixTvqSeance $</h8>
+        <hr />
+        <h8>Total après taxe : @Model.PrixTotalSeance $</h8>
+        <hr />
+    }
+}
