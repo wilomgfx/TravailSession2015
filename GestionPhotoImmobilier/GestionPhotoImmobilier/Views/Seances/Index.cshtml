@@ -15,7 +15,7 @@
 }
 
 @{
-    if(!ViewBag.showFuture)
+    if (!ViewBag.showFuture)
     {
         using (Html.BeginForm("Index", "Seances", FormMethod.Get))
         {
@@ -38,7 +38,7 @@
 @{
     if (!ViewBag.showFuture)
     {
-        <table class="table table-striped">
+        <table class="table">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.First().DateSeance)
@@ -140,33 +140,18 @@
                     string ligne = " |";
                     @ligne
                 }
+
+                bool factureNulle = false;
+                if (item.Facturer == null)
+                {
+                    factureNulle = true;
+                }
+
+                if (factureNulle || !item.Facturer.Value)
+                {
+                    @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId })
+                }
                         }
-                        @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId })
-                            bool estNull = false;
-                            
-                            if (item.Confirmer == null)
-                            {
-                                estNull = true;
-                            }
-                            
-                            if (!estNull && !item.Confirmer.Value)
-                            { 
-                                @Html.ActionLink("Confirmer RDV", "Confirmer", new { id = item.SeanceId })
-                                string ligne = " |";
-                                @ligne
-                            }
-
-                            bool factureNulle = false;
-                            if (item.Facturer == null)
-                            {
-                                factureNulle = true;
-                            }
-
-                            if (factureNulle || !item.Facturer.Value)
-                            {
-                                @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId }) 
-                            }                        
-                        }                                                
                     </td>
                 </tr>
             }
@@ -174,7 +159,7 @@
         </table>
 
         <p>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount</p>
-    
+
         if (ViewBag.showFuture)
         {
             @Html.PagedListPager(Model, page => Url.Action("Index", new { page, showFuture = true }))
@@ -188,6 +173,6 @@
 
 
 @if (ViewBag.showFuture)
-{ 
+{
     @Html.Partial("_SeanceFuture", (PagedList.IPagedList<GestionPhotoImmobilier.ViewModels.SeanceRdv>)ViewBag.seancesFutures)
 }
