@@ -1,0 +1,20 @@
+TODO
+
+-Gérer les nulls dans l'upload photo
+
+-Gérer le delete d'une propriété(photo)
+
+-Liens retour séance dans extras
+
+TODO BD
+
+-Procédure stockée pour rapport
+	-Insérer dans des vues pour les afficher.
+
+TODO ASP
+
+-Requête link
+
+-Requête SQL
+
+-Procédure stockée(

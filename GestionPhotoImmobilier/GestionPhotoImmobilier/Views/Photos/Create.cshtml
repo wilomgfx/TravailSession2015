@@ -16,7 +16,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            <input type="file" name="imageFile" multiple="multiple" />
+            <input type="file" name="imageFile" multiple="multiple"/>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.ProprieteId,"Client", htmlAttributes: new { @class = "control-label col-md-2" })

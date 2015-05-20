@@ -213,7 +213,8 @@
     <Compile Include="RegleDaffaire\AgenceValidation.cs" />
     <Compile Include="RegleDaffaire\DateEntreUnEt15JoursPlusTard.cs" />
     <Compile Include="RegleDaffaire\phoneValidation.cs" />
-    <Compile Include="RegleDaffaire\photoValidation.cs" />
+    <Compile Include="RegleDaffaire\FormatPhoto.cs" />
+    <Compile Include="RegleDaffaire\PhotoValidation.cs" />
     <Compile Include="RegleDaffaire\RDVUnique.cs" />
     <Compile Include="RegleDaffaire\Validation4hEntreRendezVous.cs" />
     <Compile Include="RegleDaffaire\SeanceValidation.cs" />

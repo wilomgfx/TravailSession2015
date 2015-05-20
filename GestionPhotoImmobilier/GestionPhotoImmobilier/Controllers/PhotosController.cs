@@ -11,6 +11,7 @@ using GestionPhotoImmobilier.DAL;
 using System.IO;
 using System.Security.AccessControl;
 using System.Configuration;
+using System.Data.Entity.Validation;
 
 namespace GestionPhotoImmobilier.Controllers
 {
@@ -64,9 +65,14 @@ namespace GestionPhotoImmobilier.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "PhotoId,TypeFichier,Chemin,ProprieteId")] Photo photo, IEnumerable<HttpPostedFileBase> imageFile)
         {
-            if (ModelState.IsValid)
+
+            if(imageFile.Count() == 1 && imageFile.First() == null)
             {
-                
+                ModelState.AddModelError("", "Aucuns fichiers n'a été selectionné. Veuillez selectionner un fichier.");
+            }
+
+            if (ModelState.IsValid)
+            {             
                 var cheminBase = AppDomain.CurrentDomain.BaseDirectory + @"Images\Photos\";
                 //définir les droits d’accès
                 DirectorySecurity securityRules = new DirectorySecurity();
@@ -75,21 +81,36 @@ namespace GestionPhotoImmobilier.Controllers
 
 
                 //Soit file le fichier uploadé. la sauvegarde dans le répertoire de ce fichier:
-                
-                foreach (var file in imageFile)
+                try
                 {
-                    //sauvegarde dans le local le dossier
-                    var chemin = cheminBase + baserepertoire + @"/" + Path.GetFileName(file.FileName);
-                    var cheminReplaced = chemin.Replace('\\','/');
-                    file.SaveAs(chemin);
-                    photo.TypeFichier = file.FileName.Substring(file.FileName.LastIndexOf('.')+1);
-                    photo.Chemin = photo.ProprieteId +"/" +  file.FileName;
+                    foreach (var file in imageFile)
+                    {
+                        //sauvegarde dans le local le dossier
+                        if (file != null)
+                        {
+                            var chemin = cheminBase + baserepertoire + @"/" + Path.GetFileName(file.FileName);
+                            var cheminReplaced = chemin.Replace('\\', '/');
+                            file.SaveAs(chemin);
+                            photo.TypeFichier = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
+                            photo.Chemin = photo.ProprieteId + "/" + file.FileName;
+                        }
 
-                    unitofwork.PhotoRepository.InsertPhoto(photo);
-                    unitofwork.Save();
+                        unitofwork.PhotoRepository.InsertPhoto(photo);
+                        unitofwork.Save();
+                    }
                 }
-
-
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var erreur in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationErreur in erreur.ValidationErrors)
+                        {
+                            ModelState.AddModelError("", validationErreur.ErrorMessage);
+                        }
+                    }
+                    ViewBag.ProprieteId = new SelectList(unitofwork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Client");
+                    return View();
+                }
                 return RedirectToAction("Index");
             }
 
