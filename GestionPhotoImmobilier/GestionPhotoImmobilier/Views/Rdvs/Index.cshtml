@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<GestionPhotoImmobilier.Models.Rdv>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Rendez-vous";
 }
 
 <h2>Index</h2>
@@ -47,8 +47,8 @@
             @Html.DisplayFor(modelItem => item.Photographe)
         </td>
         <td>
-            @Html.ActionLink("Modifier", "Edit", new { id=item.RdvId }) |
-            @Html.ActionLink("Détails", "Details", new { id=item.RdvId }) |
+            @*@Html.ActionLink("Modifier", "Edit", new { id=item.RdvId }) |
+            @Html.ActionLink("Détails", "Details", new { id=item.RdvId }) |*@
             @Html.ActionLink("Supprimer", "Delete", new { id=item.RdvId })
         </td>
     </tr>
