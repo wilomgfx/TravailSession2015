@@ -12,10 +12,14 @@ namespace GestionPhotoImmobilier.Models
 
     public partial class RdvMetaData
     {
+        [Required]
         public int RdvId { get; set; }
         [DisplayName("Est confirmé")]
+        [Required]
         public bool Confirmer { get; set; }
+        [Required]
         public string Client { get; set; }
+        [Required]
         public string Photographe { get; set; }
     }
 }
