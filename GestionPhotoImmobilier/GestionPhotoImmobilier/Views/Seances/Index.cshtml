@@ -140,8 +140,18 @@
                                 string ligne = " |";
                                 @ligne
                             }
-                        }                        
-                        @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId }) 
+
+                            bool factureNulle = false;
+                            if (item.Facturer == null)
+                            {
+                                factureNulle = true;
+                            }
+
+                            if (factureNulle || !item.Facturer.Value)
+                            {
+                                @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId }) 
+                            }                        
+                        }                                                
                     </td>
                 </tr>
             }
