@@ -80,7 +80,7 @@ namespace GestionPhotoImmobilier.Controllers
             }
             Seance sea = (Seance)TempData["seance"];
 
-            SelectList seances = new SelectList(lstSeancesValides, "SeanceId", "DateSeance");
+            SelectList seances = new SelectList(lstSeancesValides, "SeanceId", "DateSeance", sea.SeanceId);
             ViewBag.SeanceId = seances;
             ViewBag.seance = sea;
             ViewBag.idSeance = sea.SeanceId;
