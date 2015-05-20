@@ -211,26 +211,24 @@ namespace GestionPhotoImmobilier.Controllers
             string directory = cheminBase;
             ICollection<Photo> lstPhoto = seance.Propriete.Photos;
 
-            string path = cheminBase + seance.ProprieteId + "\\" + "SeanceDu" + seance.DateSeance.Value.ToString("yyyy-MM-dd HH-mm-ss") + ".zip";
+            //string path = cheminBase + seance.ProprieteId + "\\" + "SeanceDu" + seance.DateSeance.Value.ToString("yyyy-MM-dd HH-mm-ss") + ".zip";
+            string path = Path.Combine(cheminBase, seance.ProprieteId.ToString());
+            string fileName = cheminBase + "SeanceDu" + seance.DateSeance.Value.ToString("yyyy-MM-dd HH-mm-ss") + ".zip";
+            string fileNameDownload = "SeanceDu" + seance.DateSeance.Value.ToString("yyyy-MM-dd HH-mm-ss") + ".zip";
 
-            ZipOutputStream outpoutstream = new ZipOutputStream(path);
+            ZipFile zip = new ZipFile();
+            zip.AddDirectory(path);
+            zip.Save(cheminBase + "SeanceDu" + seance.DateSeance.Value.ToString("yyyy-MM-dd HH-mm-ss") + ".zip");
 
-            using (ZipFile zipy = new ZipFile())
-            {
-                foreach (Photo photos in lstPhoto)
-                {
-                    outpoutstream.PutNextEntry(directory+photos.Chemin);
-                    zipy.AddFile(directory+photos.Chemin);
-                }
-
-                zipy.Save(outpoutstream);
-
-            }
-            outpoutstream.Close();
+            //download
+            Response.ContentType = "application/zip";
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + fileNameDownload);
+            //hard coder... but ez peasy la.
+            Response.TransmitFile(fileName);
+            Response.End();
 
             return RedirectToAction("Index");
         }
-
         // GET: Seances/Details/5
         public ActionResult Details(int? id)
         {
