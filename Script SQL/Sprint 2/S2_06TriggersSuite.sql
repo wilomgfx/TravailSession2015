@@ -18,9 +18,12 @@ BEGIN
 	BEGIN
 		IF @photoDisponible = 'true'
 		BEGIN
-			UPDATE Seance.Seance
-			SET Statut='Réalisée'
-			WHERE SeanceId = @SeanceId;
+			IF (@oldStatut != 'Livrée')
+			BEGIN
+				UPDATE Seance.Seance
+				SET Statut='Réalisée'
+				WHERE SeanceId = @SeanceId;
+			END
 		END
 		ELSE
 		BEGIN
