@@ -13,12 +13,13 @@ BEGIN
 	DECLARE @SeanceId as int = (Select SeanceId FROM (Select TOP 1 * FROM inserted ORDER BY SeanceId DESC) AS I);
 	DECLARE @photoDisponible as bit = (SELECT photoDisponible FROM inserted)
 	DECLARE @oldStatut as nvarchar(50) = (SELECT statut FROM deleted)
+	DECLARE @newStatut as nvarchar(50) = (SELECT statut FROM inserted)
 	
 	IF UPDATE(photoDisponible)
 	BEGIN
 		IF @photoDisponible = 'true'
 		BEGIN
-			IF (@oldStatut != 'Livrée')
+			IF (@newStatut != 'Livrée')
 			BEGIN
 				UPDATE Seance.Seance
 				SET Statut='Réalisée'
