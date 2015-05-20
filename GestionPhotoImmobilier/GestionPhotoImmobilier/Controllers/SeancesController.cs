@@ -432,7 +432,35 @@ namespace GestionPhotoImmobilier.Controllers
                 forf.Seances.Remove(seance);
 
             unitOfWork.SeanceRepository.DeleteSeance(seance);
-            unitOfWork.Save();
+            try 
+            {
+                unitOfWork.Save();
+                RedirectToAction("Index");
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                RecupereErreurValidation(ex);
+
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var entry = ex.Entries.Single();
+
+                //Si vous voulez voir les différentes valeurs
+                // Response.Write("CurrentValues:" + entry.CurrentValues["FirstName"] +"<br/>");
+                //Response.Write("Original:" + entry.OriginalValues["FirstName"] + "<br/>");
+                //Response.Write("DatabaseValues:" + entry.GetDatabaseValues()["FirstName"] + "<br/>");                          
+
+                RecupererErreurUpdate(ex);
+            }
+            catch (DbUpdateException ex)
+            {
+                //erreur lors de la modification de la BD
+                ModelState.AddModelError("DbUpdateException", ex.Message);
+
+            }
+            
             return RedirectToAction("Index");
         }
 
