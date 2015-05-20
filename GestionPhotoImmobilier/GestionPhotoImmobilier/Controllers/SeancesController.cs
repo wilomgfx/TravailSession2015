@@ -427,6 +427,10 @@ namespace GestionPhotoImmobilier.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Seance seance = unitOfWork.SeanceRepository.ObtenirSeanceParID(id);
+            if(seance == null)
+            {
+                return RedirectToAction("Index");
+            }
             IEnumerable<Rdv> rdvsSeance = unitOfWork.RdvRepository.ObtenirRdvDeLaSeance(seance.SeanceId);
 
             foreach (Rdv rdv in rdvsSeance)
@@ -558,7 +562,8 @@ namespace GestionPhotoImmobilier.Controllers
             var entry = ex.Entries.Single();
             var clientValues = (Seance)entry.Entity;
             var databaseValues = (Seance)entry.GetDatabaseValues().ToObject();
-            if (databaseValues == null)
+
+            if (databaseValues == null || clientValues == null)
             {
                 ModelState.AddModelError(string.Empty, "Unable to save changes. The department was deleted by another user.");
             }
@@ -593,6 +598,8 @@ namespace GestionPhotoImmobilier.Controllers
                     ModelState.AddModelError("RVersion", "Current value: " + databaseValues.RVersion);
                 if (databaseValues.Statut != clientValues.Statut)
                     ModelState.AddModelError("Statut", "Current value: " + databaseValues.Statut);
+
+                
             }
         }
     }
