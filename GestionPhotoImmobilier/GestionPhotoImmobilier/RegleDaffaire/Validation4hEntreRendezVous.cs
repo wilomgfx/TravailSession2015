@@ -43,7 +43,7 @@ namespace GestionPhotoImmobilier.RegleDaffaire
                     TimeSpan diff = seance.DateSeance.Value - sea.DateSeance.Value;
 
                     // vérifie que l'heure de la séance est plus tard d'au moins 4h avec le dernier rendez-vous deja séduler sur l'horaire pour un meme photographe 
-                    if (diff.Hours < 4)
+                    if (Math.Abs(diff.Hours) < 4)
                         return new ValidationResult("L'heure de la séance doit être ultérieur d'au moins 4h au dernier rendez-vous de la journée.");
                 }
             }
