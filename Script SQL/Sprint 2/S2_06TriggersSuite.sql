@@ -77,7 +77,7 @@ BEGIN
 	SET @SeanceId = (SELECT SeanceId FROM Seance.Seance WHERE @ProprieteId = ProprieteId) 
 
 	UPDATE Seance.Seance
-	SET Statut='Livrée'
+	SET Statut='Livrée', photoDisponible = 'true'
 	WHERE SeanceId = @SeanceId;
 
   END 
