@@ -113,6 +113,33 @@ namespace GestionPhotoImmobilier.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Propriete propriete = unitOfWork.ProprieteRepository.ObtenirProprieteParID(id);
+
+            List<Seance> seaList = new List<Seance>(propriete.Seances);
+
+            foreach (Seance sea in seaList)
+            {
+                Seance seance = unitOfWork.SeanceRepository.ObtenirSeanceParID(sea.SeanceId);
+
+                if (seance == null)
+                {
+                    continue;
+                }
+                IEnumerable<Rdv> rdvsSeance = unitOfWork.RdvRepository.ObtenirRdvDeLaSeance(seance.SeanceId);
+
+                foreach (Rdv rdv in rdvsSeance)
+                {
+                    unitOfWork.RdvRepository.Delete(rdv);
+                }
+
+                Forfait forf = unitOfWork.ForfaitRepository.GetByID(seance.ForfaitId);
+
+                if (forf != null)
+                    forf.Seances.Remove(seance);
+
+                unitOfWork.SeanceRepository.DeleteSeance(seance);
+            }
+            unitOfWork.Save();
+
             //unitOfWork.ProprieteRepository.DeletePropriete(propriete);
             unitOfWork.ProprieteRepository.DeleteProprieteEtPhoto(propriete);
             unitOfWork.Save();
