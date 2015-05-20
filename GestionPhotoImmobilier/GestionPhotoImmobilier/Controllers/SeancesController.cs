@@ -393,6 +393,16 @@ namespace GestionPhotoImmobilier.Controllers
 
                 return View(seanceModif);
             }
+
+            SelectList AgentId2 = new SelectList(unitOfWork.AgentRepository.ObtenirAgent(), "AgentId", "Nom", seance.AgentId);
+            ViewBag.AgentId = AgentId2;
+
+            SelectList ProprieteId2 = new SelectList(unitOfWork.ProprieteRepository.ObtenirPropriete(), "ProprieteId", "Adresse", seance.ProprieteId);
+            ViewBag.ProprieteId = ProprieteId2;
+
+            SelectList ForfaitId2 = new SelectList(unitOfWork.ForfaitRepository.ObtenirForfait(), "ForfaitId", "Nom", seance.ForfaitId);
+            ViewBag.ForfaitId = ForfaitId2;
+
             return View(seance);
         }
 
