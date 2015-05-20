@@ -153,9 +153,11 @@
     <Compile Include="Models\Agence.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AgenceMetaData.cs" />
     <Compile Include="Models\Agent.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AgentMetaData.cs" />
     <Compile Include="Models\Forfait.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
