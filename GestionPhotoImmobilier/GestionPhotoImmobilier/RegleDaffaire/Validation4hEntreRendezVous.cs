@@ -27,8 +27,8 @@ namespace GestionPhotoImmobilier.RegleDaffaire
                     return ValidationResult.Success;
 
                 // Si la séance n'a aucun rendez vous de lié.
-                if (unitofWork.RdvRepository.ObtenirRdvDeLaSeance(sea.SeanceId).Count() == 0)
-                    return ValidationResult.Success;
+                //if (unitofWork.RdvRepository.ObtenirRdvDeLaSeance(sea.SeanceId).Count() == 0)
+                //    return ValidationResult.Success;
 
                 // Si la séance prise ici est la même que celle qu'on essaye de valider...
                 if (sea.SeanceId == seance.SeanceId)
