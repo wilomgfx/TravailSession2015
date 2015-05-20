@@ -38,8 +38,7 @@ namespace GestionPhotoImmobilier.Controllers
             return View(rdv);
         }
 
-        // GET: Rdvs/Create
-        public ActionResult Create()
+        public ActionResult CreateSansInfos()
         {
             List<Seance> lstSeancesValides = new List<Seance>();
 
@@ -55,18 +54,59 @@ namespace GestionPhotoImmobilier.Controllers
             ViewBag.SeanceId = seances;
             return View();
         }
+        [HttpPost, ActionName("CreateSansInfos")]
+        public ActionResult CreateSansInfos(FormCollection collection)
+        {
+            int seanceId = int.Parse(collection["SeanceId"]);
+
+            Seance sea = unitOfWork.SeanceRepository.ObtenirSeanceComplete(seanceId);
+
+            TempData["seance"] = sea;
+
+            return RedirectToAction("Create");
+        }
+
+        // GET: Rdvs/Create
+        public ActionResult Create()
+        {
+            List<Seance> lstSeancesValides = new List<Seance>();
+
+            foreach (var item in unitOfWork.SeanceRepository.ObtenirSeance())
+            {
+                IEnumerable<Rdv> rdvs = unitOfWork.RdvRepository.ObtenirRdvDeLaSeance(item.SeanceId);
+
+                if (rdvs.Count() == 0)
+                    lstSeancesValides.Add(item);
+            }
+            Seance sea = (Seance)TempData["seance"];
+
+            SelectList seances = new SelectList(lstSeancesValides, "SeanceId", "DateSeance");
+            ViewBag.SeanceId = seances;
+            ViewBag.seance = sea;
+            ViewBag.idSeance = sea.SeanceId;
+            TempData["seanceTemp"] = sea;
+            return View();
+        }
 
         // POST: Rdvs/Create
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "RdvId,Confirmer,Client,Photographe,SeanceId")] Rdv rdv)
+        public ActionResult Create([Bind(Include = "RdvId,Confirmer,Client,Photographe,SeanceId")] Rdv rdv, FormCollection collection)
         {
+            int seanceId = int.Parse(collection["VraiSeanceId"]);
+
+            rdv.SeanceId = seanceId;
+
+            Seance seanceModifiée = unitOfWork.SeanceRepository.ObtenirSeanceParID(rdv.SeanceId);
+
+            rdv.Client = seanceModifiée.Client;
+            rdv.Photographe = seanceModifiée.Photographe;
+            rdv.Seance = seanceModifiée;
+
             if (ModelState.IsValid)
             {
-                Seance seanceModifiée = unitOfWork.SeanceRepository.ObtenirSeanceParID(rdv.SeanceId);
-
                 List<Rdv> lstRdvs = new List<Rdv>();
                 lstRdvs.Add(rdv);
 
@@ -77,6 +117,14 @@ namespace GestionPhotoImmobilier.Controllers
                 unitOfWork.RdvRepository.Insert(rdv);
                 unitOfWork.Save();
                 return RedirectToAction("Index");
+            }
+
+            foreach (ModelState modelState in ViewData.ModelState.Values)
+            {
+                foreach (ModelError error in modelState.Errors)
+                {
+                    
+                }
             }
 
             List<Seance> lstSeancesValides = new List<Seance>();

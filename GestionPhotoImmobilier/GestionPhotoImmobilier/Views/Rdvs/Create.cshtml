@@ -27,30 +27,92 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SeanceId, "Date de la Séance", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("SeanceId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("SeanceId", null, htmlAttributes: new { @class = "form-control", @disabled = "true" })
                 @Html.ValidationMessageFor(model => model.SeanceId, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        @{
+            int id = ViewBag.idSeance;
+                 <input type="hidden" value="@id" name="VraiSeanceId" />   
+        }
+
+        @{
+            GestionPhotoImmobilier.Models.Seance sea = (GestionPhotoImmobilier.Models.Seance)ViewBag.seance;
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => sea.Agent)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => sea.Agent.Nom)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => sea.Photographe)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => sea.Photographe)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => sea.Client)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => sea.Client)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => sea.Forfait)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => sea.Forfait.Nom)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => sea.Propriete)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => sea.Propriete.Adresse)
+                </dd>
+            </dl>
+        }
+
+        @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Obtenir les infos de la séance" class="btn btn-default" />
+            </div>
+        </div>*@
+
+        @*@{
+            using (Html.BeginForm("ObtenirInfosCreate", "Rdvs", FormMethod.Post))
+            {
+                
+            }
+        }*@
+
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Client, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Client, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Client, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Photographe, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Photographe, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Photographe, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Créer" class="btn btn-default" />
             </div>
         </div>
     </div>

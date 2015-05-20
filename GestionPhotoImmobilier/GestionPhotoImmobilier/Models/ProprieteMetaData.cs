@@ -10,7 +10,6 @@ namespace GestionPhotoImmobilier.Models
     public partial class Propriete { }
     public class ProprieteMetaData
     {
-        [Required]
         public int ProprieteId { get; set; }
         [Required]
         public string Client { get; set; }
