@@ -36,9 +36,9 @@
 
 
 @{
-    if(!ViewBag.showFuture)
-    { 
-        <table class="table">
+    if (!ViewBag.showFuture)
+    {
+        <table class="table table-striped">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.First().DateSeance)
@@ -65,8 +65,8 @@
                     @Html.DisplayNameFor(model => model.First().Confirmer)
                 </th>
                 @*<th>
-                    @Html.DisplayNameFor(model => model.First().PhotographeRDV)
-                </th>*@
+                        @Html.DisplayNameFor(model => model.First().PhotographeRDV)
+                    </th>*@
                 <th></th>
                 <th></th>
             </tr>
@@ -117,8 +117,8 @@
                         @boolFrancais
                     </td>
                     @*<td>
-                        @Html.DisplayFor(modelItem => item.PhotographeRDV)
-                    </td>*@
+                            @Html.DisplayFor(modelItem => item.PhotographeRDV)
+                        </td>*@
                     <td>
                         @Html.ActionLink("Modifier", "Edit", new { id = item.SeanceId }) |
                         @Html.ActionLink("Détails", "Sommaire", new { id = item.SeanceId }) |
@@ -127,21 +127,21 @@
                     </td>
                     <td>
                         @{
-                            bool estNull = false;
-                            
-                            if (item.Confirmer == null)
-                            {
-                                estNull = true;
-                            }
-                            
-                            if (!estNull && !item.Confirmer.Value)
-                            { 
-                                @Html.ActionLink("Confirmer RDV", "Confirmer", new { id = item.SeanceId })
-                                string ligne = " |";
-                                @ligne
-                            }
-                        }                        
-                        @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId }) 
+                bool estNull = false;
+
+                if (item.Confirmer == null)
+                {
+                    estNull = true;
+                }
+
+                if (!estNull && !item.Confirmer.Value)
+                {
+                    @Html.ActionLink("Confirmer RDV", "Confirmer", new { id = item.SeanceId })
+                    string ligne = " |";
+                    @ligne
+                }
+                        }
+                        @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId })
                     </td>
                 </tr>
             }

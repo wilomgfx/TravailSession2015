@@ -1,7 +1,7 @@
 ﻿@model GestionPhotoImmobilier.ViewModels.SeanceRdv
 
 <h4>Informations de la Séance</h4>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.DateSeance)
@@ -22,39 +22,39 @@
 
     <tr>
         @{
-        
-        bool bonBool = false;
 
-        if (Model.Confirmer != null)
-        {
-            bonBool = (bool)Model.Confirmer;
-        }
+            bool bonBool = false;
 
-        string boolFrancais = "";
-        if (bonBool == true)
-        {
-        boolFrancais = "Oui";
-        }
-        else
-        {
-        boolFrancais = "Non";
-        }
+            if (Model.Confirmer != null)
+            {
+                bonBool = (bool)Model.Confirmer;
+            }
 
-        <td>
-            @Html.DisplayFor(model => model.DateSeance)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.Client)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.Commentaire)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.Statut)
-        </td>
-        <td>
-            @boolFrancais
-        </td>
+            string boolFrancais = "";
+            if (bonBool == true)
+            {
+                boolFrancais = "Oui";
+            }
+            else
+            {
+                boolFrancais = "Non";
+            }
+
+            <td>
+                @Html.DisplayFor(model => model.DateSeance)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Client)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Commentaire)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Statut)
+            </td>
+            <td>
+                @boolFrancais
+            </td>
         }
     </tr>
 </table>

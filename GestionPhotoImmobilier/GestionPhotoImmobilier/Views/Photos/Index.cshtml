@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.TypeFichier)
@@ -23,23 +23,24 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TypeFichier)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Chemin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Propriete.Client)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.PhotoId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.PhotoId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.PhotoId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeFichier)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Chemin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Propriete.Client)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.PhotoId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.PhotoId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.PhotoId })
+            </td>
+        </tr>
+    }
 
 </table>

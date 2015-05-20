@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Nom)
@@ -23,23 +23,24 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DescriptionForfait)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prix)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ForfaitId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ForfaitId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ForfaitId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescriptionForfait)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prix)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ForfaitId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ForfaitId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ForfaitId })
+            </td>
+        </tr>
+    }
 
 </table>

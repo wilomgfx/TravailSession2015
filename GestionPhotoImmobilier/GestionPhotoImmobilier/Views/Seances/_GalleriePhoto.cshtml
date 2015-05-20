@@ -34,16 +34,17 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
+        using (Html.BeginForm("Sommaire", "Seances", new { id = Model.SeanceId }, FormMethod.Post))
+        {
+            <input type="submit" value="Télécharger les photos" />
+        }
     }
     else
-    { 
+    {
     <p>Photo non disponible pour le moment.</p>
     }
 <br />
-@using (Html.BeginForm("Sommaire", "Seances", new { id = Model.SeanceId }, FormMethod.Post))
-{
-    <input type="submit" value="Télécharger les photos" />
-}
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/bootstrap")
