@@ -1,12 +1,12 @@
 ﻿@model GestionPhotoImmobilier.Models.Agence
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Supprimer";
 }
 
-<h2>Supprimer cette agence</h2>
+<h2>Supprimer</h2>
 
-<h3>Êtes-vous certain de vouloir supprimer cette agence</h3>
+<h3>Voulez-vous vraiment supprimer cette Agence?</h3>
 <div>
     <h4>Agence</h4>
     <hr />
@@ -41,7 +41,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Supprimer" class="btn btn-default" /> |
             @Html.ActionLink("Retourner à la liste", "Index")
         </div>
     }
