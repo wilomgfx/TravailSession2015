@@ -1,0 +1,67 @@
+﻿@model GestionPhotoImmobilier.Models.Seance
+
+@{
+    ViewBag.Title = "Facturer";
+}
+
+<h2>Voulez-vous facturer cette séance au client?</h2>
+<hr />
+<h3>Séance</h3>
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.DateSeance)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.DateSeance)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Agent)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Agent.Nom)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Photographe)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Photographe)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Client)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Client)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Forfait)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Forfait.Nom)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Propriete)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Propriete.Adresse)
+    </dd>
+</dl>
+
+@{
+    using (Html.BeginForm("Facturer", "Seances", new { id = Model.SeanceId }, FormMethod.Post))
+    {
+        <input type="submit" value="Facturer la séance" />
+    }
+}
+
+<br />
+
+@Html.ActionLink("Retour à l'index", "Index")

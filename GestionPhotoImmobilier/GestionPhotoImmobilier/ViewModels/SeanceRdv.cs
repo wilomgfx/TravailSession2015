@@ -27,5 +27,6 @@ namespace GestionPhotoImmobilier.ViewModels
         public string PhotographeRDV { get; set; }
 
         public string Extras { get; set; }
+        public Nullable<bool> Facturer { get; set; }
     }
 }

@@ -333,6 +333,7 @@
     <Content Include="Views\Agences\Rapport.cshtml" />
     <Content Include="Views\Agences\_RapportAgence.cshtml" />
     <Content Include="Views\Seances\Confirmer.cshtml" />
+    <Content Include="Views\Seances\Facturer.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
