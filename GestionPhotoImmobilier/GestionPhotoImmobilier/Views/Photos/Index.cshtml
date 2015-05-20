@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<GestionPhotoImmobilier.Models.Photo>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Index des Photos";
 }
 
-<h2>Index</h2>
+<h2>Index des Photos</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Ajouter une nouvelle photo", "Create")
 </p>
 <table class="table table-striped">
     <tr>
@@ -36,9 +36,9 @@
                 @Html.DisplayFor(modelItem => item.Propriete.Client)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.PhotoId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.PhotoId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.PhotoId })
+                @Html.ActionLink("Modifier", "Edit", new { id = item.PhotoId }) |
+                @Html.ActionLink("Détails", "Details", new { id = item.PhotoId }) |
+                @Html.ActionLink("Supprimer", "Delete", new { id = item.PhotoId })
             </td>
         </tr>
     }

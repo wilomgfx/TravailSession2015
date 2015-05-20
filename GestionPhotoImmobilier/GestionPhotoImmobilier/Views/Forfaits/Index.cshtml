@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<GestionPhotoImmobilier.Models.Forfait>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Index des Forfaits";
 }
 
-<h2>Index</h2>
+<h2>Index des Forfaits</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Créer un nouveau forfait", "Create")
 </p>
 <table class="table table-striped">
     <tr>
@@ -36,9 +36,9 @@
                 @Html.DisplayFor(modelItem => item.Prix)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ForfaitId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ForfaitId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ForfaitId })
+                @Html.ActionLink("Modifier", "Edit", new { id = item.ForfaitId }) |
+                @Html.ActionLink("Détails", "Details", new { id = item.ForfaitId }) |
+                @Html.ActionLink("Supprimer", "Delete", new { id = item.ForfaitId })
             </td>
         </tr>
     }

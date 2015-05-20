@@ -7,7 +7,7 @@
 <h2>Ajouter des Extras</h2>
 
 <h3>Informations sur la seance</h3>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Seance.DateSeance)
@@ -41,7 +41,7 @@
 </table>
 
 <h3>Informations sur le forfait</h3>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Forfait.Nom)
@@ -79,7 +79,7 @@
 
         string[] tabExtras = ((string)ViewBag.extraExistant).Split('|');
 
-        <table class="table">
+        <table class="table table-striped">
             <tr>
                 <th>
                     Extra
@@ -111,7 +111,7 @@
             <p>
                 Nom de l'extra: @Html.TextBox("nomExtra", ViewBag.nomExtra as string)
                 Prix: @Html.TextBox("prixExtra", ViewBag.prixExtra as string)
-                <input type="submit" value="Ajouter" />
+                <input type="submit" value="Ajouter" class="btn btn-default" />
             </p>
         }
     }
@@ -122,7 +122,7 @@
             <p>
                 Nom de l'extra: @Html.TextBox("nomExtra", ViewBag.nomExtra as string)
                 Prix: @Html.TextBox("prixExtra", ViewBag.prixExtra as string)
-                <input type="submit" value="Ajouter" />
+                <input type="submit" value="Ajouter" class="btn btn-default" />
             </p>
         }
     }
@@ -131,6 +131,8 @@
     {
         <br />
         <br />
-        <input type="submit" value="Supprimer tous les extras" />
+        <input type="submit" value="Supprimer tous les extras" class="btn btn-default" />
     }
 }
+
+@Html.ActionLink("Retour à l'Index", "Index")
