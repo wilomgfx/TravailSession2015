@@ -330,6 +330,7 @@
     <Content Include="Views\Seances\Extra.cshtml" />
     <Content Include="Views\Agences\Rapport.cshtml" />
     <Content Include="Views\Agences\_RapportAgence.cshtml" />
+    <Content Include="Views\Seances\Confirmer.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -498,6 +498,19 @@ namespace GestionPhotoImmobilier.Controllers
             Rdv rd = sea.Rdvs.First();
 
             rd.Confirmer = true;
+
+            List<Rdv> rdvs = new List<Rdv>();
+
+            rdvs.Add(rd);
+
+            sea.Rdvs = rdvs;
+
+            unitOfWork.SeanceRepository.Update(sea);
+            unitOfWork.RdvRepository.Update(rd);
+
+            unitOfWork.Save();
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult Extra(int? id)
