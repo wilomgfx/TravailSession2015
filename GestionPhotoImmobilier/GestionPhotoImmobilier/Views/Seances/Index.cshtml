@@ -64,9 +64,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.First().Confirmer)
                 </th>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.First().PhotographeRDV)
-                </th>
+                </th>*@
                 <th></th>
                 <th></th>
             </tr>
@@ -116,9 +116,9 @@
                     <td>
                         @boolFrancais
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.PhotographeRDV)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.ActionLink("Modifier", "Edit", new { id = item.SeanceId }) |
                         @Html.ActionLink("Détails", "Sommaire", new { id = item.SeanceId }) |
@@ -126,7 +126,21 @@
                         @Html.ActionLink("Extras", "Extra", new { id = item.SeanceId })
                     </td>
                     <td>
-                        @Html.ActionLink("Confirmer RDV", "Confirmer", new { id = item.SeanceId }) |
+                        @{
+                            bool estNull = false;
+                            
+                            if (item.Confirmer == null)
+                            {
+                                estNull = true;
+                            }
+                            
+                            if (!estNull && !item.Confirmer.Value)
+                            { 
+                                @Html.ActionLink("Confirmer RDV", "Confirmer", new { id = item.SeanceId })
+                                string ligne = " |";
+                                @ligne
+                            }
+                        }                        
                         @Html.ActionLink("Facturer", "Facturer", new { id = item.SeanceId }) 
                     </td>
                 </tr>
