@@ -476,6 +476,30 @@ namespace GestionPhotoImmobilier.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Confirmer(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Seance seance = unitOfWork.SeanceRepository.ObtenirSeanceParID(id);
+            if (seance == null)
+            {
+                return HttpNotFound();
+            }
+            return View(seance);
+        }
+
+        [HttpPost, ActionName("Confirmer")]
+        public ActionResult Confirmer(int id)
+        {
+            Seance sea = unitOfWork.SeanceRepository.ObtenirSeanceComplete(id);
+
+            Rdv rd = sea.Rdvs.First();
+
+            rd.Confirmer = true;
+        }
+
         public ActionResult Extra(int? id)
         {
             Seance seance = unitOfWork.SeanceRepository.ObtenirSeanceComplete(id);
