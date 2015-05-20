@@ -180,6 +180,7 @@
     <Compile Include="Models\Propriete.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProprieteMetaData.cs" />
     <Compile Include="Models\Rdv.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
