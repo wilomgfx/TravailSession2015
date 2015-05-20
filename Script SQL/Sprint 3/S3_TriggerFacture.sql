@@ -10,7 +10,7 @@ ON Seance.Seance
 AFTER UPDATE
 AS
 BEGIN
-	DECLARE @SeanceId as int = (Select SeanceId FROM (Select TOP 1 * FROM inserted ORDER BY SeanceId DESC) AS I);
+	DECLARE @SeanceId as int = (Select i.SeanceId FROM inserted i);
 	DECLARE @factureDisponible as bit = (SELECT Facture FROM inserted)
 	DECLARE @oldStatut as nvarchar(50) = (SELECT statut FROM deleted)
 	
@@ -19,14 +19,8 @@ BEGIN
 		IF @factureDisponible = 'true'
 		BEGIN
 			UPDATE Seance.Seance
-			SET Statut='Facture'
+			SET Statut='Facturée'
 			WHERE SeanceId = @SeanceId;
-		END
-		ELSE
-		BEGIN
-			UPDATE Seance.Seance
-			SET Statut = @oldStatut
-			WHERE SeanceId = @SeanceId
 		END
 	END	
   END 

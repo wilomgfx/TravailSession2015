@@ -17,11 +17,21 @@
 @Html.Partial("_InfoPhotographe", Model.SeanceRdv)
 
 @{
-    GestionPhotoImmobilier.ViewModels.SommairePhoto somPhoto = new GestionPhotoImmobilier.ViewModels.SommairePhoto();
-    somPhoto.Photos = Model.Propriete.Photos;
-    somPhoto.SeanceId = Model.SeanceRdv.SeanceId;
+    bool photoPrisesNull = false;
+    
+    if(Model.SeanceRdv.PhotoPrise == null)
+    {
+        photoPrisesNull = true;
+    }
 
-    @Html.Partial("_GalleriePhoto", somPhoto);
+    if (!photoPrisesNull && Model.SeanceRdv.PhotoPrise.Value)
+    { 
+        GestionPhotoImmobilier.ViewModels.SommairePhoto somPhoto = new GestionPhotoImmobilier.ViewModels.SommairePhoto();
+        somPhoto.Photos = Model.Propriete.Photos;
+        somPhoto.SeanceId = Model.SeanceRdv.SeanceId;
+
+        @Html.Partial("_GalleriePhoto", somPhoto);
+    }
 }
 
 
